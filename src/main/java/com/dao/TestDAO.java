@@ -1,6 +1,6 @@
 package com.dao;
 
-import com.model.Etudiant;
+import com.model.Test;
 import com.util.HibernateUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -10,15 +10,15 @@ import java.util.List;
 
 public class TestDAO {
 
-    public void save(Etudiant e) {
+    public void save(Test t) {
         EntityManager em = HibernateUtil.getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            if (e.getId() == null) {
-                em.persist(e);
+            if (t.getId() == null) {
+                em.persist(t);
             } else {
-                em.merge(e);
+                em.merge(t);
             }
             tx.commit();
         } catch (RuntimeException ex) {
@@ -34,8 +34,8 @@ public class TestDAO {
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            Etudiant e = em.find(Etudiant.class, id);
-            if (e != null) em.remove(e);
+            Test t = em.find(Test.class, id);
+            if (t != null) em.remove(t);
             tx.commit();
         } finally {
             if (tx.isActive()) tx.rollback();
@@ -43,19 +43,19 @@ public class TestDAO {
         }
     }
 
-    public Etudiant findById(int id) {
+    public Test findById(int id) {
         EntityManager em = HibernateUtil.getEntityManager();
         try {
-            return em.find(Etudiant.class, id);
+            return em.find(Test.class, id);
         } finally {
             em.close();
         }
     }
 
-    public List<Etudiant> findAll() {
+    public List<Test> findAll() {
         EntityManager em = HibernateUtil.getEntityManager();
         try {
-            TypedQuery<Etudiant> q = em.createQuery("SELECT e FROM Etudiant e", Etudiant.class);
+            TypedQuery<Test> q = em.createQuery("SELECT Test FROM Test", Test.class);
             return q.getResultList();
         } finally {
             em.close();

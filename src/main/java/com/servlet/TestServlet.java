@@ -1,7 +1,7 @@
 package com.servlet;
 
-import com.dao.EtudiantDAO;
-import com.model.Etudiant;
+import com.dao.TestDAO;
+import com.model.Test;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,16 +12,16 @@ import java.io.IOException;
 import java.util.List;
 
 @WebServlet("/test")
-public class EtudiantServlet extends HttpServlet {
+public class TestServlet extends HttpServlet {
 
-    private final EtudiantDAO dao = new EtudiantDAO();
+    private final TestDAO dao = new TestDAO();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Affiche liste des étudiants
-        List<Etudiant> list = dao.findAll();
-        req.setAttribute("etudiants", list);
-        req.getRequestDispatcher("/WEB-INF/ListeEtudiant.jsp").forward(req, resp);
+        List<Test> list = dao.findAll();
+        req.setAttribute("test", list);
+        req.getRequestDispatcher("/WEB-INF/listeTest.jsp").forward(req, resp);
     }
 
     @Override
