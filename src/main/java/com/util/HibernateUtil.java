@@ -6,7 +6,7 @@ import jakarta.persistence.Persistence;
 
 public class HibernateUtil {
     private static final EntityManagerFactory emf =
-            Persistence.createEntityManagerFactory("EtudiantPU");
+            Persistence.createEntityManagerFactory("Cy-j2eePU");
 
     public static EntityManager getEntityManager() {
         return emf.createEntityManager();

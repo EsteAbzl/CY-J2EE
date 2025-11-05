@@ -8,7 +8,7 @@ public class Test {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 30)
+    @Column(length = 30)
     private String things;
 
     public Test() {
@@ -18,6 +18,7 @@ public class Test {
     public Test(String things) {
         this.things = things;
     }
+
 
 
     public Integer getId() {return id;}

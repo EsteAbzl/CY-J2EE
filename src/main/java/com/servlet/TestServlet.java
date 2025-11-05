@@ -18,30 +18,28 @@ public class TestServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // Affiche liste des étudiants
+        // Affiche liste des tests
         List<Test> list = dao.findAll();
-        req.setAttribute("test", list);
-        req.getRequestDispatcher("/WEB-INF/listeTest.jsp").forward(req, resp);
+        req.setAttribute("test_Liste", list);
+        req.getRequestDispatcher("/WEB-INF/ListeTest.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         if ("add".equals(action)) {
-            String nom = req.getParameter("nom");
-            String prenom = req.getParameter("prenom");
-            String ageStr = req.getParameter("age");
-            Integer age = (ageStr == null || ageStr.isEmpty()) ? null : Integer.parseInt(ageStr);
+            String things = req.getParameter("things");
+            //Integer age = (ageStr == null || ageStr.isEmpty()) ? null : Integer.parseInt(ageStr);
 
-            Etudiant e = new Etudiant(nom, prenom, age);
-            dao.save(e);
-            resp.sendRedirect(req.getContextPath() + "/etudiant");
+            Test t = new Test(things);
+            dao.save(t);
+            resp.sendRedirect(req.getContextPath() + "/test");
         } else if ("delete".equals(action)) {
             String idStr = req.getParameter("id");
             if (idStr != null && !idStr.isEmpty()) {
                 dao.delete(Integer.parseInt(idStr));
             }
-            resp.sendRedirect(req.getContextPath() + "/etudiant");
+            resp.sendRedirect(req.getContextPath() + "/test");
         } else {
             resp.sendError(400, "Action inconnue");
         }

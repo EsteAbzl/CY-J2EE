@@ -55,7 +55,7 @@ public class TestDAO {
     public List<Test> findAll() {
         EntityManager em = HibernateUtil.getEntityManager();
         try {
-            TypedQuery<Test> q = em.createQuery("SELECT Test FROM Test", Test.class);
+            TypedQuery<Test> q = em.createQuery("SELECT t FROM Test t", Test.class);
             return q.getResultList();
         } finally {
             em.close();
