@@ -2,20 +2,14 @@ package com.model;
 
 import jakarta.persistence.*;
 
-@Entity @Table(name = "etudiant")
-public class Etudiant {
+@Entity @Table(name = "test")
+public class Test {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 50)
-    private String nom;
-
-    @Column(nullable = false, length = 50)
-    private String prenom;
-
-    @Column
-    private int age;
+    @Column(nullable = false, length = 30)
+    private String things;
 
     public Etudiant() {
         this("inconnu", "inconnu", 0);
