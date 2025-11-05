@@ -4,7 +4,9 @@ import com.dao.EtudiantDAO;
 import com.model.Etudiant;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.*;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +17,7 @@ public class EtudiantServlet extends HttpServlet {
     private final EtudiantDAO dao = new EtudiantDAO();
 
     @Override
-    protected void doGet(HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // Affiche liste des étudiants
         List<Etudiant> list = dao.findAll();
         req.setAttribute("etudiants", list);
@@ -23,7 +25,7 @@ public class EtudiantServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, jakarta.servlet.http.HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
         if ("add".equals(action)) {
             String nom = req.getParameter("nom");
