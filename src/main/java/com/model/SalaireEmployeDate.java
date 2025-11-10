@@ -33,8 +33,9 @@ public class SalaireEmployeDate {
         this.salaire = salaire;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
 }
+
