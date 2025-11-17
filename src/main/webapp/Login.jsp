@@ -52,16 +52,28 @@
 <body>
 <div class="login-card">
     <h2>Connexion</h2>
-    <form>
+    <form action="${pageContext.request.contextPath}/login" method="post">
         <div class="mb-3">
             <label for="username" class="form-label">Identifiant</label>
-            <input type="text" class="form-control" id="username" placeholder="Identifiant">
+            <input type="text" name="email" class="form-control" id="username" placeholder="Identifiant">
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Mot de passe</label>
-            <input type="password" class="form-control" id="password" placeholder="Mot de passe">
+            <input type="password" name="mdp" class="form-control" id="password" placeholder="Mot de passe">
         </div>
         <button type="submit" class="btn btn-primary w-100">Se connecter</button>
+        <br/>
+        <br/>
+        <div class="text-center text-danger">
+            <% String error = request.getParameter("error");
+               if ("missing".equals(error)) { %>
+                   Merci de remplir tous les champs.
+            <% } else if ("notfound".equals(error)) { %>
+                   Utilisateur introuvable.
+            <% } else if ("badcreds".equals(error)) { %>
+                   Identifiants incorrects.
+            <% } %>
+        </div>
     </form>
 </div>
 </body>

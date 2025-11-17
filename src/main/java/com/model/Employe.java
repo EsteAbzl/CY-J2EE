@@ -1,6 +1,11 @@
 package com.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity @Table(name = "Employe")
 public class Employe {
@@ -17,8 +22,11 @@ public class Employe {
     @Column (length = 30)
     private String email;
 
-    @Column (length = 30)
+    @Column (length = 255)
     private String mdp;
+
+    @Column(name = "premiere_connexion")
+    private Boolean premiereConnexion;
 
     @Column (length = 30)
     private String poste;
@@ -52,6 +60,10 @@ public class Employe {
         return mdp;
     }
 
+    public Boolean getPremiereConnexion(){
+        return premiereConnexion;
+    }
+
     public String getPoste(){
         return poste;
     }
@@ -82,6 +94,10 @@ public class Employe {
 
     public void setMdp(String mdp){
         this.mdp = mdp;
+    }
+
+    public void setPremiereConnexion(Boolean premiereConnexion){
+        this.premiereConnexion = premiereConnexion;
     }
 
     public void setPoste(String poste){

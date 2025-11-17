@@ -57,26 +57,28 @@
 <body>
 <div class="form-card">
     <h2>Ajouter un employé</h2>
-    <form>
+    <form method="post" action="addEmployee">
         <div class="mb-3">
             <label for="nom" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="nom" placeholder="Nom de famille">
+            <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom de famille">
         </div>
         <div class="mb-3">
             <label for="prenom" class="form-label">Prénom</label>
-            <input type="text" class="form-control" id="prenom" placeholder="Prénom">
+            <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prénom">
         </div>
+        <!-- Email will be generated automatically as nom.prenom@entreprise.com (hidden field) -->
         <div class="mb-3">
-            <label for="email" class="form-label">Adresse email</label>
-            <input type="email" class="form-control" id="email" placeholder="exemple@entreprise.com">
+            <label class="form-label">Adresse email (aperçu)</label>
+            <input type="text" readonly class="form-control" id="emailPreviewDisplay" placeholder="nom.prenom@entreprise.com">
         </div>
+        <input type="hidden" name="email" id="emailHidden">
         <div class="mb-3">
             <label for="poste" class="form-label">Poste</label>
-            <input type="text" class="form-control" id="poste" placeholder="Intitulé du poste">
+            <input type="text" class="form-control" id="poste" name="poste" placeholder="Intitulé du poste">
         </div>
         <div class="mb-3">
             <label for="departement" class="form-label">Département</label>
-            <select class="form-control" id="departement">
+            <select class="form-control" id="departement" name="departement">
                 <option>Ressources Humaines</option>
                 <option>Finance</option>
                 <option>Informatique</option>
@@ -86,10 +88,39 @@
         </div>
         <div class="mb-3">
             <label for="dateEmbauche" class="form-label">Date d’embauche</label>
-            <input type="date" class="form-control" id="dateEmbauche">
+            <input type="date" class="form-control" id="dateEmbauche" name="dateEmbauche">
         </div>
         <button type="submit" class="btn btn-primary w-100">Ajouter l’employé</button>
     </form>
+    <script>
+        // Generate email from nom and prenom fields
+        function slugify(s){
+            // remove diacritics, keep alphanumerics, replace other chars with dots
+            const t = s.normalize('NFD').replace(/\p{Diacritic}/gu, '');
+            return t.trim().toLowerCase().replace(/[^a-z0-9]+/g, '.')
+                .replace(/^\.|\.$/g, '');
+        }
+
+        const nomInput = document.getElementById('nom');
+        const prenomInput = document.getElementById('prenom');
+        const emailPreviewDisplay = document.getElementById('emailPreviewDisplay');
+        const emailHidden = document.getElementById('emailHidden');
+
+        function updateEmail(){
+            const nom = nomInput.value || '';
+            const prenom = prenomInput.value || '';
+            const localPart = slugify(nom) + (prenom ? '.' + slugify(prenom) : '');
+            const email = localPart ? localPart + '@entreprise.com' : '';
+            if(emailPreviewDisplay) emailPreviewDisplay.value = email;
+            if(emailHidden) emailHidden.value = email;
+        }
+
+        nomInput.addEventListener('input', updateEmail);
+        prenomInput.addEventListener('input', updateEmail);
+
+        // Ensure email is set before submit (in case JS altered or user has autofill)
+        document.querySelector('form').addEventListener('submit', function(){ updateEmail(); });
+    </script>
     <div class="footer">
         <a href="dashboardRH.jsp">Retour au tableau de bord RH</a>
     </div>

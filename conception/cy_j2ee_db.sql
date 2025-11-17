@@ -2,6 +2,28 @@ DROP DATABASE IF EXISTS cy_j2ee_db;
 CREATE DATABASE IF NOT EXISTS cy_j2ee_db;
 USE cy_j2ee_db;
 
+DROP TABLE IF EXISTS Departement;
+CREATE TABLE IF NOT EXISTS Departement
+(
+  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  nom VARCHAR(32) NOT NULL
+);
+
+-- Insert departments (script will be run once)
+-- Insert departments (idempotent: only insert if not exists)
+INSERT INTO Departement (nom)
+SELECT 'Administration' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM Departement WHERE nom = 'Administration');
+INSERT INTO Departement (nom)
+SELECT 'Ressources Humaines' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM Departement WHERE nom = 'Ressources Humaines');
+INSERT INTO Departement (nom)
+SELECT 'Finance' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM Departement WHERE nom = 'Finance');
+INSERT INTO Departement (nom)
+SELECT 'Informatique' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM Departement WHERE nom = 'Informatique');
+INSERT INTO Departement (nom)
+SELECT 'Marketing' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM Departement WHERE nom = 'Marketing');
+INSERT INTO Departement (nom)
+SELECT 'Production' FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM Departement WHERE nom = 'Production');
+
 DROP TABLE IF EXISTS Employe;
 CREATE TABLE IF NOT EXISTS Employe
 (
@@ -9,7 +31,8 @@ CREATE TABLE IF NOT EXISTS Employe
   nom VARCHAR(32) NOT NULL,
   prenom VARCHAR(32) NOT NULL,
   email VARCHAR(64) NOT NULL,
-  mdp VARCHAR(32) NOT NULL,
+  mdp VARCHAR(255) NOT NULL,
+  premiere_connexion BOOL NOT NULL DEFAULT FALSE,
   poste VARCHAR(32) NOT NULL,
   grade VARCHAR(32) NOT NULL,
   estArchive BOOL NOT NULL,
@@ -17,12 +40,20 @@ CREATE TABLE IF NOT EXISTS Employe
   FOREIGN KEY fk_departement(idDepartement) REFERENCES Departement (id)
 );
 
-DROP TABLE IF EXISTS Departement;
-CREATE TABLE IF NOT EXISTS Departement
-(
-  id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  nom VARCHAR(32) NOT NULL
-);
+-- Insert admin user once with SHA2('admin',256) as requested
+INSERT INTO Employe (nom, prenom, email, mdp, premiere_connexion, poste, grade, estArchive, idDepartement)
+SELECT
+  'Admin',
+  'Admin',
+  'admin',
+  SHA2('admin',256),
+  FALSE,
+  'Administrateur',
+  'ADMIN',
+  FALSE,
+  (SELECT id FROM Departement WHERE nom = 'Administration' LIMIT 1)
+FROM DUAL
+WHERE NOT EXISTS (SELECT 1 FROM Employe WHERE email = 'admin');
 
 DROP TABLE IF EXISTS Projet;
 CREATE TABLE IF NOT EXISTS Projet(
