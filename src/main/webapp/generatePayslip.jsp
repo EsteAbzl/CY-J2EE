@@ -53,6 +53,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="sidebar.jsp" />
 <div class="card">
     <h2>Générer une fiche de paie</h2>
     <!-- Formulaire unique -->

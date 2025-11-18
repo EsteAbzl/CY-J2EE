@@ -8,6 +8,7 @@
     .card h2{text-align:center;margin-bottom:1.5rem;color:#2a5298;}
     .table thead{background-color:#2a5298;color:#fff;}</style></head>
 <body>
+<jsp:include page="sidebar.jsp" />
 <div class="card"><h2>Liste des employés</h2>
     <table class="table table-striped">
         <thead><tr><th>Nom</th><th>Prénom</th><th>Email</th><th>Poste</th><th>Département</th></tr></thead>

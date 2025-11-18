@@ -53,6 +53,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="sidebar.jsp" />
 <div class="card">
     <h2>Affecter un employé à un département</h2>
     <form>

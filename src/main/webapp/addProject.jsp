@@ -18,6 +18,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="sidebar.jsp" />
 <div class="card">
     <h2>Ajouter un projet</h2>
     <form>

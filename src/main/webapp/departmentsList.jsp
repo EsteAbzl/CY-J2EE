@@ -55,6 +55,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="sidebar.jsp" />
 <div class="card">
     <h2>Liste des départements</h2>
     <table class="table table-striped">

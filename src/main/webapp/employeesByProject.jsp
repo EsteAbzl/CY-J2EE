@@ -55,6 +55,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="sidebar.jsp" />
 <div class="card">
     <h2>Employés par projet</h2>
     <!-- Sélecteur de projet -->

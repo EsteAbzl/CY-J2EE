@@ -55,6 +55,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="sidebar.jsp" />
 <div class="form-card">
     <h2>Ajouter un employé</h2>
     <form method="post" action="addEmployee">

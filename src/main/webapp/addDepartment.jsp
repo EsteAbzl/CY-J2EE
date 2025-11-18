@@ -54,6 +54,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="sidebar.jsp" />
 <div class="card">
     <h2>Ajouter un département</h2>
     <form>
@@ -71,9 +72,6 @@
         </div>
         <button type="submit" class="btn btn-primary w-100">Ajouter</button>
     </form>
-    <div class="footer">
-        <a href="dashboardRH.jsp">Retour au tableau de bord RH</a>
-    </div>
 </div>
 </body>
 </html>
