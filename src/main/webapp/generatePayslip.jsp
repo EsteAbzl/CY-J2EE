@@ -55,10 +55,11 @@
 <body>
 <div class="card">
     <h2>Générer une fiche de paie</h2>
-    <form>
+    <!-- Formulaire unique -->
+    <form action="GeneratePayslipServlet" method="post">
         <div class="mb-3">
             <label for="employee" class="form-label">Employé</label>
-            <select class="form-select" id="employee">
+            <select class="form-select" id="employee" name="employee">
                 <option>Marie Dupont</option>
                 <option>Jean Martin</option>
                 <option>Sophie Leroy</option>
@@ -68,7 +69,7 @@
 
         <div class="mb-3">
             <label for="month" class="form-label">Mois</label>
-            <select class="form-select" id="month">
+            <select class="form-select" id="month" name="month">
                 <option>Janvier</option>
                 <option>Février</option>
                 <option>Mars</option>
@@ -83,26 +84,28 @@
                 <option>Décembre</option>
             </select>
         </div>
+
         <div class="mb-3">
             <label for="year" class="form-label">Année</label>
-            <input type="number" class="form-control" id="year" placeholder="2025">
+            <input type="number" class="form-control" id="year" name="year" placeholder="2025">
         </div>
 
         <div class="mb-3">
             <label for="baseSalary" class="form-label">Salaire de base (€)</label>
-            <input type="number" class="form-control" id="baseSalary" placeholder="Ex: 2500">
+            <input type="number" class="form-control" id="baseSalary" name="baseSalary" placeholder="Ex: 2500">
         </div>
         <div class="mb-3">
             <label for="bonus" class="form-label">Prime (€)</label>
-            <input type="number" class="form-control" id="bonus" placeholder="Ex: 300">
+            <input type="number" class="form-control" id="bonus" name="bonus" placeholder="Ex: 300">
         </div>
         <div class="mb-3">
             <label for="deductions" class="form-label">Déductions (€)</label>
-            <input type="number" class="form-control" id="deductions" placeholder="Ex: 150">
+            <input type="number" class="form-control" id="deductions" name="deductions" placeholder="Ex: 150">
         </div>
 
         <button type="submit" class="btn btn-primary w-100">Générer la fiche de paie</button>
     </form>
+
     <div class="footer">
         <a href="dashboardRH.jsp">Retour au tableau de bord RH</a>
     </div>
