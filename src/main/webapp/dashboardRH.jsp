@@ -21,21 +21,21 @@
         <h2>Employés</h2>
         <a href="addEmployee.jsp" class="btn btn-primary w-100">Ajouter</a>
         <a href="deleteEmployee.jsp" class="btn btn-primary w-100">Supprimer</a>
-        <a href="listEmployees.jsp" class="btn btn-primary w-100">Voir la liste</a>
+        <a href="employeeList.jsp" class="btn btn-primary w-100">Voir la liste</a>
         <a href="generatePayslip.jsp" class="btn btn-primary w-100">Générer une fiche de paie</a>
     </div>
     <div class="card">
         <h2>Départements</h2>
         <a href="addDepartment.jsp" class="btn btn-primary w-100">Ajouter</a>
         <a href="deleteDepartment.jsp" class="btn btn-primary w-100">Supprimer</a>
-        <a href="listDepartments.jsp" class="btn btn-primary w-100">Voir la liste</a>
+        <a href="departmentsList.jsp" class="btn btn-primary w-100">Voir la liste</a>
         <a href="employeesByDepartment.jsp" class="btn btn-primary w-100">Employés par département</a>
     </div>
     <div class="card">
         <h2>Projets</h2>
         <a href="addProject.jsp" class="btn btn-primary w-100">Ajouter</a>
         <a href="deleteProject.jsp" class="btn btn-primary w-100">Supprimer</a>
-        <a href="listProjects.jsp" class="btn btn-primary w-100">Voir la liste</a>
+        <a href="projectsList.jsp" class="btn btn-primary w-100">Voir la liste</a>
         <a href="employeesByProject.jsp" class="btn btn-primary w-100">Employés par projet</a>
     </div>
 </div>
