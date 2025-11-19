@@ -64,9 +64,6 @@
         </div>
         <button type="submit" class="btn btn-primary w-100">Supprimer</button>
     </form>
-    <div class="footer">
-        <a href="dashboardRH.jsp">Retour au tableau de bord RH</a>
-    </div>
 </div>
 </body>
 </html>

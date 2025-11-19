@@ -80,9 +80,6 @@
 
         <button type="submit" class="btn btn-primary w-100">Affecter</button>
     </form>
-    <div class="footer">
-        <a href="dashboardRH.jsp">Retour au tableau de bord RH</a>
-    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -101,10 +101,6 @@
         </tr>
         </tbody>
     </table>
-
-    <div class="footer">
-        <a href="dashboardRH.jsp" class="btn btn-primary">Retour au tableau de bord RH</a>
-    </div>
 </div>
 </body>
 </html>

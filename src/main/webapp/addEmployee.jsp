@@ -122,9 +122,6 @@
         // Ensure email is set before submit (in case JS altered or user has autofill)
         document.querySelector('form').addEventListener('submit', function(){ updateEmail(); });
     </script>
-    <div class="footer">
-        <a href="dashboardRH.jsp">Retour au tableau de bord RH</a>
-    </div>
 </div>
 </body>
 </html>
