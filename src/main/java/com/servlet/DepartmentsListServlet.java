@@ -56,11 +56,5 @@ public class DepartmentsListServlet extends HttpServlet {
         // Forward vers la JSP
         RequestDispatcher dispatcher = request.getRequestDispatcher("departmentsList.jsp");
         dispatcher.forward(request, response);
-
-        System.out.println("Nombre de départements : " + departements.size());
-        for (Departement d : departements) {
-            System.out.println(d.getId() + " - " + d.getNom());
-        }
-
     }
 }
