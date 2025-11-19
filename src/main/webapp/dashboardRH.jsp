@@ -28,7 +28,7 @@
         <h2>Départements</h2>
         <a href="addDepartment.jsp" class="btn btn-primary w-100">Ajouter</a>
         <a href="deleteDepartment.jsp" class="btn btn-primary w-100">Supprimer</a>
-        <a href="departmentsList.jsp" class="btn btn-primary w-100">Voir la liste</a>
+        <a href="DepartmentsListServlet" class="btn btn-primary w-100">Voir la liste</a>
         <a href="employeesByDepartment.jsp" class="btn btn-primary w-100">Employés par département</a>
     </div>
     <div class="card">

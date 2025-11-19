@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,8 +10,18 @@
         body {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             min-height: 100vh;
-            padding: 2rem;
             font-family: Arial, sans-serif;
+            display: flex;
+        }
+        /* Sidebar occupe une largeur fixe */
+        .sidebar {
+            width: 250px;
+            flex-shrink: 0;
+        }
+        /* Contenu principal occupe le reste */
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -32,63 +43,35 @@
             background-color: #2a5298;
             color: #fff;
         }
-        .btn-primary {
-            background-color: #2a5298;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-        .btn-primary:hover {
-            background-color: #1e3c72;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 1rem;
-        }
-        .footer a {
-            color: #2a5298;
-            text-decoration: none;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
-<jsp:include page="sidebar.jsp" />
-<div class="card">
-    <h2>Liste des départements</h2>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Responsable</th>
-            <th>Nombre d’employés</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Ressources Humaines</td>
-            <td>Marie Dupont</td>
-            <td>12</td>
-        </tr>
-        <tr>
-            <td>Informatique</td>
-            <td>Jean Martin</td>
-            <td>25</td>
-        </tr>
-        <tr>
-            <td>Marketing</td>
-            <td>Sophie Leroy</td>
-            <td>18</td>
-        </tr>
-        <tr>
-            <td>Finance</td>
-            <td>Paul Durand</td>
-            <td>10</td>
-        </tr>
-        </tbody>
-    </table>
+<!-- Sidebar -->
+<div class="sidebar">
+    <jsp:include page="sidebar.jsp" />
+</div>
+
+<!-- Contenu principal -->
+<div class="main-content">
+    <div class="card">
+        <h2>Liste des départements</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="dept" items="${departements}">
+                <tr>
+                    <td>${dept.id}</td>
+                    <td>${dept.nom}</td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
