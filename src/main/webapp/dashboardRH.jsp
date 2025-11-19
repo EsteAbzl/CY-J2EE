@@ -35,7 +35,7 @@
         <h2>Projets</h2>
         <a href="addProject.jsp" class="btn btn-primary w-100">Ajouter</a>
         <a href="deleteProject.jsp" class="btn btn-primary w-100">Supprimer</a>
-        <a href="projectsList.jsp" class="btn btn-primary w-100">Voir la liste</a>
+        <a href="ProjectsListServlet" class="btn btn-primary w-100">Voir la liste</a>
         <a href="employeesByProject.jsp" class="btn btn-primary w-100">Employés par projet</a>
     </div>
 </div>

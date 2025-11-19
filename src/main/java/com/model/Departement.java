@@ -24,4 +24,9 @@ public class Departement {
         this.nom = nom;
     }
 
+    public Departement(int id, String nom) {
+        this.id = id;
+        this.nom = nom;
+    }
+
 }
