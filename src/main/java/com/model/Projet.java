@@ -35,6 +35,9 @@ public class Projet {
         this.nom = nom;
     }
 
+    public Projet(){
+
+    }
     public Projet(Integer id, String nom, String avancement){
         this.id = id;
         this.nom = nom;

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,11 +10,19 @@
         body {
             background: linear-gradient(135deg, #1e3c72, #2a5298);
             min-height: 100vh;
-            padding: 2rem;
             font-family: Arial, sans-serif;
+            margin: 0;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .main-content {
+            flex-grow: 1;
+            padding: 2rem;
         }
         .card {
             background: #fff;
@@ -21,7 +30,8 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.25);
             padding: 2rem;
             width: 100%;
-            max-width: 800px;
+            max-width: 1000px;
+            margin: auto;
         }
         .card h2 {
             text-align: center;
@@ -32,61 +42,52 @@
             background-color: #2a5298;
             color: #fff;
         }
-        .btn-primary {
-            background-color: #2a5298;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-        .btn-primary:hover {
-            background-color: #1e3c72;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 1rem;
-        }
-        .footer a {
-            color: #2a5298;
-            text-decoration: none;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>
-<jsp:include page="sidebar.jsp" />
+<div class="sidebar">
+    <jsp:include page="sidebar.jsp" />
+</div>
 
-<div class="card">
-    <h2>Liste des employés</h2>
+<div class="main-content">
+    <div class="card">
+        <h2>Liste des employés</h2>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Email</th>
+                <th>Poste</th>
+                <th>Grade</th>
+                <th>ID Departement</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="emp" items="${employes}">
+                <tr>
+                    <td>${emp.id}</td>
+                    <td>${emp.nom}</td>
+                    <td>${emp.prenom}</td>
+                    <td>${emp.email}</td>
+                    <td>${emp.poste}</td>
+                    <td>${emp.grade}</td>
+                    <td>${emp.idDepartement}</td>
+                    <td>
+                        <a href="EditEmployeeServlet?id=${emp.id}" class="btn btn-warning btn-sm">Modifier</a>
 
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Email</th>
-            <th>Poste</th>
-            <th>Département</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Dupont</td>
-            <td>Marie</td>
-            <td>marie@entreprise.com</td>
-            <td>RH</td>
-            <td>Ressources Humaines</td>
-        </tr>
-        <tr>
-            <td>Martin</td>
-            <td>Jean</td>
-            <td>jean@entreprise.com</td>
-            <td>Développeur</td>
-            <td>Informatique</td>
-        </tr>
-        </tbody>
-    </table>
+                        <a href="DeleteEmployeeServlet?id=${emp.id}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Voulez-vous vraiment supprimer cet employé ?');">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>

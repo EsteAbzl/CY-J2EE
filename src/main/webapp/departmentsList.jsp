@@ -67,6 +67,14 @@
                 <tr>
                     <td>${dept.id}</td>
                     <td>${dept.nom}</td>
+                    <td>
+                        <a href="EditProjectServlet?id=${proj.id}" class="btn btn-warning btn-sm">Modifier</a>
+                        <a href="DeleteProjectServlet?id=${proj.id}"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Voulez-vous vraiment supprimer ce projet ?');">
+                            Supprimer
+                        </a>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

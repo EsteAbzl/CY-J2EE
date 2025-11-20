@@ -40,9 +40,9 @@
         </a>
         <div class="collapse" id="employeesMenu">
             <div class="ms-3">
-                <a class="nav-link" href="addEmployee.jsp">➕ Ajouter</a>
-                <a class="nav-link" href="deleteEmployee.jsp">🗑 Supprimer</a>
-                <a class="nav-link" href="listEmployees.jsp">📋 Liste des employés</a>
+                <a class="nav-link" href="addEmployee">➕ Ajouter</a>
+                <a class="nav-link" href="DeleteEmployeeServlet">🗑 Supprimer</a>
+                <a class="nav-link" href="EmployeesListServlet">📋 Liste des employés</a>
                 <a class="nav-link" href="generatePayslip.jsp">💶 Générer fiche de paie</a>
             </div>
         </div>
@@ -55,7 +55,7 @@
             <div class="ms-3">
                 <a class="nav-link" href="addDepartment.jsp">➕ Ajouter</a>
                 <a class="nav-link" href="deleteDepartment.jsp">🗑 Supprimer</a>
-                <a class="nav-link" href="listDepartments.jsp">📋 Liste des départements</a>
+                <a class="nav-link" href="DepartmentsListServlet">📋 Liste des départements</a>
                 <a class="nav-link" href="employeesByDepartment.jsp">👥 Employés par département</a>
             </div>
         </div>
@@ -66,9 +66,9 @@
         </a>
         <div class="collapse" id="projectsMenu">
             <div class="ms-3">
-                <a class="nav-link" href="addProject.jsp">➕ Ajouter</a>
-                <a class="nav-link" href="deleteProject.jsp">🗑 Supprimer</a>
-                <a class="nav-link" href="listProjects.jsp">📋 Liste des projets</a>
+                <a class="nav-link" href="AddProjectServlet">➕ Ajouter</a>
+                <a class="nav-link" href="DeleteProjectServlet">🗑 Supprimer</a>
+                <a class="nav-link" href="ProjectsListServlet">📋 Liste des projets</a>
                 <a class="nav-link" href="employeesByProject.jsp">👥 Employés par projet</a>
             </div>
         </div>
