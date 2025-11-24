@@ -19,4 +19,4 @@ without Spring Boot
 1) Lancer Wampserveur
 2) Lancer MySQL WorkBench
 3) Ouvrir un nouvel onglet sql
-4) Copier et executer le contenu de [conception/DBsetup.sql]
+4) Copier et executer le contenu de [conception/cy_j2ee_db.sql]
