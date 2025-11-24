@@ -1,127 +1,70 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Ajouter un employé</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
-        .form-card {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-            padding: 2rem;
-            width: 100%;
-            max-width: 500px;
-        }
-        .form-card h2 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: #2a5298;
-        }
-        .form-control {
-            border-radius: 8px;
-        }
-        .btn-primary {
-            background-color: #2a5298;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-        .btn-primary:hover {
-            background-color: #1e3c72;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-        .footer a {
-            color: #2a5298;
-            text-decoration: none;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
+        body { background:linear-gradient(135deg,#1e3c72,#2a5298); font-family:Arial; padding:2rem; min-height:100vh; margin:0; }
+        h2 { text-align:center; color:#fff; }
+        form { background:#fff; border-radius:12px; padding:2rem; max-width:500px; margin:auto; box-shadow:0 8px 20px rgba(0,0,0,0.25); }
+        label { display:block; margin-top:1rem; font-weight:bold; color:#2a5298; }
+        input { width:100%; padding:.5rem; border:1px solid #ccc; border-radius:8px; margin-top:.25rem; }
+        .readonly { background:#f3f4f7; }
+        .btn { background:#2a5298; color:#fff; border:none; padding:.75rem; border-radius:8px; font-weight:bold; margin-top:1rem; cursor:pointer; width:100%; }
+        .btn:hover { background:#1e3c72; }
     </style>
 </head>
 <body>
-<jsp:include page="sidebar.jsp" />
-<div class="form-card">
-    <h2>Ajouter un employé</h2>
-    <form method="post" action="addEmployee">
-        <div class="mb-3">
-            <label for="nom" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom de famille">
-        </div>
-        <div class="mb-3">
-            <label for="prenom" class="form-label">Prénom</label>
-            <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prénom">
-        </div>
-        <!-- Email will be generated automatically as nom.prenom@entreprise.com (hidden field) -->
-        <div class="mb-3">
-            <label class="form-label">Adresse email (aperçu)</label>
-            <input type="text" readonly class="form-control" id="emailPreviewDisplay" placeholder="nom.prenom@entreprise.com">
-        </div>
-        <input type="hidden" name="email" id="emailHidden">
-        <div class="mb-3">
-            <label for="poste" class="form-label">Poste</label>
-            <input type="text" class="form-control" id="poste" name="poste" placeholder="Intitulé du poste">
-        </div>
-        <div class="mb-3">
-            <label for="departement" class="form-label">Département</label>
-            <select class="form-control" id="departement" name="departement">
-                <option>Ressources Humaines</option>
-                <option>Finance</option>
-                <option>Informatique</option>
-                <option>Marketing</option>
-                <option>Production</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="dateEmbauche" class="form-label">Date d’embauche</label>
-            <input type="date" class="form-control" id="dateEmbauche" name="dateEmbauche">
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Ajouter l’employé</button>
-    </form>
-    <script>
-        // Generate email from nom and prenom fields
-        function slugify(s){
-            // remove diacritics, keep alphanumerics, replace other chars with dots
-            const t = s.normalize('NFD').replace(/\p{Diacritic}/gu, '');
-            return t.trim().toLowerCase().replace(/[^a-z0-9]+/g, '.')
-                .replace(/^\.|\.$/g, '');
+<h2>Ajouter un employé</h2>
+<form action="EmployeeCreateServlet" method="post">
+    <label>Prénom</label>
+    <input type="text" name="first_name" id="first_name" required>
+
+    <label>Nom</label>
+    <input type="text" name="last_name" id="last_name" required>
+
+    <label>Email (auto-généré)</label>
+    <input type="email" name="email" id="email" class="readonly" readonly>
+
+
+    <label>Grade</label>
+    <input type="text" name="grade">
+
+    <label>Poste</label>
+    <input type="text" name="position_title">
+
+    <label>Salaire de base</label>
+    <input type="number" step="0.01" name="base_salary" required>
+
+    <label>ID Département</label>
+    <input type="number" name="department_id">
+
+    <button class="btn" type="submit">Créer l'employé</button>
+</form>
+
+<script>
+    // Fonction pour supprimer accents et caractères spéciaux
+    function normalize(str) {
+        return str
+            .normalize("NFD")                // décompose les accents
+            .replace(/[\u0300-\u036f]/g, "") // supprime les diacritiques
+            .replace(/[^a-zA-Z]/g, "")       // garde uniquement lettres
+            .toLowerCase();
+    }
+
+    function generateEmail() {
+        const first = normalize(document.getElementById("first_name").value.trim());
+        const last = normalize(document.getElementById("last_name").value.trim());
+        if (first && last) {
+            document.getElementById("email").value = first + "." + last + "@entreprise.com";
+        } else {
+            document.getElementById("email").value = "";
         }
+    }
 
-        const nomInput = document.getElementById('nom');
-        const prenomInput = document.getElementById('prenom');
-        const emailPreviewDisplay = document.getElementById('emailPreviewDisplay');
-        const emailHidden = document.getElementById('emailHidden');
-
-        function updateEmail(){
-            const nom = nomInput.value || '';
-            const prenom = prenomInput.value || '';
-            const localPart = slugify(nom) + (prenom ? '.' + slugify(prenom) : '');
-            const email = localPart ? localPart + '@entreprise.com' : '';
-            if(emailPreviewDisplay) emailPreviewDisplay.value = email;
-            if(emailHidden) emailHidden.value = email;
-        }
-
-        nomInput.addEventListener('input', updateEmail);
-        prenomInput.addEventListener('input', updateEmail);
-
-        // Ensure email is set before submit (in case JS altered or user has autofill)
-        document.querySelector('form').addEventListener('submit', function(){ updateEmail(); });
-    </script>
-</div>
+    document.getElementById("first_name").addEventListener("input", generateEmail);
+    document.getElementById("last_name").addEventListener("input", generateEmail);
+</script>
 </body>
 </html>

@@ -6,22 +6,14 @@
 
     <persistence-unit name="Cy-j2eePU">
 
-    <class>com.model.Test</class>
-    <class>com.model.Employe</class>
-    <class>com.model.Departement</class>
-    <class>com.model.Projet</class>
-    <class>com.model.SalaireEmployeDate</class>
-    <class>com.model.SalaireExtra</class>
-    <class>com.model.Role</class>
-    <class>com.model.Participer</class>
-    <class>com.model.ParticiperId</class>
-    <class>com.model.Recevoir</class>
-    <class>com.model.RecevoirId</class>
-    <class>com.model.Obtenir</class>
-    <class>com.model.ObtenirId</class>
-
+    <class>com.model.Employee</class>
+    <class>com.model.Department</class>
+    <class>com.model.Project</class>
+    <class>com.model.Absence</class>
+    <class>com.model.Payslip</class>
+    <class>com.model.Payslip</class>
         <properties>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cy_j2ee_db?serverTimezone=UTC"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/JeeDb?serverTimezone=UTC"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
             <property name="jakarta.persistence.jdbc.password" value=""/>
 

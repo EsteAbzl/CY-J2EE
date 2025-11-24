@@ -1,0 +1,127 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Impression fiche de paie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            margin: 40px;
+            color: #2c3e50;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #34495e;
+        }
+        .payslip {
+            width: 80%;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: #fafafa;
+        }
+        .payslip h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .payslip table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .payslip th, .payslip td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .payslip th {
+            background-color: #34495e;
+            color: #fff;
+        }
+        .summary {
+            text-align: right;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+        .print-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+        .print-btn:hover {
+            background-color: #2980b9;
+        }
+
+        a {
+            padding: 10px 20px;
+            text-decoration: none;
+            background-color: #27ae60;
+            color: #fff;
+            margin: 20px auto;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body onload="window.print()">
+<header>
+    <h1>Entreprise</h1>
+    <p>Fiche de paie officielle</p>
+</header>
+
+<div class="payslip">
+    <h2>Fiche de paie - ${payslip.periodMonth}/${payslip.periodYear}</h2>
+    <table>
+        <tr>
+            <th>ID Fiche</th>
+            <td>${payslip.id}</td>
+        </tr>
+        <tr>
+            <th>ID Employé</th>
+            <td>${payslip.employeeId}</td>
+        </tr>
+        <tr>
+            <th>Salaire de base</th>
+            <td>${payslip.baseSalary} €</td>
+        </tr>
+        <tr>
+            <th>Bonus</th>
+            <td>${payslip.bonuses} €</td>
+        </tr>
+        <tr>
+            <th>Déductions</th>
+            <td>${payslip.deductions} €</td>
+        </tr>
+        <tr>
+            <th>Net à payer</th>
+            <td><strong>${payslip.netPay} €</strong></td>
+        </tr>
+        <tr>
+            <th>Date de génération</th>
+            <td>${payslip.generatedAt}</td>
+        </tr>
+    </table>
+
+    <div class="summary">
+        <p><strong>Total Net : ${payslip.netPay} €</strong></p>
+    </div>
+</div>
+
+<button class="print-btn" onclick="window.print()">🖨️ Imprimer</button>
+<a href="dashboard.jsp">Retour au tableau de bord</a>
+</body>
+</html>
