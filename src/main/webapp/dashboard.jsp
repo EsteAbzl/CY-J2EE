@@ -15,6 +15,9 @@
     </style>
 </head>
 <body>
+<div class="logout">
+    <jsp:include page="LogoutButton.jsp" />
+</div>
 <h1>Tableau de bord</h1>
 <div class="dashboard">
     <div class="card">
