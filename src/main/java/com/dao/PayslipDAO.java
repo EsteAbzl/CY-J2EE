@@ -106,4 +106,38 @@ public class PayslipDAO {
         p.setGeneratedAt(rs.getTimestamp("generated_at"));
         return p;
     }
+
+    public List<Payslip> findFiltered(Integer employeeId, Integer month, Integer year) throws SQLException {
+        List<Payslip> list = new ArrayList<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM payslips WHERE 1=1");
+
+        if (employeeId != null) sql.append(" AND employee_id = ?");
+        if (month != null) sql.append(" AND period_month = ?");
+        if (year != null) sql.append(" AND period_year = ?");
+
+        try (PreparedStatement ps = conn.prepareStatement(sql.toString())) {
+            int idx = 1;
+            if (employeeId != null) ps.setInt(idx++, employeeId);
+            if (month != null) ps.setInt(idx++, month);
+            if (year != null) ps.setInt(idx++, year);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Payslip p = new Payslip();
+                    p.setId(rs.getInt("id"));
+                    p.setEmployeeId(rs.getInt("employee_id"));
+                    p.setPeriodYear(rs.getInt("period_year"));
+                    p.setPeriodMonth(rs.getInt("period_month"));
+                    p.setBaseSalary(rs.getBigDecimal("base_salary").doubleValue());
+                    p.setBonuses(rs.getBigDecimal("bonuses").doubleValue());
+                    p.setDeductions(rs.getBigDecimal("deductions").doubleValue());
+                    p.setNetPay(rs.getBigDecimal("net_pay").doubleValue());
+                    p.setGeneratedAt(rs.getTimestamp("generated_at"));
+                    list.add(p);
+                }
+            }
+        }
+        return list;
+    }
+
 }
