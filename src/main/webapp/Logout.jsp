@@ -15,6 +15,6 @@
 <body>
 <h2>Déconnexion</h2>
 <p>Vous avez été déconnecté avec succès.</p>
-<a class="btn" href="login.jsp">🔑 Revenir à la connexion</a>
+<a class="btn" href="Login.jsp">Revenir à la connexion</a>
 </body>
 </html>
