@@ -1,8 +1,11 @@
 -- Schema: hrms
+DROP DATABASE IF EXISTS JeeDb;
 CREATE DATABASE IF NOT EXISTS JeeDb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE JeeDb;
 
 
+DROP TABLE IF EXISTS salaire_extra;
+DROP TABLE IF EXISTS salaire;
 DROP TABLE IF EXISTS absences;
 DROP TABLE IF EXISTS payslips;
 DROP TABLE IF EXISTS project_assignments;
@@ -102,11 +105,55 @@ CREATE TABLE absences (
                           FOREIGN KEY (employee_id) REFERENCES employees(id)
 ) ENGINE=InnoDB;
 
+-- Salaire table
+CREATE TABLE salaire (
+                         id INT AUTO_INCREMENT PRIMARY KEY,
+                         salaire DECIMAL(10,2),
+                         `date` DATE NOT NULL,
+                         employee_id INT NOT NULL,
+                         FOREIGN KEY (employee_id) REFERENCES employees(id)
+)ENGINE=InnoDB;
+
+-- Salaire Extra table
+CREATE TABLE salaire_extra (
+                               id INT AUTO_INCREMENT PRIMARY KEY,
+                               montant DECIMAL(10,2),
+                               motif VARCHAR(250),
+                               `date` DATE NOT NULL,
+                               employee_id INT NOT NULL,
+                               FOREIGN KEY (employee_id) REFERENCES employees(id)
+)ENGINE=InnoDB;
+
 -- Seed roles
 INSERT INTO roles (name) VALUES ('ADMIN'), ('DEPT_HEAD'), ('PROJECT_HEAD'), ('EMPLOYEE');
+
+-- Example department
+INSERT INTO departments (name, description)
+VALUES ('Ressources Humaines', 'Département responsable de la gestion des ressources humaines');
+
+-- Example employee
+INSERT INTO employees (first_name, last_name, email, grade, position_title, base_salary, department_id, active)
+VALUES ('Jean', 'Dupont', 'jean.dupont@company.com', 'Senior', 'Responsable RH', 3500.00, 1, 1);
 
 -- Example admin user (password: admin123 hashed with BCrypt placeholder; replace in real)
 -- admin user (first_connexion = 0)
 INSERT INTO users (username, password_hash, full_name, first_connexion, role_id)
 VALUES ('admin', 'admin', 'Administrateur', 0, 1);
+
+INSERT INTO users (username, password_hash, full_name, first_connexion, role_id, employee_id)
+VALUES ('jean.dupont1@company.com', 'test', 'jean dupont', 1, 1, 1);
+
+-- Example salaire (salary history for employee 1)
+INSERT INTO salaire (salaire, date, employee_id) VALUES
+                                                     (3500.00, '2025-01-15', 1),
+                                                     (3500.00, '2025-06-15', 1),
+                                                     (3750.00, '2025-11-01', 1);
+
+-- Example salaire_extra (bonuses and deductions for employee 1 in November 2025)
+INSERT INTO salaire_extra (montant, motif, date, employee_id) VALUES
+                                                                  (500.00, 'Prime de performance', '2025-11-10', 1),
+                                                                  (250.00, 'Bonus d''équipe', '2025-11-15', 1),
+                                                                  (-100.00, 'Retenue pour absence', '2025-11-05', 1),
+                                                                  (-50.00, 'Avance sur salaire', '2025-11-12', 1);
+
 

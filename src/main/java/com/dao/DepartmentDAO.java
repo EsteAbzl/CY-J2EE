@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.model.Department;
+import com.util.*;
 import com.util.HibernateUtil;
 
 import jakarta.persistence.EntityManager;

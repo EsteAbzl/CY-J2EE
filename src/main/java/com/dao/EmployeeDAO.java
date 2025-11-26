@@ -1,7 +1,7 @@
 package com.dao;
 
 import com.model.Employee;
-import com.util.HibernateUtil;
+import com.util.*;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
