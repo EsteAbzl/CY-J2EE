@@ -17,9 +17,17 @@ import java.util.List;
 public class PayslipListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String employeeIdStr = req.getParameter("employee_id");
+        String monthStr = req.getParameter("month");
+        String yearStr = req.getParameter("year");
+
+        Integer employeeId = (employeeIdStr != null && !employeeIdStr.isBlank()) ? Integer.parseInt(employeeIdStr) : null;
+        Integer month = (monthStr != null && !monthStr.isBlank()) ? Integer.parseInt(monthStr) : null;
+        Integer year = (yearStr != null && !yearStr.isBlank()) ? Integer.parseInt(yearStr) : null;
+
         try (Connection conn = DBConnection.getConnection()) {
             PayslipDAO dao = new PayslipDAO(conn);
-            List<Payslip> payslips = dao.findAll();
+            List<Payslip> payslips = dao.findFiltered(employeeId, month, year);
 
             req.setAttribute("payslips", payslips);
             req.getRequestDispatcher("payslipList.jsp").forward(req, resp);
@@ -28,4 +36,5 @@ public class PayslipListServlet extends HttpServlet {
         }
     }
 }
+
 
