@@ -26,6 +26,9 @@ public class User {
     @Column(length = 30)
     private Integer employeeId;
 
+    @Column(name = "first_connexion")
+    private boolean firstConnexion;
+
     public Integer getId() {
         return id;
     }
@@ -80,5 +83,13 @@ public class User {
 
     public void setEmployeeId(Integer employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public boolean isFirstConnexion() {
+        return firstConnexion;
+    }
+
+    public void setFirstConnexion(boolean firstConnexion) {
+        this.firstConnexion = firstConnexion;
     }
 }
