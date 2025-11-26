@@ -34,7 +34,18 @@ public class LoginServlet extends HttpServlet {
                 EmployeeDAO empDao = new EmployeeDAO(conn);
                 Employee emp = empDao.findById(user.getEmployeeId());
                 session.setAttribute("emp", emp);
+                // some JSPs expect attribute name 'employe'
+                session.setAttribute("employe", emp);
                 session.setAttribute("employeeId", user.getEmployeeId());
+                // Si le flag mustChangePassword est présent et vrai, ou si le mot de passe est "test",
+                // forcer l'utilisateur à changer son mot de passe.
+                boolean mustChange = false;
+                try { mustChange = user.isMustChangePassword(); } catch (Throwable ignore) { }
+                if (mustChange || "test".equals(password)) {
+                    // rediriger vers la page de changement de mot de passe
+                    resp.sendRedirect("changePassword.jsp");
+                    return;
+                }
 
                 // Redirection selon rôle
                 switch (user.getRoleId()) {

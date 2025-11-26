@@ -24,7 +24,7 @@ CREATE TABLE departments (
                              id INT AUTO_INCREMENT PRIMARY KEY,
                              `name` VARCHAR(150) NOT NULL UNIQUE,
                              `description` TEXT
-);
+) ENGINE=InnoDB;
 
 -- Employees
 CREATE TABLE employees (
@@ -38,13 +38,14 @@ CREATE TABLE employees (
                            department_id INT,
                            `active` TINYINT(1) DEFAULT 1,
                            FOREIGN KEY (department_id) REFERENCES departments(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE users (
                        id INT AUTO_INCREMENT PRIMARY KEY,
                        username VARCHAR(100) NOT NULL UNIQUE,
                        password_hash VARCHAR(255) NOT NULL,
                        full_name VARCHAR(150) NOT NULL,
+                       must_change_password TINYINT(1) NOT NULL DEFAULT 0,
                        role_id INT NOT NULL,
                        `active` TINYINT(1) NOT NULL DEFAULT 1,
                        employee_id INT,
@@ -64,7 +65,7 @@ CREATE TABLE projects (
                           end_date DATE,
                           department_id INT,
                           FOREIGN KEY (department_id) REFERENCES departments(id)
-);
+) ENGINE=InnoDB;
 
 -- Employee assignments to projects (many-to-many)
 CREATE TABLE project_assignments (
@@ -89,7 +90,7 @@ CREATE TABLE payslips (
                           generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                           UNIQUE KEY uniq_emp_period (employee_id, period_year, period_month),
                           FOREIGN KEY (employee_id) REFERENCES employees(id)
-);
+) ENGINE=InnoDB;
 
 -- Absences (optional for deductions logic)
 CREATE TABLE absences (
@@ -99,12 +100,13 @@ CREATE TABLE absences (
                           `type` ENUM('CONGE','MALADIE','NON_PAYE') DEFAULT 'NON_PAYE',
                           hours INT DEFAULT 8,
                           FOREIGN KEY (employee_id) REFERENCES employees(id)
-);
+) ENGINE=InnoDB;
 
 -- Seed roles
 INSERT INTO roles (name) VALUES ('ADMIN'), ('DEPT_HEAD'), ('PROJECT_HEAD'), ('EMPLOYEE');
 
 -- Example admin user (password: admin123 hashed with BCrypt placeholder; replace in real)
-INSERT INTO users (username, password_hash, full_name, role_id)
-VALUES ('admin', 'admin', 'Administrateur', 1);
+-- admin user (must_change_password = 0)
+INSERT INTO users (username, password_hash, full_name, must_change_password, role_id)
+VALUES ('admin', 'admin', 'Administrateur', 0, 1);
 

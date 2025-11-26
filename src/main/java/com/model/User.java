@@ -26,6 +26,9 @@ public class User {
     @Column(length = 30)
     private Integer employeeId;
 
+    @Column(name = "must_change_password")
+    private boolean mustChangePassword;
+
     public Integer getId() {
         return id;
     }
@@ -80,5 +83,13 @@ public class User {
 
     public void setEmployeeId(Integer employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public boolean isMustChangePassword() {
+        return mustChangePassword;
+    }
+
+    public void setMustChangePassword(boolean mustChangePassword) {
+        this.mustChangePassword = mustChangePassword;
     }
 }

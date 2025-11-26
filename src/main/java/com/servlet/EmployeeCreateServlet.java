@@ -1,6 +1,8 @@
 package com.servlet;
 
 import com.dao.EmployeeDAO;
+import com.dao.UserDAO;
+import com.model.User;
 import com.model.Employee;
 import com.util.DBConnection;
 import com.util.ValidationUtil;
@@ -45,7 +47,54 @@ public class EmployeeCreateServlet extends HttpServlet {
                 emp.setDepartmentId(Integer.parseInt(departmentIdStr));
                 emp.setActive(true);
             }
+
+            String originalEmail = emp.getEmail();
+            String originalLocal = null;
+            String domain = "";
+            if (originalEmail != null && originalEmail.contains("@")) {
+                int at = originalEmail.indexOf('@');
+                originalLocal = originalEmail.substring(0, at);
+                domain = originalEmail.substring(at);
+
+                // Préparer une candidate et la rendre unique si nécessaire
+                String candidate = originalEmail;
+                int attempts = 0;
+                while (dao.emailExists(candidate)) {
+                    // Ajoute un timestamp pour éviter les collisions
+                    candidate = originalLocal + "." + System.currentTimeMillis() + (attempts > 0 ? attempts : "") + domain;
+                    attempts++;
+                }
+                emp.setEmail(candidate);
+            }
+
+            // Crée l'employé (EmployeeDAO.create positionne l'ID généré sur emp)
             dao.create(emp);
+
+            // Maintenant on peut mettre l'ID dans l'email final si possible
+            if (originalLocal != null && emp.getId() != null) {
+                String finalEmail = originalLocal + emp.getId() + domain;
+                emp.setEmail(finalEmail);
+                dao.update(emp);
+            }
+
+            // Créer un compte utilisateur avec mot de passe temporaire "test"
+            try {
+                UserDAO userDao = new UserDAO(conn);
+                User u = new User();
+                // username = email
+                u.setUsername(emp.getEmail());
+                // stocke le mot de passe temporaire tel quel (conforme au schéma existant)
+                u.setPasswordHash("test");
+                u.setFullName(emp.getFirstName() + " " + emp.getLastName());
+                u.setRoleId(4); // EMPLOYEE role
+                u.setActive(true);
+                u.setEmployeeId(emp.getId());
+                u.setMustChangePassword(true);
+                userDao.create(u);
+            } catch (SQLException ex) {
+                // ne pas bloquer la création d'employé si la création du user échoue, mais loguer
+                ex.printStackTrace();
+            }
 
             resp.sendRedirect("dashboard.jsp");
         } catch (SQLException e) {

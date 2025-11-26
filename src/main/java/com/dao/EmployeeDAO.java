@@ -84,7 +84,7 @@ public class EmployeeDAO {
 
     public void create(Employee e) throws SQLException {
         String sql = "INSERT INTO employees(first_name, last_name, email, grade, position_title, base_salary, department_id, active) VALUES(?,?,?,?,?,?,?,?)";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        try (PreparedStatement ps = conn.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, e.getFirstName());
             ps.setString(2, e.getLastName());
             ps.setString(3, e.getEmail());
@@ -98,6 +98,12 @@ public class EmployeeDAO {
             }
             ps.setBoolean(8, e.isActive());
             ps.executeUpdate();
+            try (ResultSet keys = ps.getGeneratedKeys()) {
+                if (keys.next()) {
+                    // set generated id back on the entity
+                    e.setId(keys.getInt(1));
+                }
+            }
         }
     }
 
@@ -169,13 +175,27 @@ public class EmployeeDAO {
     public Employee findByEmail(String email) {
         EntityManager em = HibernateUtil.getEntityManager();
         try {
-            TypedQuery<Employee> q = em.createQuery("SELECT e FROM employees e WHERE e.email = :email", Employee.class);
+            // NOTE: use JPQL with entity name 'Employee'
+            TypedQuery<Employee> q = em.createQuery("SELECT e FROM Employee e WHERE e.email = :email", Employee.class);
             q.setParameter("email", email);
             return q.getSingleResult();
         } catch (NoResultException ex) {
             return null;
         } finally {
             em.close();
+        }
+    }
+
+    /**
+     * Check existence of an email using plain SQL (fast, safe for unique check before insert).
+     */
+    public boolean emailExists(String email) throws SQLException {
+        String sql = "SELECT 1 FROM employees WHERE email = ? LIMIT 1";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
         }
     }
 
