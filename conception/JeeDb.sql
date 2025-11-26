@@ -141,7 +141,7 @@ INSERT INTO salaire (salaire, date, employee_id) VALUES
 
 -- Example salaire_extra (bonuses and deductions for employee 1 in November 2025)
 INSERT INTO salaire_extra (montant, motif, date, employee_id) VALUES 
-(300.00, 'Prime de performance', '2025-11-10', 1),
+(500.00, 'Prime de performance', '2025-11-10', 1),
 (250.00, 'Bonus d''équipe', '2025-11-15', 1),
 (-100.00, 'Retenue pour absence', '2025-11-05', 1),
 (-50.00, 'Avance sur salaire', '2025-11-12', 1);
