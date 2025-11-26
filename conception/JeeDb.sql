@@ -3,6 +3,8 @@ CREATE DATABASE IF NOT EXISTS JeeDb CHARACTER SET utf8mb4 COLLATE utf8mb4_unicod
 USE JeeDb;
 
 
+DROP TABLE IF EXISTS salaire_extra;
+DROP TABLE IF EXISTS salaire;
 DROP TABLE IF EXISTS absences;
 DROP TABLE IF EXISTS payslips;
 DROP TABLE IF EXISTS project_assignments;
@@ -94,6 +96,25 @@ CREATE TABLE absences (
                           `date` DATE NOT NULL,
                           `type` ENUM('CONGE','MALADIE','NON_PAYE') DEFAULT 'NON_PAYE',
                           hours INT DEFAULT 8,
+                          FOREIGN KEY (employee_id) REFERENCES employees(id)
+)ENGINE=InnoDB;
+
+-- Salaire table
+CREATE TABLE salaire (
+                          id INT AUTO_INCREMENT PRIMARY KEY,
+                          salaire DECIMAL(10,2),
+                          `date` DATE NOT NULL,
+                          employee_id INT NOT NULL,
+                          FOREIGN KEY (employee_id) REFERENCES employees(id)
+)ENGINE=InnoDB;
+
+-- Salaire Extra table
+CREATE TABLE salaire_extra (
+                          id INT AUTO_INCREMENT PRIMARY KEY,
+                          montant DECIMAL(10,2),
+                          motif VARCHAR(250),
+                          `date` DATE NOT NULL,
+                          employee_id INT NOT NULL,
                           FOREIGN KEY (employee_id) REFERENCES employees(id)
 )ENGINE=InnoDB;
 
