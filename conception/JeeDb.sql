@@ -24,8 +24,7 @@ CREATE TABLE departments (
                              id INT AUTO_INCREMENT PRIMARY KEY,
                              `name` VARCHAR(150) NOT NULL UNIQUE,
                              `description` TEXT
-);
-
+)ENGINE=InnoDB;
 -- Employees
 CREATE TABLE employees (
                            id INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,8 +37,7 @@ CREATE TABLE employees (
                            department_id INT,
                            `active` TINYINT(1) DEFAULT 1,
                            FOREIGN KEY (department_id) REFERENCES departments(id)
-);
-
+)ENGINE=InnoDB;
 CREATE TABLE users (
                        id INT AUTO_INCREMENT PRIMARY KEY,
                        username VARCHAR(100) NOT NULL UNIQUE,
@@ -64,8 +62,7 @@ CREATE TABLE projects (
                           end_date DATE,
                           department_id INT,
                           FOREIGN KEY (department_id) REFERENCES departments(id)
-);
-
+)ENGINE=InnoDB;
 -- Employee assignments to projects (many-to-many)
 CREATE TABLE project_assignments (
                                      project_id INT NOT NULL,
@@ -74,7 +71,7 @@ CREATE TABLE project_assignments (
                                      PRIMARY KEY (project_id, employee_id),
                                      FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
                                      FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE
-);
+)ENGINE=InnoDB;
 
 -- Payslips
 CREATE TABLE payslips (
@@ -89,8 +86,7 @@ CREATE TABLE payslips (
                           generated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                           UNIQUE KEY uniq_emp_period (employee_id, period_year, period_month),
                           FOREIGN KEY (employee_id) REFERENCES employees(id)
-);
-
+)ENGINE=InnoDB;
 -- Absences (optional for deductions logic)
 CREATE TABLE absences (
                           id INT AUTO_INCREMENT PRIMARY KEY,
@@ -99,7 +95,7 @@ CREATE TABLE absences (
                           `type` ENUM('CONGE','MALADIE','NON_PAYE') DEFAULT 'NON_PAYE',
                           hours INT DEFAULT 8,
                           FOREIGN KEY (employee_id) REFERENCES employees(id)
-);
+)ENGINE=InnoDB;
 
 -- Seed roles
 INSERT INTO roles (name) VALUES ('ADMIN'), ('DEPT_HEAD'), ('PROJECT_HEAD'), ('EMPLOYEE');
