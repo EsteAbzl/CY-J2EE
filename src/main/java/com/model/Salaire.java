@@ -19,7 +19,7 @@ public class Salaire {
     @Column(length = 30)
     private int employeeId;
 
-    // --- Getters & Setters ---
+    
     public Integer getId() {
         return id;
     }

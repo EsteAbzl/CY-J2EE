@@ -11,7 +11,9 @@
     <class>com.model.Project</class>
     <class>com.model.Absence</class>
     <class>com.model.Payslip</class>
-    <class>com.model.Payslip</class>
+    <class>com.model.User</class>
+    <class>com.model.Salaire</class>
+    <class>com.model.SalaireExtra</class>
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/JeeDb?serverTimezone=UTC"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
