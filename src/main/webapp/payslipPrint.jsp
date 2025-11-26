@@ -5,26 +5,33 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #fff;
-            margin: 40px;
+            background: linear-gradient(135deg,#1e3c72,#2a5298); /* même fond que les autres pages */
+            margin: 0;
+            padding: 40px;
             color: #2c3e50;
+            min-height: 100vh;
         }
         header {
             text-align: center;
             margin-bottom: 30px;
+            background:#2c3e50;
+            color:#fff;
+            padding:15px;
+            border-radius:8px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.3);
         }
         header h1 {
             margin: 0;
             font-size: 24px;
-            color: #34495e;
         }
         .payslip {
             width: 80%;
             margin: 0 auto;
             border: 1px solid #ddd;
             padding: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            background-color: #fafafa;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            background-color: #fff; /* fiche sur fond blanc pour impression */
+            border-radius:8px;
         }
         .payslip h2 {
             text-align: center;
@@ -54,26 +61,33 @@
             display: block;
             margin: 20px auto;
             padding: 10px 20px;
-            background-color: #3498db;
+            background-color: #27ae60; /* vert harmonisé */
             color: #fff;
             border: none;
             border-radius: 4px;
             font-size: 1em;
+            font-weight:bold;
             cursor: pointer;
+            transition: background 0.3s ease;
         }
         .print-btn:hover {
-            background-color: #2980b9;
+            background-color: #219150;
         }
-
         a {
+            display:block;
+            width:max-content;
+            margin:20px auto;
             padding: 10px 20px;
             text-decoration: none;
             background-color: #27ae60;
             color: #fff;
-            margin: 20px auto;
             border-radius: 4px;
             font-weight: bold;
             cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        a:hover {
+            background-color:#219150;
         }
     </style>
 </head>

@@ -17,7 +17,7 @@
         th, td { border:1px solid #ddd; padding:10px 15px; text-align:left; }
         th { background:#34495e; color:#fff; }
         tr:nth-child(even) { background:#f2f2f2; }
-        a { background:#27ae60; color:#fff; border:none; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer; }
+        a { background:#27ae60; color:#fff; border:none; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -56,6 +56,7 @@
         <th>Déductions</th>
         <th>Net</th>
         <th>Généré le</th>
+        <th>Actions</th>
     </tr>
     <c:forEach var="p" items="${payslips}">
         <tr>
@@ -68,6 +69,7 @@
             <td>${p.deductions}</td>
             <td>${p.netPay}</td>
             <td>${p.generatedAt}</td>
+            <td><a href="PayslipPrintServlet?id=${p.id}">Imprimer</a></td>
         </tr>
     </c:forEach>
 </table>
