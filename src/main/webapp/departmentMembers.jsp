@@ -6,9 +6,11 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            background: linear-gradient(135deg,#1e3c72,#2a5298);
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+            color: #2c3e50;
         }
         header {
             background-color: #2c3e50;
@@ -19,7 +21,7 @@
         h2 {
             margin: 20px 0;
             text-align: center;
-            color: #2c3e50;
+            color: #fff;
         }
         table {
             border-collapse: collapse;
@@ -62,8 +64,14 @@
         }
         .back-link a {
             text-decoration: none;
-            color: #2c3e50;
+            background-color: #27ae60;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 4px;
             font-weight: bold;
+        }
+        p{
+            color: #fff;
         }
     </style>
 </head>
@@ -121,7 +129,7 @@
 </c:if>
 
 <div class="back-link">
-    <a href="DepartmentsListServlet">← Retour à la liste</a>
+    <a href="DepartmentsListServlet">Retour à la liste</a>
 </div>
 </body>
 </html>

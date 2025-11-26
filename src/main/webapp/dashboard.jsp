@@ -3,7 +3,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Tableau de bord RH</title>
+    <title>Tableau de bord</title>
     <style>
         body { background:linear-gradient(135deg,#1e3c72,#2a5298); min-height:100vh; font-family:Arial; margin:0; padding:2rem; }
         h1 { text-align:center; color:#fff; margin-bottom:2rem; }
@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-<h1>Tableau de bord RH</h1>
+<h1>Tableau de bord</h1>
 <div class="dashboard">
     <div class="card">
         <h2>Employés</h2>

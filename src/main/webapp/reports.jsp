@@ -4,7 +4,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Rapports RH</title>
+    <title>Rapports</title>
     <style>
         body { font-family: Arial, sans-serif; background:linear-gradient(135deg,#1e3c72,#2a5298); margin:0; padding:0; min-height:100vh; }
         header { background:#2c3e50; color:#fff; padding:15px; text-align:center; }
@@ -20,7 +20,7 @@
 </head>
 <body>
 <header>
-    <h1>Rapports RH</h1>
+    <h1>Rapports</h1>
 </header>
 
 <h2>Statistiques des employés</h2>
