@@ -26,8 +26,8 @@ public class User {
     @Column(length = 30)
     private Integer employeeId;
 
-    @Column(name = "must_change_password")
-    private boolean mustChangePassword;
+    @Column(name = "first_connexion")
+    private boolean firstConnexion;
 
     public Integer getId() {
         return id;
@@ -85,11 +85,11 @@ public class User {
         this.employeeId = employeeId;
     }
 
-    public boolean isMustChangePassword() {
-        return mustChangePassword;
+    public boolean isFirstConnexion() {
+        return firstConnexion;
     }
 
-    public void setMustChangePassword(boolean mustChangePassword) {
-        this.mustChangePassword = mustChangePassword;
+    public void setFirstConnexion(boolean firstConnexion) {
+        this.firstConnexion = firstConnexion;
     }
 }

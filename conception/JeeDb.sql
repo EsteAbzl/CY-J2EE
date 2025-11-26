@@ -45,7 +45,7 @@ CREATE TABLE users (
                        username VARCHAR(100) NOT NULL UNIQUE,
                        password_hash VARCHAR(255) NOT NULL,
                        full_name VARCHAR(150) NOT NULL,
-                       must_change_password TINYINT(1) NOT NULL DEFAULT 0,
+                       first_connexion TINYINT(1) NOT NULL DEFAULT 0,
                        role_id INT NOT NULL,
                        `active` TINYINT(1) NOT NULL DEFAULT 1,
                        employee_id INT,
@@ -106,7 +106,7 @@ CREATE TABLE absences (
 INSERT INTO roles (name) VALUES ('ADMIN'), ('DEPT_HEAD'), ('PROJECT_HEAD'), ('EMPLOYEE');
 
 -- Example admin user (password: admin123 hashed with BCrypt placeholder; replace in real)
--- admin user (must_change_password = 0)
-INSERT INTO users (username, password_hash, full_name, must_change_password, role_id)
+-- admin user (first_connexion = 0)
+INSERT INTO users (username, password_hash, full_name, first_connexion, role_id)
 VALUES ('admin', 'admin', 'Administrateur', 0, 1);
 

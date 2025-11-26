@@ -89,7 +89,7 @@ public class EmployeeCreateServlet extends HttpServlet {
                 u.setRoleId(4); // EMPLOYEE role
                 u.setActive(true);
                 u.setEmployeeId(emp.getId());
-                u.setMustChangePassword(true);
+                u.setFirstConnexion(true);
                 userDao.create(u);
             } catch (SQLException ex) {
                 // ne pas bloquer la création d'employé si la création du user échoue, mais loguer

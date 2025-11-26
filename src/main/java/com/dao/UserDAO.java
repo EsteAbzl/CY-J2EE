@@ -23,15 +23,15 @@ public class UserDAO {
                     u.setFullName(rs.getString("full_name"));
                     u.setRoleId(rs.getInt("role_id"));
                     u.setEmployeeId(rs.getInt("employee_id"));
-                    // try to read must_change_password if present
+                    // try to read first_connexion if present
                     try {
                         java.sql.ResultSetMetaData md = rs.getMetaData();
                         boolean has = false;
                         for (int i = 1; i <= md.getColumnCount(); i++) {
-                            if ("must_change_password".equalsIgnoreCase(md.getColumnName(i))) { has = true; break; }
+                            if ("first_connexion".equalsIgnoreCase(md.getColumnName(i))) { has = true; break; }
                         }
                         if (has) {
-                            u.setMustChangePassword(rs.getBoolean("must_change_password"));
+                            u.setFirstConnexion(rs.getBoolean("first_connexion"));
                         }
                     } catch (SQLException ignore) {
                         // ignore, column may not exist
@@ -44,8 +44,8 @@ public class UserDAO {
     }
 
     public void create(User u) throws SQLException {
-        // Try to insert with must_change_password column if present, otherwise fallback
-        String sqlWithFlag = "INSERT INTO users (username, password_hash, full_name, role_id, must_change_password, active, employee_id) VALUES (?,?,?,?,?,?,?)";
+    // Try to insert with first_connexion column if present, otherwise fallback
+    String sqlWithFlag = "INSERT INTO users (username, password_hash, full_name, role_id, first_connexion, active, employee_id) VALUES (?,?,?,?,?,?,?)";
         String sqlNoFlag = "INSERT INTO users (username, password_hash, full_name, role_id, active, employee_id) VALUES (?,?,?,?,?,?)";
         try {
             try (PreparedStatement ps = conn.prepareStatement(sqlWithFlag, java.sql.Statement.RETURN_GENERATED_KEYS)) {
@@ -53,14 +53,14 @@ public class UserDAO {
                 ps.setString(2, u.getPasswordHash());
                 ps.setString(3, u.getFullName());
                 ps.setInt(4, u.getRoleId());
-                ps.setBoolean(5, u.isMustChangePassword());
+                ps.setBoolean(5, u.isFirstConnexion());
                 ps.setBoolean(6, u.isActive());
                 if (u.getEmployeeId() == null) ps.setNull(7, java.sql.Types.INTEGER); else ps.setInt(7, u.getEmployeeId());
                 ps.executeUpdate();
                 try (ResultSet keys = ps.getGeneratedKeys()) { if (keys.next()) u.setId(keys.getInt(1)); }
             }
         } catch (SQLException ex) {
-            // If the error is unknown column (no must_change_password), fallback to old insert
+            // If the error is unknown column (no first_connexion), fallback to old insert
             try (PreparedStatement ps = conn.prepareStatement(sqlNoFlag, java.sql.Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, u.getUsername());
                 ps.setString(2, u.getPasswordHash());
@@ -75,8 +75,8 @@ public class UserDAO {
     }
 
     public void updatePassword(int userId, String newPassword) throws SQLException {
-        // Try to clear must_change_password if column exists
-        String sqlWithFlag = "UPDATE users SET password_hash = ?, must_change_password = 0 WHERE id = ?";
+    // Try to clear first_connexion if column exists
+    String sqlWithFlag = "UPDATE users SET password_hash = ?, first_connexion = 0 WHERE id = ?";
         String sqlNoFlag = "UPDATE users SET password_hash = ? WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sqlWithFlag)) {
             ps.setString(1, newPassword);
