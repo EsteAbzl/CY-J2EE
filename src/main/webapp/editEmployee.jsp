@@ -1,69 +1,75 @@
-<%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="com.model.Employee" %>
+<%
+    Employee emp = (Employee) request.getAttribute("employee");
+%>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Modifier un employé</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            min-height: 100vh;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .card {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-            padding: 2rem;
-            width: 100%;
-            max-width: 600px;
-        }
-        .card h2 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: #2a5298;
-        }
+        body { background:linear-gradient(135deg,#1e3c72,#2a5298); font-family:Arial; padding:2rem; min-height:100vh; margin:0; }
+        h2 { text-align:center; color:#fff; }
+        form { background:#fff; border-radius:12px; padding:2rem; max-width:500px; margin:auto; box-shadow:0 8px 20px rgba(0,0,0,0.25); }
+        label { display:block; margin-top:1rem; font-weight:bold; color:#2a5298; }
+        input { width:100%; padding:.5rem; border:1px solid #ccc; border-radius:8px; margin-top:.25rem; }
+        .readonly { background:#f3f4f7; }
+        .btn { background:#2a5298; color:#fff; border:none; padding:.75rem; border-radius:8px; font-weight:bold; margin-top:1rem; cursor:pointer; width:100%; }
+        .btn:hover { background:#1e3c72; }
     </style>
 </head>
 <body>
-<div class="card">
-    <h2>Modifier un employé</h2>
-    <form action="EditEmployeeServlet" method="post">
-        <input type="hidden" name="id" value="${employe.id}" />
+<h2>Modifier un employé</h2>
+<form action="EmployeeEditServlet" method="post">
+    <input type="hidden" name="id" value="<%= emp.getId() %>">
 
-        <div class="mb-3">
-            <label for="nom" class="form-label">Nom</label>
-            <input type="text" class="form-control" id="nom" name="nom" value="${employe.nom}" required>
-        </div>
+    <label>Prénom</label>
+    <input type="text" name="first_name" id="first_name" value="<%= emp.getFirstName() %>" required>
 
-        <div class="mb-3">
-            <label for="prenom" class="form-label">Prénom</label>
-            <input type="text" class="form-control" id="prenom" name="prenom" value="${employe.prenom}" required>
-        </div>
+    <label>Nom</label>
+    <input type="text" name="last_name" id="last_name" value="<%= emp.getLastName() %>" required>
 
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="${employe.email}" required>
-        </div>
+    <label>Email</label>
+    <input type="email" name="email" id="email" class="readonly" value="<%= emp.getEmail() %>" readonly>
 
-        <div class="mb-3">
-            <label for="poste" class="form-label">Poste</label>
-            <input type="text" class="form-control" id="poste" name="poste" value="${employe.poste}">
-        </div>
+    <label>Grade</label>
+    <input type="text" name="grade" value="<%= emp.getGrade() %>">
 
-        <div class="mb-3">
-            <label for="grade" class="form-label">Grade</label>
-            <input type="text" class="form-control" id="grade" name="grade" value="${employe.grade}">
-        </div>
+    <label>Poste</label>
+    <input type="text" name="position_title" value="<%= emp.getPositionTitle() %>">
 
-        <button type="submit" class="btn btn-primary">Enregistrer</button>
-        <a href="EmployeesListServlet" class="btn btn-secondary">Annuler</a>
-    </form>
-</div>
+    <label>Salaire de base</label>
+    <input type="number" step="0.01" name="base_salary" value="<%= emp.getBaseSalary() %>" required>
+
+    <label>ID Département</label>
+    <input type="number" name="department_id" value="<%= emp.getDepartmentId() %>">
+
+    <button class="btn" type="submit">Mettre à jour</button>
+</form>
+
+<script>
+    // Fonction pour supprimer accents et caractères spéciaux
+    function normalize(str) {
+        return str
+            .normalize("NFD")                // décompose les accents
+            .replace(/[\u0300-\u036f]/g, "") // supprime les diacritiques
+            .replace(/[^a-zA-Z]/g, "")       // garde uniquement lettres
+            .toLowerCase();
+    }
+
+    function generateEmail() {
+        const first = normalize(document.getElementById("first_name").value.trim());
+        const last = normalize(document.getElementById("last_name").value.trim());
+        if (first && last) {
+            document.getElementById("email").value = first + "." + last + "@entreprise.com";
+        } else {
+            document.getElementById("email").value = "";
+        }
+    }
+
+    document.getElementById("first_name").addEventListener("input", generateEmail);
+    document.getElementById("last_name").addEventListener("input", generateEmail);
+</script>
 </body>
 </html>

@@ -1,59 +1,66 @@
 package com.servlet;
 
-import java.io.IOException;
-
-import com.dao.EmployeDAO;
-import com.model.Employe;
-import com.util.PasswordUtil;
+import com.dao.UserDAO;
+import com.dao.EmployeeDAO;
+import com.model.User;
+import com.model.Employee;
+import com.util.DBConnection;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
-@WebServlet("/login")
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+@WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
-
-    private final EmployeDAO employeDAO = new EmployeDAO();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String email = req.getParameter("email");
-        String mdp = req.getParameter("mdp");
+        String username = req.getParameter("username");
+        String password = req.getParameter("password");
 
-        if (email == null || mdp == null) {
-            resp.sendRedirect(req.getContextPath() + "/Login.jsp?error=missing");
-            return;
+        try (Connection conn = DBConnection.getConnection()) {
+            UserDAO userDao = new UserDAO(conn);
+            User user = userDao.findByCredentials(username, password);
+
+            if (user != null) {
+                HttpSession session = req.getSession();
+                session.setAttribute("user", user);
+
+                // Charger l'employé lié
+                EmployeeDAO empDao = new EmployeeDAO(conn);
+                Employee emp = empDao.findById(user.getEmployeeId());
+                session.setAttribute("emp", emp);
+                session.setAttribute("employeeId", user.getEmployeeId());
+
+                // Redirection selon rôle
+                switch (user.getRoleId()) {
+                    case 1: // ADMIN
+                        resp.sendRedirect("dashboard.jsp");
+                        break;
+                    case 2: // DEPT_HEAD
+                        resp.sendRedirect("managerDashboard.jsp");
+                        break;
+                    case 3: // PROJECT_HEAD
+                        resp.sendRedirect("projectDashboard.jsp");
+                        break;
+                    case 4: // EMPLOYEE
+                        resp.sendRedirect("employeeDashboard.jsp");
+                        break;
+                    default:
+                        resp.sendRedirect("error.jsp");
+                        break;
+                }
+            } else {
+                // Identifiants invalides
+                req.setAttribute("errorMessage", "Nom d'utilisateur ou mot de passe incorrect");
+                req.getRequestDispatcher("Login.jsp").forward(req, resp);
+            }
+        } catch (SQLException e) {
+            throw new ServletException("Erreur SQL", e);
         }
-
-        Employe e = employeDAO.findByEmail(email);
-        if (e == null) {
-            resp.sendRedirect(req.getContextPath() + "/Login.jsp?error=notfound");
-            return;
-        }
-
-        // Verify using BCrypt hashed password
-        if (!PasswordUtil.verifyPassword(mdp, e.getMdp())) {
-            resp.sendRedirect(req.getContextPath() + "/Login.jsp?error=badcreds");
-            return;
-        }
-
-        HttpSession session = req.getSession(true);
-        session.setAttribute("employe", e);
-
-        // If first login or default password 'test', force password change
-        boolean needChange = Boolean.TRUE.equals(e.getPremiereConnexion()) || "test".equals(e.getMdp());
-        if (needChange) {
-            resp.sendRedirect(req.getContextPath() + "/changePassword.jsp");
-        } else {
-            resp.sendRedirect(req.getContextPath() + "/dashboardRH.jsp");
-        }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/Login.jsp").forward(req, resp);
     }
 }

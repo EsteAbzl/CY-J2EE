@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ page import="com.model.Employe" %>
+<%@ page import="com.model.Employee" %>
 <%
-    Employe e = (Employe) session.getAttribute("employe");
+    Employee e = (Employee) session.getAttribute("employe");
     if (e == null) {
         response.sendRedirect(request.getContextPath() + "/Login.jsp");
         return;
@@ -20,7 +20,7 @@
 </head>
 <body>
 <div class="card">
-    <h3>Bonjour <%= e.getPrenom() != null ? e.getPrenom() : e.getEmail() %>, veuillez changer votre mot de passe</h3>
+    <h3>Bonjour <%= e.getLastName() != null ? e.getFirstName() : e.getEmail() %>, veuillez changer votre mot de passe</h3>
     <form action="${pageContext.request.contextPath}/changePassword" method="post">
         <div class="mb-3">
             <label for="newMdp" class="form-label">Nouveau mot de passe</label>

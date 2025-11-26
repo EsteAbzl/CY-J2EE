@@ -1,80 +1,32 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Connexion RH</title>
     <style>
-        body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
-        .login-card {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-            padding: 2rem;
-            width: 100%;
-            max-width: 400px;
-        }
-        .login-card h2 {
-            text-align: center;
-            margin-bottom: 1.5rem;
-            color: #2a5298;
-        }
-        .form-control {
-            border-radius: 8px;
-        }
-        .btn-primary {
-            background-color: #2a5298;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-        .btn-primary:hover {
-            background-color: #1e3c72;
-        }
-        .footer a {
-            color: #2a5298;
-            text-decoration: none;
-        }
-        .footer a:hover {
-            text-decoration: underline;
-        }
+        body { background:linear-gradient(135deg,#1e3c72,#2a5298); font-family:Arial; padding:2rem; min-height:100vh; margin:0; }
+        h2 { text-align:center; color:#fff; }
+        form { background:#fff; border-radius:12px; padding:2rem; max-width:400px; margin:auto; box-shadow:0 8px 20px rgba(0,0,0,0.25); }
+        label { display:block; margin-top:1rem; font-weight:bold; color:#2a5298; }
+        input { width:100%; padding:.5rem; border:1px solid #ccc; border-radius:8px; margin-top:.25rem; }
+        .btn { background:#2a5298; color:#fff; border:none; padding:.75rem; border-radius:8px; font-weight:bold; margin-top:1rem; cursor:pointer; width:100%; }
+        .btn:hover { background:#1e3c72; }
+        .error { background:#e74c3c; color:#fff; padding:.75rem; border-radius:8px; margin-bottom:1rem; text-align:center; }
     </style>
 </head>
 <body>
-<div class="login-card">
-    <h2>Connexion</h2>
-    <form action="${pageContext.request.contextPath}/login" method="post">
-        <div class="mb-3">
-            <label for="username" class="form-label">Identifiant</label>
-            <input type="text" name="email" class="form-control" id="username" placeholder="Identifiant">
-        </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Mot de passe</label>
-            <input type="password" name="mdp" class="form-control" id="password" placeholder="Mot de passe">
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Se connecter</button>
-        <br/>
-        <br/>
-        <div class="text-center text-danger">
-            <% String error = request.getParameter("error");
-               if ("missing".equals(error)) { %>
-                   Merci de remplir tous les champs.
-            <% } else if ("notfound".equals(error)) { %>
-                   Utilisateur introuvable.
-            <% } else if ("badcreds".equals(error)) { %>
-                   Identifiants incorrects.
-            <% } %>
-        </div>
-    </form>
-</div>
+<h2>Connexion</h2>
+<% String error = (String) request.getAttribute("error");
+    if (error != null) { %>
+<div class="error"><%= error %></div>
+<% } %>
+<form action="LoginServlet" method="post">
+    <label>Nom d'utilisateur</label>
+    <input type="text" name="username" required>
+    <label>Mot de passe</label>
+    <input type="password" name="password" required>
+    <button class="btn" type="submit">Se connecter</button>
+</form>
 </body>
 </html>
