@@ -33,6 +33,8 @@ public class Employee {
     @Column(length = 30)
     private boolean active;
 
+    private String roleInProject;
+
     public  Integer getId() {
         return id;
     }
@@ -102,5 +104,13 @@ public class Employee {
 
     public void setActive(boolean active){
         this.active = active;
+    }
+
+    public String getRoleInProject() {
+        return roleInProject;
+    }
+
+    public void setRoleInProject(String roleInProject) {
+        this.roleInProject = roleInProject;
     }
 }

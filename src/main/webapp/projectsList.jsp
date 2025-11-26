@@ -58,6 +58,7 @@
         .view-btn { background-color: #2ecc71; }
         .edit-btn { background-color: #3498db; }
         .delete-btn { background-color: #e74c3c; }
+        .affect-btn {background-color: #d2691e; }
         .add-link {
             display: block;
             text-align: center;
@@ -111,6 +112,7 @@
                 <td class="actions">
                     <a href="ProjectMembersServlet?id=${p.id}" class="view-btn">Membres</a>
                     <a href="ProjectEditServlet?id=${p.id}" class="edit-btn">Modifier</a>
+                    <a href="projectAssignment.jsp?project_id=${p.id}" class="affect-btn">Affecter un employé</a>
                     <a href="ProjectDeleteServlet?id=${p.id}" class="delete-btn"
                        onclick="return confirm('Supprimer ce projet ?');">Supprimer</a>
                 </td>

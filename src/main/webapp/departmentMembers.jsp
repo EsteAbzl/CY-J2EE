@@ -121,7 +121,7 @@
 </c:if>
 
 <div class="back-link">
-    <a href="dashboard.jsp">← Retour au tableau de bord</a>
+    <a href="DepartmentsListServlet">← Retour à la liste</a>
 </div>
 </body>
 </html>

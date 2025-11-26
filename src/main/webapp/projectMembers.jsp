@@ -30,9 +30,10 @@
     <table>
         <thead>
         <tr>
-            <th>ID</th>
+            <th>ID Projet</th>
             <th>Nom</th>
             <th>Email</th>
+            <th>Role</th>
         </tr>
         </thead>
         <tbody>
@@ -41,6 +42,7 @@
                 <td>${m.id}</td>
                 <td>${m.firstName} ${m.lastName}</td>
                 <td>${m.email}</td>
+                <td>${m.roleInProject}</td>
             </tr>
         </c:forEach>
         </tbody>

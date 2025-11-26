@@ -101,7 +101,10 @@ public class ProjectDAO {
 
     public List<Employee> findMembers(int projectId) throws SQLException {
         List<Employee> members = new ArrayList<>();
-        String sql = "SELECT e.* FROM employees e JOIN project_assignments pa ON e.id = pa.employee_id WHERE pa.project_id = ?";
+        String sql = "SELECT e.id, e.first_name, e.last_name, e.email, pa.role_in_project " +
+                "FROM employees e " +
+                "JOIN project_assignments pa ON e.id = pa.employee_id " +
+                "WHERE pa.project_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, projectId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -111,11 +114,13 @@ public class ProjectDAO {
                     emp.setFirstName(rs.getString("first_name"));
                     emp.setLastName(rs.getString("last_name"));
                     emp.setEmail(rs.getString("email"));
+                    emp.setRoleInProject(rs.getString("role_in_project"));
                     members.add(emp);
                 }
             }
         }
         return members;
     }
+
 
 }

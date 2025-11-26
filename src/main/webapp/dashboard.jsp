@@ -35,11 +35,11 @@
         <a href="addProject.jsp" class="btn">Ajouter</a>
         <a href="deleteProject.jsp" class="btn">Supprimer</a>
         <a href="ProjectsListServlet" class="btn">Voir la liste</a>
-        <a href="ProjectAssignServlet?project_id=1" class="btn">Affecter employés</a>
+        <a href="projectAssignment.jsp" class="btn">Affecter employés</a>
     </div>
     <div class="card">
         <h2>Rapports</h2>
-        <a href="reports.jsp" class="btn">Statistiques RH</a>
+        <a href="ReportsServlet" class="btn">Statistiques</a>
     </div>
 </div>
 </body>
