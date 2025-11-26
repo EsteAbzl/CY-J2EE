@@ -2,13 +2,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Liste des départements</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
+            background: linear-gradient(135deg,#1e3c72,#2a5298);
             margin: 0;
             padding: 0;
+            min-height: 100vh;
+            color: #2c3e50;
         }
         header {
             background-color: #2c3e50;
@@ -19,14 +22,16 @@
         h2 {
             margin: 20px 0;
             text-align: center;
-            color: #2c3e50;
+            color: #fff;
         }
         table {
             border-collapse: collapse;
             width: 90%;
             margin: 20px auto;
             background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            border-radius: 8px;
+            overflow: hidden;
         }
         th, td {
             border: 1px solid #ddd;
