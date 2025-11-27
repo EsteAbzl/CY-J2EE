@@ -1,6 +1,8 @@
 package com.servlet;
 
+import com.dao.DepartmentDAO;
 import com.dao.EmployeeDAO;
+import com.model.Department;
 import com.model.Employee;
 import com.util.DBConnection;
 import jakarta.servlet.ServletException;
@@ -12,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/EmployeeEditServlet")
 public class EmployeeEditServlet extends HttpServlet {
@@ -23,7 +26,12 @@ public class EmployeeEditServlet extends HttpServlet {
             EmployeeDAO dao = new EmployeeDAO(conn);
             Employee emp = dao.findById(id);
             req.setAttribute("employee", emp);
+            DepartmentDAO departmentDao = new DepartmentDAO(conn);
+            List<Department> departments = departmentDao.findAll();
+            req.setAttribute("departments", departments);
+
             req.getRequestDispatcher("editEmployee.jsp").forward(req, resp);
+
         } catch (SQLException e) {
             throw new ServletException("Erreur SQL lors de la récupération de l'employé", e);
         }

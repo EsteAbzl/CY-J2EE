@@ -1,5 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="com.model.Employee" %>
+<%@ page import="com.model.Department" %>
+<%@ page import="java.util.List" %>
 <%
     Employee emp = (Employee) request.getAttribute("employee");
 %>
@@ -42,8 +44,20 @@
     <label>Salaire de base</label>
     <input type="number" step="0.01" name="base_salary" value="<%= emp.getBaseSalary() %>" required>
 
-    <label>ID Département</label>
-    <input type="number" name="department_id" value="<%= emp.getDepartmentId() %>">
+    <label>Département</label>
+    <select name="department_id" required>
+        <option value="">-- Sélectionnez un département --</option>
+        <%
+            List<Department> departments = (List<Department>) request.getAttribute("departments");
+            if (departments != null) {
+                for (com.model.Department d : departments) {
+        %>
+        <option value="<%= d.getId() %>"><%= d.getName() %></option>
+        <%
+                }
+            }
+        %>
+    </select>
 
     <button class="btn" type="submit">Mettre à jour</button>
 </form>
