@@ -50,7 +50,7 @@
             depts = ddao.findAll();
         } catch (Exception ignore) { }
     %>
-    <select name="department_id">
+    <select name="department_id" required>
         <option value="">-- Aucun --</option>
         <% for (Department d : depts) { %>
             <option value="<%= d.getId() %>"><%= d.getName() %></option>
