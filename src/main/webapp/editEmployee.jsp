@@ -51,8 +51,10 @@
             List<Department> departments = (List<Department>) request.getAttribute("departments");
             if (departments != null) {
                 for (com.model.Department d : departments) {
+                    String selected = (emp.getDepartmentId() != null && emp.getDepartmentId() == d.getId()) ? "selected" : "";
         %>
-        <option value="<%= d.getId() %>"><%= d.getName() %></option>
+        %>
+        <option value="<%= d.getId() %>" <%= selected %>><%= d.getName() %></option>
         <%
                 }
             }

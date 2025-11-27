@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.*, com.model.Employee" %>
+<%@ page import="com.model.Department" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -51,6 +52,44 @@
         <button type="submit">🔍 Rechercher</button>
     </form>
 </div>
+<form action="EmployeeListServlet" method="get" class="filters" id="filters">
+    <select name="grade">
+        <option value="">-- Grade --</option>
+        <% List<String> grades = (List<String>) request.getAttribute("grades");
+            if (grades != null) {
+                for (String g : grades) { %>
+        <option value="<%= g %>"><%= g %></option>
+        <%     }
+        } %>
+    </select>
+
+    <select name="position">
+        <option value="">-- Poste --</option>
+        <% List<String> positions = (List<String>) request.getAttribute("positions");
+            if (positions != null) {
+                for (String p : positions) { %>
+        <option value="<%= p %>"><%= p %></option>
+        <%     }
+        } %>
+    </select>
+
+    <select name="department">
+        <option value="">-- Département --</option>
+        <%
+            List<Department> departments = (List<Department>) request.getAttribute("departments");
+            if (departments != null) {
+                for (Department d : departments) {
+        %>
+        <option value="<%= d.getId() %>"><%= d.getName() %></option>
+        <%
+                }
+            }
+        %>
+    </select>
+
+    <button type="submit" class="btn">Appliquer</button>
+</form>
+
 <table>
     <tr>
         <th>ID</th>

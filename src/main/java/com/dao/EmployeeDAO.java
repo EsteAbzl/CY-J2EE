@@ -82,6 +82,30 @@ public class EmployeeDAO {
         return null;
     }
 
+    public List<String> findDistinctGrades() throws SQLException {
+        List<String> grades = new ArrayList<>();
+        String sql = "SELECT DISTINCT grade FROM employees WHERE grade IS NOT NULL";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                grades.add(rs.getString("grade"));
+            }
+        }
+        return grades;
+    }
+
+    public List<String> findDistinctPositions() throws SQLException {
+        List<String> positions = new ArrayList<>();
+        String sql = "SELECT DISTINCT position_title FROM employees WHERE position_title IS NOT NULL";
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                positions.add(rs.getString("position_title"));
+            }
+        }
+        return positions;
+    }
+
     public void create(Employee e) throws SQLException {
         String sql = "INSERT INTO employees(first_name, last_name, email, grade, position_title, base_salary, department_id, active) VALUES(?,?,?,?,?,?,?,?)";
         try (PreparedStatement ps = conn.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS)) {
