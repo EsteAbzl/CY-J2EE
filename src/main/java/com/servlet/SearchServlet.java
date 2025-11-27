@@ -41,6 +41,9 @@ public class SearchServlet extends HttpServlet {
                     }
                 }
             }
+            else {
+                results.addAll(employees);
+            }
 
             req.setAttribute("results", results);
             req.setAttribute("searchQuery", query);

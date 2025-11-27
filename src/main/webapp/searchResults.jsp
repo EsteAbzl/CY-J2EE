@@ -48,7 +48,7 @@
 
 <div>
     <form action="SearchServlet" method="get" class="search-bar">
-        <input type="text" name="query" placeholder="Nom, prénom ou matricule" required>
+        <input type="text" name="query" placeholder="Nom, prénom ou matricule">
         <button type="submit">🔍 Rechercher</button>
     </form>
 </div>
