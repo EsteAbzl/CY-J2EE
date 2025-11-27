@@ -10,6 +10,8 @@
         form { background:#fff; border-radius:12px; padding:2rem; max-width:500px; margin:auto; box-shadow:0 8px 20px rgba(0,0,0,0.25); }
         label { display:block; margin-top:1rem; font-weight:bold; color:#2a5298; }
         input { width:100%; padding:.5rem; border:1px solid #ccc; border-radius:8px; margin-top:.25rem; }
+        select { width:100%; padding:.55rem; border:1px solid #ccc; border-radius:8px; margin-top:.25rem; background:#fff; }
+        .email-preview { margin-top:.5rem; font-size:.95rem; color:#334155; background:#f8fafc; padding:.5rem .75rem; border-radius:8px; border:1px solid #e6eef8; }
         .readonly { background:#f3f4f7; }
         .btn { background:#2a5298; color:#fff; border:none; padding:.75rem; border-radius:8px; font-weight:bold; margin-top:1rem; cursor:pointer; width:100%; }
         .btn:hover { background:#1e3c72; }
@@ -24,10 +26,9 @@
     <label>Nom</label>
     <input type="text" name="last_name" id="last_name" required>
 
-    <label>Email (auto-généré)</label>
-    <input type="email" name="email" id="email" class="readonly" readonly>
-
-
+                <label>Email (auto-généré)</label>
+                <input type="hidden" name="email" id="email">
+                <div class="email-preview" id="email_preview"><span id="preview_text">-</span></div>
     <label>Grade</label>
     <input type="text" name="grade">
 
@@ -38,7 +39,23 @@
     <input type="number" step="0.01" name="base_salary" required>
 
     <label>ID Département</label>
-    <input type="number" name="department_id">
+    <%@ page import="com.dao.DepartmentDAO" %>
+    <%@ page import="com.util.DBConnection" %>
+    <%@ page import="com.model.Department" %>
+    <%@ page import="java.util.List" %>
+    <%
+        List<Department> depts = new java.util.ArrayList<>();
+        try (java.sql.Connection conn = DBConnection.getConnection()) {
+            DepartmentDAO ddao = new DepartmentDAO(conn);
+            depts = ddao.findAll();
+        } catch (Exception ignore) { }
+    %>
+    <select name="department_id" required>
+        <option value="">-- Aucun --</option>
+        <% for (Department d : depts) { %>
+            <option value="<%= d.getId() %>"><%= d.getName() %></option>
+        <% } %>
+    </select>
 
     <button class="btn" type="submit">Créer l'employé</button>
 </form>
@@ -57,9 +74,14 @@
         const first = normalize(document.getElementById("first_name").value.trim());
         const last = normalize(document.getElementById("last_name").value.trim());
         if (first && last) {
-            document.getElementById("email").value = first + "." + last + "@entreprise.com";
+            const local = first + "." + last;
+            const domain = "@entreprise.com";
+            // email input (without id) and preview showing the final form with ID placeholder
+            document.getElementById("email").value = local + domain;
+            document.getElementById("preview_text").innerText = local + "<id>" + domain;
         } else {
             document.getElementById("email").value = "";
+            document.getElementById("preview_text").innerText = "-";
         }
     }
 
