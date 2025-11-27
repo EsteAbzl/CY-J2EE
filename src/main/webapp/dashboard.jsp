@@ -26,6 +26,7 @@
         <a href="deleteEmployee.jsp" class="btn">Supprimer</a>
         <a href="EmployeeListServlet" class="btn">Voir la liste</a>
         <a href="PayslipListServlet" class="btn">Fiches de paie</a>
+        <a href="AbsenceListServlet" class="btn">Liste d'absences</a>
     </div>
     <div class="card">
         <h2>Départements</h2>

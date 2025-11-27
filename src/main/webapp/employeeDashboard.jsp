@@ -21,6 +21,9 @@
     </style>
 </head>
 <body>
+<div class="logout">
+    <jsp:include page="LogoutButton.jsp" />
+</div>
 <h1>Dashboard Employé</h1>
 
 <c:if test="${not empty emp}">
@@ -50,7 +53,7 @@
 
 <div class="card">
     <h2>Mes absences</h2>
-    <a class="btn" href="absences.jsp">📅 Voir mes absences</a>
+    <a class="btn" href="AbsenceServlet">Voir mes absences</a>
 </div>
 </body>
 </html>
