@@ -6,7 +6,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Liste des employés</title>
+    <title>Résultats de recherche</title>
     <style>
         body { background:linear-gradient(135deg,#1e3c72,#2a5298); font-family:Arial; margin:0; padding:2rem; min-height:100vh; }
         h2 { text-align:center; color:#fff; margin-bottom:1rem; }
@@ -44,13 +44,15 @@
     </style>
 </head>
 <body>
-<h2>Liste des employés</h2>
+<h2>Résultats de recherche pour "<%= request.getAttribute("searchQuery") %>"</h2>
+
 <div>
     <form action="SearchServlet" method="get" class="search-bar">
         <input type="text" name="query" placeholder="Nom, prénom ou matricule" required>
         <button type="submit">🔍 Rechercher</button>
     </form>
 </div>
+
 <table>
     <tr>
         <th>ID</th>
@@ -62,9 +64,9 @@
         <th>Actions</th>
     </tr>
     <%
-        List<Employee> employees = (List<Employee>) request.getAttribute("employees");
-        if (employees != null) {
-            for (Employee e : employees) {
+        List<Employee> results = (List<Employee>) request.getAttribute("results");
+        if (results != null && !results.isEmpty()) {
+            for (Employee e : results) {
     %>
     <tr>
         <td><%= e.getId() %></td>
@@ -72,17 +74,21 @@
         <td><%= e.getEmail() %></td>
         <td><%= e.getGrade() %></td>
         <td><%= e.getPositionTitle() %></td>
-        <td><%= e.getDepartmentId()%></td>
+        <td><%= e.getDepartmentId() %></td>
         <td>
             <a class="btn" href="EmployeeEditServlet?id=<%= e.getId() %>">✏️ Modifier</a>
             <a class="btn btn-danger" href="EmployeeDeleteServlet?id=<%= e.getId() %>" onclick="return confirm('Supprimer cet employé ?');">🗑️ Supprimer</a>
         </td>
     </tr>
-    <% } } %>
+    <% } } else { %>
+    <tr>
+        <td colspan="7" style="text-align:center;">Aucun employé trouvé.</td>
+    </tr>
+    <% } %>
 </table>
 
 <div class="actions">
-    <a class="btn" href="addEmployee.jsp">➕ Ajouter un employé</a>
+    <a class="btn" href="addEmployee">➕ Ajouter un employé</a>
     <a class="btn" href="dashboard.jsp">🏠 Retour au tableau de bord</a>
 </div>
 </body>
