@@ -37,7 +37,7 @@
 </form>
 
 <div class="back">
-    <a href="ProjectsListServlet">Retour à la liste des projets</a>
+    <a href="dashboard.jsp">Retour au tableau de bord</a>
 </div>
 </body>
 </html>

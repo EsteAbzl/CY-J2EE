@@ -13,7 +13,7 @@
         select { width:100%; padding:.55rem; border:1px solid #ccc; border-radius:8px; margin-top:.25rem; background:#fff; }
         .email-preview { margin-top:.5rem; font-size:.95rem; color:#334155; background:#f8fafc; padding:.5rem .75rem; border-radius:8px; border:1px solid #e6eef8; }
         .readonly { background:#f3f4f7; }
-        .btn { background:#2a5298; color:#fff; border:none; padding:.75rem; border-radius:8px; font-weight:bold; margin-top:1rem; cursor:pointer; width:100%; }
+        .btn, a { background:#2a5298; color:#fff; border:none; padding:.75rem; border-radius:8px; font-weight:bold; margin-top:1rem; cursor:pointer; width:100%; }
         .btn:hover { background:#1e3c72; }
     </style>
 </head>
@@ -88,5 +88,8 @@
     document.getElementById("first_name").addEventListener("input", generateEmail);
     document.getElementById("last_name").addEventListener("input", generateEmail);
 </script>
+<div class="actions">
+    <a class="link" href="dashboard.jsp">Retour au tableau de bord</a>
+</div>
 </body>
 </html>

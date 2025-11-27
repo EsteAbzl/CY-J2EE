@@ -6,7 +6,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Consultation des absences (RH)</title>
+    <title>Consultation des absences</title>
     <style>
         body { background:linear-gradient(135deg,#1e3c72,#2a5298); font-family:Arial; padding:2rem; min-height:100vh; margin:0; }
         h1 { text-align:center; color:#fff; }
@@ -14,14 +14,14 @@
         table { width:100%; border-collapse:collapse; margin-top:1rem; }
         th, td { border:1px solid #ccc; padding:.5rem; text-align:left; }
         th { background:#eee; }
-        .btn { display:inline-block; background:#27ae60; color:#fff; padding:.5rem 1rem; border-radius:8px; text-decoration:none; margin-top:1rem; }
+        .btn { display:inline-block; background:#27ae60; color:#fff; padding:.5rem 1rem; border-radius:8px; text-decoration:none; margin-top:1rem; cursor: pointer; }
         .btn:hover { background:#219150; }
         label { font-weight:bold; color:#2a5298; }
         select { padding:.5rem; border:1px solid #ccc; border-radius:8px; margin-top:.25rem; width:100%; }
     </style>
 </head>
 <body>
-<h1>Consultation des absences (RH)</h1>
+<h1>Consultation des absences</h1>
 
 <div class="card">
     <h2>Sélectionner un employé</h2>
