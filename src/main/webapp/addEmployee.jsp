@@ -38,6 +38,13 @@
     <label>Salaire de base</label>
     <input type="number" step="0.01" name="base_salary" required>
 
+    <label>Date d'embauche (jour/mois/année)</label>
+    <div style="display: flex; gap: 10px;">
+        <input type="number" name="hire_day" min="1" max="31" placeholder="JJ" style="width: 60px;" required>
+        <input type="number" name="hire_month" min="1" max="12" placeholder="MM" style="width: 60px;" required>
+        <input type="number" name="hire_year" min="1900" placeholder="AAAA" style="width: 100px;" required>
+    </div>
+
     <label>ID Département</label>
     <%@ page import="com.dao.DepartmentDAO" %>
     <%@ page import="com.util.DBConnection" %>
