@@ -1,3 +1,5 @@
+<%@ page import="com.model.Department" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -37,8 +39,20 @@
     <label>Salaire de base</label>
     <input type="number" step="0.01" name="base_salary" required>
 
-    <label>ID Département</label>
-    <input type="number" name="department_id">
+    <label>Département</label>
+    <select name="department_id" required>
+        <option value="">-- Sélectionnez un département --</option>
+        <%
+            List<Department> departments = (List<Department>) request.getAttribute("departments");
+            if (departments != null) {
+                for (com.model.Department d : departments) {
+        %>
+        <option value="<%= d.getId() %>"><%= d.getName() %></option>
+        <%
+                }
+            }
+        %>
+    </select>
 
     <button class="btn" type="submit">Créer l'employé</button>
 </form>

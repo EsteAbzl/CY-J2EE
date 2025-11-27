@@ -19,7 +19,7 @@
 <div class="dashboard">
     <div class="card">
         <h2>Employés</h2>
-        <a href="addEmployee.jsp" class="btn btn-primary w-100">Ajouter</a>
+        <a href="addEmployeeServlet" class="btn btn-primary w-100">Ajouter</a>
         <a href="deleteEmployee.jsp" class="btn btn-primary w-100">Supprimer</a>
         <a href="EmployeesListServlet" class="btn btn-primary w-100">Voir la liste</a>
         <a href="generatePayslip.jsp" class="btn btn-primary w-100">Générer une fiche de paie</a>
