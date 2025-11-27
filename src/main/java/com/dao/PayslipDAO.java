@@ -140,27 +140,18 @@ public class PayslipDAO {
         return list;
     }
 
-    public List<Payslip> findByEmployeeId(int employeeId) throws SQLException {
-        List<Payslip> payslips = new ArrayList<>();
-        String sql = "SELECT id, employee_id, period_month, period_year, net_pay, generated_at " +
-                "FROM payslips WHERE employee_id = ? ORDER BY period_year DESC, period_month DESC";
-
+    public List<Payslip> findByEmployeeId(Integer employeeId) throws SQLException {
+        List<Payslip> list = new ArrayList<>();
+        String sql = "SELECT * FROM payslips WHERE employee_id = ? ORDER BY period_year DESC, period_month DESC";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, employeeId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Payslip psObj = new Payslip();
-                    psObj.setId(rs.getInt("id"));
-                    psObj.setEmployeeId(rs.getInt("employee_id"));
-                    psObj.setPeriodMonth(rs.getInt("period_month"));
-                    psObj.setPeriodYear(rs.getInt("period_year"));
-                    psObj.setNetPay(rs.getBigDecimal("net_pay").doubleValue());
-                    psObj.setGeneratedAt(rs.getTimestamp("generated_at"));
-                    payslips.add(psObj);
+                    list.add(map(rs));
                 }
             }
         }
-        return payslips;
+        return list;
     }
 
 }
