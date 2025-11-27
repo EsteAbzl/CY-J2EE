@@ -45,19 +45,9 @@
     <%@ page import="java.util.List" %>
     <%
         List<Department> depts = new java.util.ArrayList<>();
-        int predictedEmpId = -1;
         try (java.sql.Connection conn = DBConnection.getConnection()) {
             DepartmentDAO ddao = new DepartmentDAO(conn);
             depts = ddao.findAll();
-            try (java.sql.PreparedStatement ps = conn.prepareStatement(
-                    "SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'employees'")) {
-                String schema = conn.getCatalog();
-                if (schema == null || schema.isBlank()) schema = "JeeDb";
-                ps.setString(1, schema);
-                try (java.sql.ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) predictedEmpId = rs.getInt(1);
-                }
-            } catch (Exception ignore) { }
         } catch (Exception ignore) { }
     %>
     <select name="department_id">
@@ -66,12 +56,6 @@
             <option value="<%= d.getId() %>"><%= d.getName() %></option>
         <% } %>
     </select>
-
-    <script>
-        // predicted next employee id (based on AUTO_INCREMENT) — may be stale if concurrent inserts occur
-        var predictedEmpId = parseInt('<%= predictedEmpId %>', 10);
-        if (isNaN(predictedEmpId)) predictedEmpId = -1;
-    </script>
 
     <button class="btn" type="submit">Créer l'employé</button>
 </form>
@@ -94,11 +78,7 @@
             const domain = "@entreprise.com";
             // email input (without id) and preview showing the final form with ID placeholder
             document.getElementById("email").value = local + domain;
-            if (typeof predictedEmpId !== 'undefined' && predictedEmpId > 0) {
-                document.getElementById("preview_text").innerText = local + predictedEmpId + domain;
-            } else {
-                document.getElementById("preview_text").innerText = local + "<id>" + domain;
-            }
+            document.getElementById("preview_text").innerText = local + "<id>" + domain;
         } else {
             document.getElementById("email").value = "";
             document.getElementById("preview_text").innerText = "-";
