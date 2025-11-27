@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Impression fiche de paie</title>
@@ -99,14 +100,11 @@
 
 <div class="payslip">
     <h2>Fiche de paie - ${payslip.periodMonth}/${payslip.periodYear}</h2>
+    <p style="text-align:right; color:#2c3e50;"><strong>Généré le: ${payslip.generatedAt}</strong></p>
     <table>
         <tr>
-            <th>ID Fiche</th>
-            <td>${payslip.id}</td>
-        </tr>
-        <tr>
-            <th>ID Employé</th>
-            <td>${payslip.employeeId}</td>
+            <th>Nom et Prénom</th>
+            <td>${employee.firstName} ${employee.lastName}</td>
         </tr>
         <tr>
             <th>Salaire de base</th>
@@ -114,24 +112,38 @@
         </tr>
         <tr>
             <th>Bonus</th>
-            <td>${payslip.bonuses} €</td>
+            <td>
+                <c:forEach var="extra" items="${extras}">
+                    <c:if test="${extra.montant > 0}">
+                        ${extra.montant}€: ${extra.motif}<br>
+                    </c:if>
+                </c:forEach>
+                <c:if test="${payslip.bonuses > 0}">
+                    <strong>Total Bonus: ${payslip.bonuses} €</strong>
+                </c:if>
+            </td>
         </tr>
         <tr>
-            <th>Déductions</th>
-            <td>${payslip.deductions} €</td>
+            <th>Malus / Déductions</th>
+            <td>
+                <c:forEach var="extra" items="${extras}">
+                    <c:if test="${extra.montant < 0}">
+                        ${-extra.montant}€: ${extra.motif}<br>
+                    </c:if>
+                </c:forEach>
+                <c:if test="${payslip.deductions > 0}">
+                    <strong>Total Déductions: ${payslip.deductions} €</strong>
+                </c:if>
+            </td>
         </tr>
         <tr>
             <th>Net à payer</th>
             <td><strong>${payslip.netPay} €</strong></td>
         </tr>
-        <tr>
-            <th>Date de génération</th>
-            <td>${payslip.generatedAt}</td>
-        </tr>
     </table>
 
     <div class="summary">
-        <p><strong>Total Net : ${payslip.netPay} €</strong></p>
+        <p><strong>ID Fiche: ${payslip.id}</strong></p>
     </div>
 </div>
 
