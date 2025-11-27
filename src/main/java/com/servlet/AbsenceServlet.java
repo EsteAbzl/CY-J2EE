@@ -14,21 +14,26 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
-
 @WebServlet("/AbsenceServlet")
 public class AbsenceServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        int employeeId = (int) session.getAttribute("employeeId");
+        HttpSession session = req.getSession(false);
+        Employee emp = (Employee) (session != null ? session.getAttribute("emp") : null);
 
-        Connection conn = (Connection) getServletContext().getAttribute("DBConnection");
-        AbsenceDAO dao = new AbsenceDAO(conn);
+        if (emp == null) {
+            resp.sendRedirect("login.jsp?error=sessionExpired");
+            return;
+        }
 
-        try {
-            List<Absence> absences = dao.findByEmployee(employeeId);
+        int employeeId = emp.getId();
+
+        try (Connection conn = DBConnection.getConnection()) {
+            AbsenceDAO dao = new AbsenceDAO(conn);
+            List<Absence> absences = dao.findByEmployeeId(employeeId);
+
             req.setAttribute("absences", absences);
             req.getRequestDispatcher("/absences.jsp").forward(req, resp);
         } catch (Exception e) {
@@ -37,14 +42,16 @@ public class AbsenceServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session == null || session.getAttribute("emp") == null) {
+        Employee emp = (Employee) (session != null ? session.getAttribute("emp") : null);
+
+        if (emp == null) {
             resp.sendRedirect("login.jsp?error=sessionExpired");
             return;
         }
 
-        Employee emp = (Employee) session.getAttribute("emp");
         int employeeId = emp.getId();
 
         // Récupérer les paramètres du formulaire
@@ -63,15 +70,12 @@ public class AbsenceServlet extends HttpServlet {
 
             absenceDao.save(absence);
 
-            resp.sendRedirect("employeeDashboard.jsp?success=absence");
-
-            List<Absence> absences = absenceDao.findByEmployeeId(emp.getId());
-            req.setAttribute("absences", absences);
-            req.getRequestDispatcher("employeeDashboard.jsp").forward(req, resp);
+            // ✅ Redirection vers doGet du même servlet
+            resp.sendRedirect("AbsenceServlet?success=absence");
+            return;
 
         } catch (SQLException e) {
             throw new ServletException("Erreur SQL lors de la déclaration d'absence", e);
         }
     }
-
 }

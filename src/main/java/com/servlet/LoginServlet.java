@@ -59,7 +59,7 @@ public class LoginServlet extends HttpServlet {
                         resp.sendRedirect("projectDashboard.jsp");
                         break;
                     case 4: // EMPLOYEE
-                        resp.sendRedirect("employeeDashboard.jsp");
+                        resp.sendRedirect("EmployeeDashboardServlet");
                         break;
                     default:
                         resp.sendRedirect("error.jsp");

@@ -159,7 +159,7 @@
     // Dessiner les graphiques
     drawBarChart("deptChart", deptData, "#2980b9", "Employés par département");
     drawBarChart("projChart", projData, "#27ae60", "Employés par projet");
-    drawPieChart("gradeChart", gradeData, ["#f39c12","#8e44ad","#c0392b"], "Répartition par grade");
+    drawPieChart("gradeChart", gradeData, ["#f39c12","#8e44ad","#c0392b", "#c02ba2"], "Répartition par grade");
 </script>
 </body>
 </html>

@@ -25,6 +25,9 @@
     </style>
 </head>
 <body>
+<div class="logout">
+    <jsp:include page="LogoutButton.jsp" />
+</div>
 <h1>Mes absences</h1>
 
 <div class="card">
@@ -74,7 +77,7 @@
 </div>
 
 <div class="card">
-    <a class="btn" href="employeeDashboard.jsp">⬅️ Retour au dashboard</a>
+    <a class="btn" href="employeeDashboard.jsp"> Retour au tableau de bord</a>
 </div>
 </body>
 </html>
