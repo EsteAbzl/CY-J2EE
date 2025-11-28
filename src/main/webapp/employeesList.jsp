@@ -11,6 +11,7 @@
     <style>
         body { background:linear-gradient(135deg,#1e3c72,#2a5298); font-family:Arial; margin:0; padding:2rem; min-height:100vh; }
         h1 { text-align:center; color:#fff; }
+        h3 { text-align:center; color:#fff; }
         .search-container {
             margin: 30px auto;
             background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
@@ -163,6 +164,9 @@
     </tr>
     </c:forEach>
 </table>
+<c:if test="${employees.size() == 0}">
+    <h3> Aucun employé ne correspond à ces critères </h3>
+</c:if>
 
 <div class="actions">
     <a class="btn" href="addEmployee.jsp">➕ Ajouter un employé</a>
