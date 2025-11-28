@@ -18,7 +18,7 @@
         th, td { border:1px solid #ccc; padding:.5rem; text-align:left; }
         th { background:#eee; }
         .btn { display:inline-block; background:#2a5298; color:#fff; padding:.5rem 1rem; border-radius:8px; text-decoration:none; margin-top:1rem; }
-        .btn:hover { background:#1e3c72; }
+        .btn:hover { background:#1e3c72; cursor: pointer; }
         form { margin-top:1rem; }
         label { display:block; margin-top:.5rem; font-weight:bold; color:#2a5298; }
         input, select { width:100%; padding:.5rem; border:1px solid #ccc; border-radius:8px; margin-top:.25rem; }
@@ -77,7 +77,7 @@
 </div>
 
 <div class="card">
-    <a class="btn" href="employeeDashboard.jsp"> Retour au tableau de bord</a>
+    <a class="btn" href="EmployeeDashboardServlet"> Retour au tableau de bord</a>
 </div>
 </body>
 </html>

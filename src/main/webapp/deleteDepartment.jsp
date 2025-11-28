@@ -12,6 +12,8 @@
         input { width:100%; padding:.5rem; border:1px solid #ccc; border-radius:8px; margin-top:.25rem; }
         .btn { background:#c0392b; color:#fff; border:none; padding:.75rem; border-radius:8px; font-weight:bold; margin-top:1rem; cursor:pointer; width:100%; }
         .btn:hover { background:#962d22; }
+        a {background:#2a5298; color:#fff; border:none; padding:.75rem; border-radius:8px; font-weight:bold; margin-top:1rem; width:100%; text-decoration: none; transition:.3s}
+        a:hover {background:#1e3c72; cursor: pointer;}
     </style>
 </head>
 <body>
@@ -21,5 +23,6 @@
     <input type="number" name="id" required>
     <button class="btn" type="submit">Supprimer</button>
 </form>
+<a href="dashboard.jsp">Retour au tableau de bord</a>
 </body>
 </html>

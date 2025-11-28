@@ -16,7 +16,7 @@
         th { background:#2a5298; color:#fff; }
         tr:nth-child(even) { background:#f9f9f9; }
         .btn { display:inline-block; background:#2a5298; color:#fff; text-decoration:none; padding:.5rem 1rem; border-radius:8px; font-weight:bold; margin:.25rem; transition:.3s; }
-        .btn:hover { background:#1e3c72; }
+        .btn:hover { background:#1e3c72; cursor: pointer; }
         .btn-danger { background:#c0392b; }
         .btn-danger:hover { background:#962d22; }
         .actions { text-align:center; margin-top:1rem; }
