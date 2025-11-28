@@ -1,7 +1,9 @@
 package com.servlet;
 
 import com.dao.ProjectDAO;
+import com.dao.DepartmentDAO;
 import com.model.Project;
+import com.model.Department;
 import com.util.DBConnection;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,9 +13,22 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet("/ProjectCreateServlet")
 public class ProjectCreateServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        try (Connection conn = DBConnection.getConnection()) {
+            DepartmentDAO departmentDao = new DepartmentDAO(conn);
+            List<Department> departments = departmentDao.findAll();
+            req.setAttribute("departments", departments);
+            req.getRequestDispatcher("addProject.jsp").forward(req, resp);
+        } catch (SQLException e) {
+            throw new ServletException("Erreur lors du chargement des départements", e);
+        }
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
@@ -37,9 +52,9 @@ public class ProjectCreateServlet extends HttpServlet {
         project.setDepartmentId(Integer.parseInt(deptIdStr));
 
         try (Connection conn = DBConnection.getConnection()) {
-            ProjectDAO dao = new ProjectDAO(conn); // passe la connexion
+            ProjectDAO dao = new ProjectDAO(conn);
             dao.create(project);
-            resp.sendRedirect("dashboard.jsp?success=create");
+            resp.sendRedirect("ProjectsListServlet");
         } catch (SQLException e) {
             throw new ServletException("Erreur lors de la création du projet", e);
         }

@@ -36,7 +36,7 @@
     </div>
     <div class="card">
         <h2>Projets</h2>
-        <a href="addProject.jsp" class="btn">Ajouter</a>
+        <a href="ProjectCreateServlet" class="btn">Ajouter</a>
         <a href="deleteProject.jsp" class="btn">Supprimer</a>
         <a href="ProjectsListServlet" class="btn">Voir la liste</a>
         <a href="projectAssignment.jsp" class="btn">Affecter employés</a>

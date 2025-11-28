@@ -1,7 +1,9 @@
 package com.servlet;
 
 import com.dao.ProjectDAO;
+import com.dao.DepartmentDAO;
 import com.model.Project;
+import com.model.Department;
 import com.util.DBConnection;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,6 +12,7 @@ import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 
 @WebServlet("/ProjectEditServlet")
@@ -25,7 +28,7 @@ public class ProjectEditServlet extends HttpServlet {
         int id = Integer.parseInt(idStr);
 
         try (Connection conn = DBConnection.getConnection()) {
-            ProjectDAO dao = new ProjectDAO(conn); //  passe la connexion
+            ProjectDAO dao = new ProjectDAO(conn);
             Project project = dao.findById(id);
 
             if (project == null) {
@@ -33,7 +36,11 @@ public class ProjectEditServlet extends HttpServlet {
                 return;
             }
 
+            DepartmentDAO departmentDao = new DepartmentDAO(conn);
+            List<Department> departments = departmentDao.findAll();
+
             req.setAttribute("project", project);
+            req.setAttribute("departments", departments);
             req.getRequestDispatcher("editProject.jsp").forward(req, resp);
         } catch (SQLException e) {
             throw new ServletException("Erreur lors du chargement du projet", e);
@@ -62,7 +69,7 @@ public class ProjectEditServlet extends HttpServlet {
         try (Connection conn = DBConnection.getConnection()) {
             ProjectDAO dao = new ProjectDAO(conn);
             dao.update(project);
-            resp.sendRedirect("dashboard.jsp?success=update");
+            resp.sendRedirect("ProjectsListServlet");
         } catch (SQLException e) {
             throw new ServletException("Erreur lors de la mise à jour du projet", e);
         }
