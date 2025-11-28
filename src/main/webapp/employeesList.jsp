@@ -47,8 +47,8 @@
 <body>
 <h2>Liste des employés</h2>
 <div>
-    <form action="SearchServlet" method="get" class="search-bar">
-        <input type="text" name="query" placeholder="Nom, prénom ou matricule" required>
+    <form action="EmployeeListServlet" method="get" class="search-bar">
+        <input type="text" name="query" placeholder="Nom, prénom ou matricule">
         <button type="submit">🔍 Rechercher</button>
     </form>
 </div>
