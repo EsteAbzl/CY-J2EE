@@ -18,6 +18,8 @@
         th { background:#eee; }
         .btn { display:inline-block; background:#2a5298; color:#fff; padding:.5rem 1rem; border-radius:8px; text-decoration:none; margin-top:1rem; }
         .btn:hover { background:#1e3c72; }
+        a { background:#27ae60; color:#fff; border:none; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer; text-decoration: none; display:inline-block; }
+        a:hover { background:#229954; }
     </style>
 </head>
 <body>
@@ -39,13 +41,14 @@
 <div class="card">
     <h2>Mes fiches de paie</h2>
     <table>
-        <tr><th>Période</th><th>Salaire net</th><th>Date génération</th></tr>
+        <tr><th>Période</th><th>Salaire net</th><th>Date génération</th><th>Action</th></tr>
         <% if (payslips != null) {
             for (Payslip ps : payslips) { %>
         <tr>
             <td><%= ps.getPeriodMonth() %>/<%= ps.getPeriodYear() %></td>
             <td><%= ps.getNetPay() %> €</td>
             <td><%= ps.getGeneratedAt() %></td>
+            <td><a href="PayslipPrintServlet?id=<%=ps.getId()%>">Consulter</a></td>
         </tr>
         <% } } %>
     </table>

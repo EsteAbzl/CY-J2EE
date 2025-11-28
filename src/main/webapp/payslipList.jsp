@@ -139,7 +139,7 @@
             <td>${p.periodYear}</td>
             <td>${p.periodMonth}</td>
             <td>${p.generatedAt}</td>
-            <td><a href="PayslipPrintServlet?id=${p.id}">Visualiser</a></td>
+            <td><a href="PayslipPrintServlet?id=${p.id}">Consulter</a></td>
         </tr>
     </c:forEach>
 </table>

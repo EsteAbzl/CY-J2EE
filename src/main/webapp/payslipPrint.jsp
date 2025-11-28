@@ -183,6 +183,7 @@
 </div>
 
 <button class="print-btn" onclick="window.print()">🖨️ Imprimer</button>
-<a href="dashboard.jsp">Retour au tableau de bord</a>
+<%--<a href="dashboard.jsp">Retour au tableau de bord</a>--%>
+<%--Il faut empecher les simples employé à accéder au dashboard rh--%>
 </body>
 </html>
