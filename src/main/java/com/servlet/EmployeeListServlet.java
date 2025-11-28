@@ -33,10 +33,9 @@ public class EmployeeListServlet extends HttpServlet {
             DepartmentDAO departmentDao = new DepartmentDAO(conn);
 
             List<Employee> employees = dao.findAll();
+            List<Employee> results = new ArrayList<>();
 
             // Filtrer selon la recherche
-            List<Employee> filter1 = new ArrayList<>();
-
             if (query != null && !query.isBlank()) {
                 String q = query.toLowerCase();
 
@@ -49,34 +48,39 @@ public class EmployeeListServlet extends HttpServlet {
 
                 for (int i = 0; i < employees.size(); i++) {
                     if (searchStrings.get(i).contains(q)) {
-                        filter1.add(employees.get(i));
+                        results.add(employees.get(i));
                     }
                 }
 
                 req.setAttribute("searchQuery", query);
             }
             else {
-                filter1.addAll(employees);
+                results.addAll(employees);
             }
 
-            List<Employee> filter2 = dao.search("", grade, position, dep);
-
-            List<Employee> results = new ArrayList<>();
-            for (Employee e1 : filter1){
-                for (Employee e2 : filter2){
-                    if(e1.getId() == e2.getId()) results.add(e1);
+            // Appliquer les filtres de grade, position et département
+            List<Employee> filtered = new ArrayList<>();
+            for (Employee e : results) {
+                boolean matchGrade = (grade == null || grade.isBlank() || (e.getGrade() != null && e.getGrade().equals(grade)));
+                boolean matchPosition = (position == null || position.isBlank() || (e.getPositionTitle() != null && e.getPositionTitle().equals(position)));
+                boolean matchDep = (dep == null || (e.getDepartmentId() != null && e.getDepartmentId().equals(dep)));
+                
+                if (matchGrade && matchPosition && matchDep) {
+                    filtered.add(e);
                 }
             }
-
 
             List<String> grades = dao.findDistinctGrades();
             List<String> positions = dao.findDistinctPositions();
             List<Department> departments = departmentDao.findAll();
 
-            req.setAttribute("employees", results);
+            req.setAttribute("employees", filtered);
             req.setAttribute("grades", grades);
             req.setAttribute("positions", positions);
             req.setAttribute("departments", departments);
+            req.setAttribute("grade", grade);
+            req.setAttribute("position", position);
+            req.setAttribute("department", dep);
             req.getRequestDispatcher("employeesList.jsp").forward(req, resp);
         }
         catch (Exception exception) {
