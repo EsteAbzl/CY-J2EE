@@ -32,51 +32,48 @@ public class PayslipListServlet extends HttpServlet {
         try (Connection conn = DBConnection.getConnection()) {
             PayslipDAO payslipDao = new PayslipDAO(conn);
             EmployeeDAO employeeDao = new EmployeeDAO(conn);
-            
-            List<Payslip> payslips;
-            
-            // Si une recherche est effectuée
+
+            List<Payslip> payslips = payslipDao.findAll();
+
+            // Filtrer selon la recherche
+            List<Payslip> filter1 = new ArrayList<>();
+
             if (query != null && !query.isBlank()) {
-                List<Payslip> allPayslips = payslipDao.findAll();
-                payslips = new ArrayList<>();
-                String q_lower = query.toLowerCase().trim();
-                
-                for (Payslip p : allPayslips) {
-                    Employee emp = employeeDao.findById(p.getEmployeeId());
-                    if (emp != null) {
-                        String lastName = emp.getLastName() != null ? emp.getLastName().toLowerCase() : "";
-                        String firstName = emp.getFirstName() != null ? emp.getFirstName().toLowerCase() : "";
-                        String id = String.valueOf(emp.getId());
-                        String fullNameLF = lastName + " " + firstName;
-                        String fullNameFL = firstName + " " + lastName;
-                        
-                        // Cherche si les N premiers caractères correspondent
-                        if (lastName.startsWith(q_lower) || 
-                            firstName.startsWith(q_lower) || 
-                            id.startsWith(q_lower) ||
-                            fullNameLF.startsWith(q_lower) ||
-                            fullNameFL.startsWith(q_lower)) {
-                            payslips.add(p);
-                        }
+                String q = query.toLowerCase();
+
+                // Construire une liste de chaînes concaténées
+                List<String> searchStrings = new ArrayList<>();
+                for (Payslip p : payslips) {
+                    Employee e = employeeDao.findById(p.getEmployeeId());
+                    String combined = e.getLastName() + " " + e.getFirstName() + " " + e.getLastName() + " " + e.getId();
+                    searchStrings.add(combined.toLowerCase()); // pour recherche insensible à la casse
+                }
+
+                for (int i = 0; i < payslips.size(); i++) {
+                    if (searchStrings.get(i).contains(q)) {
+                        filter1.add(payslips.get(i));
                     }
                 }
-            } else {
-                payslips = payslipDao.findAll();
+
+                req.setAttribute("searchQuery", query);
+            }
+            else {
+                filter1.addAll(payslips);
             }
             
             // Appliquer les filtres de mois et année
-            List<Payslip> filtered = new ArrayList<>();
-            for (Payslip p : payslips) {
+            List<Payslip> filter2 = new ArrayList<>();
+            for (Payslip p : filter1) {
                 if ((month == null || month.equals(p.getPeriodMonth())) &&
                     (year == null || year.equals(p.getPeriodYear()))) {
-                    filtered.add(p);
+                    filter2.add(p);
                 }
             }
-            payslips = filtered;
+
             
             // Crée un map des noms d'employés par ID
             Map<Integer, String> employeeNames = new HashMap<>();
-            for (Payslip p : payslips) {
+            for (Payslip p : filter2) {
                 if (!employeeNames.containsKey(p.getEmployeeId())) {
                     Employee emp = employeeDao.findById(p.getEmployeeId());
                     if (emp != null) {
@@ -85,7 +82,7 @@ public class PayslipListServlet extends HttpServlet {
                 }
             }
 
-            req.setAttribute("payslips", payslips);
+            req.setAttribute("payslips", filter2);
             req.setAttribute("employeeNames", employeeNames);
             req.setAttribute("searchQuery", query);
             req.setAttribute("month", month);
