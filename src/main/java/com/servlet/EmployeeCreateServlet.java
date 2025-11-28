@@ -2,16 +2,14 @@ package com.servlet;
 
 import com.dao.EmployeeDAO;
 import com.dao.UserDAO;
+import com.dao.SalaireDAO;
 import com.model.User;
 import com.model.Employee;
+import com.model.Salaire;
 import com.util.DBConnection;
-import com.util.ValidationUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import java.io.IOException;
-import java.sql.Connection;
-
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -28,6 +26,9 @@ public class EmployeeCreateServlet extends HttpServlet {
         String positionTitle = req.getParameter("position_title");
         String baseSalaryStr = req.getParameter("base_salary");
         String departmentIdStr = req.getParameter("department_id");
+        String hireDayStr = req.getParameter("hire_day");
+        String hireMonthStr = req.getParameter("hire_month");
+        String hireYearStr = req.getParameter("hire_year");
 
         try (Connection conn = DBConnection.getConnection()) {
             EmployeeDAO dao = new EmployeeDAO(conn);
@@ -75,6 +76,29 @@ public class EmployeeCreateServlet extends HttpServlet {
                 String finalEmail = originalLocal + emp.getId() + domain;
                 emp.setEmail(finalEmail);
                 dao.update(emp);
+            }
+
+            // Enregistrer la date d'embauche dans la table salaire
+            if (hireDayStr != null && hireMonthStr != null && hireYearStr != null &&
+                !hireDayStr.isBlank() && !hireMonthStr.isBlank() && !hireYearStr.isBlank()) {
+                try {
+                    int day = Integer.parseInt(hireDayStr);
+                    int month = Integer.parseInt(hireMonthStr);
+                    int year = Integer.parseInt(hireYearStr);
+                    
+                    java.sql.Date hiringDate = java.sql.Date.valueOf(
+                        String.format("%04d-%02d-%02d", year, month, day)
+                    );
+                    
+                    SalaireDAO salaireDao = new SalaireDAO(conn);
+                    Salaire salaire = new Salaire();
+                    salaire.setSalaire(emp.getBaseSalary());
+                    salaire.setDate(hiringDate);
+                    salaire.setEmployeeId(emp.getId());
+                    salaireDao.create(salaire);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
 
             // Créer un compte utilisateur avec mot de passe temporaire "test"
