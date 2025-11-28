@@ -2,7 +2,9 @@ package com.servlet;
 
 import com.dao.ProjectDAO;
 import com.model.Project;
+import com.model.User;
 import com.util.DBConnection;
+import com.util.AccessControl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -16,25 +18,42 @@ import java.sql.SQLException;
 public class ProjectEditServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession(false);
+        User user = (User) (session != null ? session.getAttribute("user") : null);
+
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/Login.jsp");
+            return;
+        }
+
         String idStr = req.getParameter("id");
         if (idStr == null || idStr.isBlank()) {
             resp.sendRedirect("projectsList.jsp?error=missingId");
             return;
         }
 
-        int id = Integer.parseInt(idStr);
+        try {
+            int id = Integer.parseInt(idStr);
+            try (Connection conn = DBConnection.getConnection()) {
+                // Vérifier l'accès au projet
+                if (!AccessControl.canAccessProject(user, id, conn)) {
+                    resp.sendRedirect(req.getContextPath() + "/AccessDeniedServlet");
+                    return;
+                }
 
-        try (Connection conn = DBConnection.getConnection()) {
-            ProjectDAO dao = new ProjectDAO(conn); //  passe la connexion
-            Project project = dao.findById(id);
+                ProjectDAO dao = new ProjectDAO(conn);
+                Project project = dao.findById(id);
 
-            if (project == null) {
-                resp.sendRedirect("projectsList.jsp?error=notFound");
-                return;
+                if (project == null) {
+                    resp.sendRedirect("projectsList.jsp?error=notFound");
+                    return;
+                }
+
+                req.setAttribute("project", project);
+                req.getRequestDispatcher("editProject.jsp").forward(req, resp);
             }
-
-            req.setAttribute("project", project);
-            req.getRequestDispatcher("editProject.jsp").forward(req, resp);
+        } catch (NumberFormatException e) {
+            resp.sendRedirect("projectsList.jsp?error=invalid");
         } catch (SQLException e) {
             throw new ServletException("Erreur lors du chargement du projet", e);
         }
@@ -42,27 +61,44 @@ public class ProjectEditServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        String name = req.getParameter("name");
-        String description = req.getParameter("description");
-        String startDateStr = req.getParameter("start_date");
-        String endDateStr = req.getParameter("end_date");
-        int deptId = Integer.parseInt(req.getParameter("department_id"));
-        String status = req.getParameter("status");
+        HttpSession session = req.getSession(false);
+        User user = (User) (session != null ? session.getAttribute("user") : null);
 
-        Project project = new Project();
-        project.setId(id);
-        project.setName(name);
-        project.setDescription(description);
-        project.setStartDate(java.sql.Date.valueOf(startDateStr));
-        project.setEndDate(java.sql.Date.valueOf(endDateStr));
-        project.setDepartmentId(deptId);
-        project.setStatus(status);
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/Login.jsp");
+            return;
+        }
 
-        try (Connection conn = DBConnection.getConnection()) {
-            ProjectDAO dao = new ProjectDAO(conn);
-            dao.update(project);
-            resp.sendRedirect("dashboard.jsp?success=update");
+        try {
+            int id = Integer.parseInt(req.getParameter("id"));
+            
+            try (Connection conn = DBConnection.getConnection()) {
+                // Vérifier l'accès au projet
+                if (!AccessControl.canAccessProject(user, id, conn)) {
+                    resp.sendRedirect(req.getContextPath() + "/AccessDeniedServlet");
+                    return;
+                }
+
+                String name = req.getParameter("name");
+                String description = req.getParameter("description");
+                String startDateStr = req.getParameter("start_date");
+                String endDateStr = req.getParameter("end_date");
+                int deptId = Integer.parseInt(req.getParameter("department_id"));
+                String status = req.getParameter("status");
+
+                Project project = new Project();
+                project.setId(id);
+                project.setName(name);
+                project.setDescription(description);
+                project.setStartDate(java.sql.Date.valueOf(startDateStr));
+                project.setEndDate(java.sql.Date.valueOf(endDateStr));
+                project.setDepartmentId(deptId);
+                project.setStatus(status);
+
+                ProjectDAO dao = new ProjectDAO(conn);
+                dao.update(project);
+                resp.sendRedirect("ProjectsListServlet?success=update");
+            }
         } catch (SQLException e) {
             throw new ServletException("Erreur lors de la mise à jour du projet", e);
         }

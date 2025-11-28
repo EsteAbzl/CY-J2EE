@@ -114,8 +114,11 @@
         <td><%= e.getDepartmentId()%></td>
         <td>
             <a class="btn" href="EmployeeEditServlet?id=<%= e.getId() %>">✏️ Modifier</a>
+            <a class="btn" href="GeneratePayslipServlet?id=<%= e.getId() %>" style="background:#8e44ad;">📄 Générer fiche</a>
             <a class="btn" href="updateSalary.jsp?id=<%= e.getId() %>" style="background:#16a085;">💰 Ajout extra</a>
+            <% if (request.getAttribute("isAdmin") != null && (Boolean) request.getAttribute("isAdmin")) { %>
             <a class="btn btn-danger" href="EmployeeDeleteServlet?id=<%= e.getId() %>" onclick="return confirm('Supprimer cet employé ?');">🗑️ Supprimer</a>
+            <% } %>
         </td>
     </tr>
     <% } } %>

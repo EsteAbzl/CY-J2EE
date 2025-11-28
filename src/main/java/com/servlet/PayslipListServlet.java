@@ -4,7 +4,9 @@ import com.dao.PayslipDAO;
 import com.dao.EmployeeDAO;
 import com.model.Payslip;
 import com.model.Employee;
+import com.model.User;
 import com.util.DBConnection;
+import com.util.AccessControl;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -22,6 +24,21 @@ import java.util.HashMap;
 public class PayslipListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // Vérifier les droits d'accès
+        HttpSession session = req.getSession(false);
+        User user = (User) (session != null ? session.getAttribute("user") : null);
+
+        if (user == null) {
+            resp.sendRedirect(req.getContextPath() + "/Login.jsp");
+            return;
+        }
+
+        // Seuls ADMIN et DEPT_HEAD peuvent voir les fiches de paie
+        if (!AccessControl.canManageEmployees(user)) {
+            resp.sendRedirect(req.getContextPath() + "/AccessDeniedServlet");
+            return;
+        }
+
         String query = req.getParameter("query");
         String monthStr = req.getParameter("month");
         String yearStr = req.getParameter("year");
@@ -34,6 +51,21 @@ public class PayslipListServlet extends HttpServlet {
             EmployeeDAO employeeDao = new EmployeeDAO(conn);
 
             List<Payslip> payslips = payslipDao.findAll();
+
+            // Si DEPT_HEAD, filtrer par son département
+            if (AccessControl.isDepartmentHead(user) && user.getEmployeeId() != null) {
+                Employee headEmp = employeeDao.findById(user.getEmployeeId());
+                if (headEmp != null && headEmp.getDepartmentId() != null) {
+                    List<Payslip> departmentPayslips = new ArrayList<>();
+                    for (Payslip p : payslips) {
+                        Employee emp = employeeDao.findById(p.getEmployeeId());
+                        if (emp != null && emp.getDepartmentId() != null && emp.getDepartmentId().equals(headEmp.getDepartmentId())) {
+                            departmentPayslips.add(p);
+                        }
+                    }
+                    payslips = departmentPayslips;
+                }
+            }
 
             // Filtrer selon la recherche
             List<Payslip> filter1 = new ArrayList<>();
@@ -87,11 +119,12 @@ public class PayslipListServlet extends HttpServlet {
             req.setAttribute("searchQuery", query);
             req.setAttribute("month", month);
             req.setAttribute("year", year);
+            req.setAttribute("isAdmin", AccessControl.isAdmin(user));
+            req.setAttribute("isDeptHead", AccessControl.isDepartmentHead(user));
             req.getRequestDispatcher("payslipList.jsp").forward(req, resp);
         } catch (SQLException e) {
             throw new ServletException("Erreur lors du chargement des fiches de paie", e);
         }
     }
 }
-
 

@@ -103,18 +103,21 @@
         <c:forEach var="p" items="${projects}">
             <tr>
                 <td>${p.id}</td>
-                <td>${p.name}</td>
+                <td><a href="ProjectDetailsServlet?id=${p.id}" style="color:#3498db; text-decoration:underline; font-weight:bold;">${p.name}</a></td>
                 <td>${p.description}</td>
                 <td>${p.startDate}</td>
                 <td>${p.endDate}</td>
-                <td>${p.departmentId}</td>
+                <td>${departmentNames[p.departmentId]}</td>
                 <td>${p.status}</td>
                 <td class="actions">
-                    <a href="ProjectMembersServlet?id=${p.id}" class="view-btn">Membres</a>
+                    <a href="ProjectDetailsServlet?id=${p.id}" class="view-btn">Détails</a>
+                    <% if (request.getAttribute("isAdmin") != null || request.getAttribute("isDeptHead") != null || request.getAttribute("isProjectHead") != null) { %>
                     <a href="ProjectEditServlet?id=${p.id}" class="edit-btn">Modifier</a>
-                    <a href="projectAssignment.jsp?project_id=${p.id}" class="affect-btn">Affecter un employé</a>
-                    <a href="ProjectDeleteServlet?id=${p.id}" class="delete-btn"
-                       onclick="return confirm('Supprimer ce projet ?');">Supprimer</a>
+                    <a href="projectAssignment.jsp?project_id=${p.id}" class="affect-btn">Affecter</a>
+                    <% } %>
+                    <% if (request.getAttribute("isAdmin") != null) { %>
+                    <a href="ProjectDeleteServlet?id=${p.id}" class="delete-btn" onclick="return confirm('Supprimer ce projet ?');">Supprimer</a>
+                    <% } %>
                 </td>
             </tr>
         </c:forEach>
@@ -123,7 +126,9 @@
 </c:if>
 
 <div class="add-link">
+    <% if (request.getAttribute("isAdmin") != null || request.getAttribute("isDeptHead") != null || request.getAttribute("isProjectHead") != null) { %>
     <a href="addProject.jsp">+ Ajouter un projet</a>
+    <% } %>
     <a href="dashboard.jsp">Retour au tableau de bord</a>
 </div>
 </body>
