@@ -24,7 +24,7 @@
     <input type="number" name="employee_id" id="employee_id" required>
 
     <label>Année</label>
-    <input type="number" name="period_year" id="period_year" required min="2000" max="2100">
+    <input type="number" name="period_year" id="period_year" required min="1900" max="2100">
 
     <label>Mois</label>
     <input type="number" name="period_month" id="period_month" min="1" max="12" required>
