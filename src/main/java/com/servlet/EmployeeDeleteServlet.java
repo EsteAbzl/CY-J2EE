@@ -1,6 +1,7 @@
 package com.servlet;
 
 import com.dao.EmployeeDAO;
+import com.model.Employee;
 import com.util.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,7 +15,7 @@ public class EmployeeDeleteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String idStr = req.getParameter("id");
         if (idStr == null || idStr.isBlank()) {
-            resp.sendRedirect("employeeList.jsp?error=missingId");
+            resp.sendRedirect("EmployeeListServlet?error=missingId");
             return;
         }
 
@@ -22,12 +23,19 @@ public class EmployeeDeleteServlet extends HttpServlet {
 
         try (Connection conn = DBConnection.getConnection()) {
             EmployeeDAO dao = new EmployeeDAO(conn);
-            dao.delete(id);
-            resp.sendRedirect("dashboard.jsp?success=delete");
+            Employee employee = dao.findById(id);
+            
+            if (employee != null) {
+                // Suppression logique: marquer comme inactif
+                employee.setActive(false);
+                dao.update(employee);
+                resp.sendRedirect("EmployeeListServlet");
+            } else {
+                resp.sendRedirect("EmployeeListServlet?error=notFound");
+            }
         } catch (SQLException e) {
             throw new ServletException("Erreur SQL lors de la suppression de l'employé", e);
         }
     }
 }
-
 
