@@ -19,34 +19,33 @@ public class EmployeeListServlet extends HttpServlet {
         try (Connection conn = DBConnection.getConnection()) {
             EmployeeDAO dao = new EmployeeDAO(conn);
             List<Employee> employees = dao.findAll();
-            
-            // Si une recherche est effectuée
+
+            // Filtrer selon la recherche
+            List<Employee> results = new ArrayList<>();
+
             if (query != null && !query.isBlank()) {
-                List<Employee> results = new ArrayList<>();
-                String q_lower = query.toLowerCase().trim();
-                
+                String q = query.toLowerCase();
+
+                // Construire une liste de chaînes concaténées
+                List<String> searchStrings = new ArrayList<>();
                 for (Employee e : employees) {
-                    String lastName = e.getLastName() != null ? e.getLastName().toLowerCase() : "";
-                    String firstName = e.getFirstName() != null ? e.getFirstName().toLowerCase() : "";
-                    String id = String.valueOf(e.getId());
-                    String fullNameLF = lastName + " " + firstName; // Nom Prénom
-                    String fullNameFL = firstName + " " + lastName; // Prénom Nom
-                    
-                    // Cherche si les N premiers caractères correspondent
-                    if (lastName.startsWith(q_lower) || 
-                        firstName.startsWith(q_lower) || 
-                        id.startsWith(q_lower) ||
-                        fullNameLF.startsWith(q_lower) ||
-                        fullNameFL.startsWith(q_lower)) {
-                        results.add(e);
+                    String combined = e.getLastName() + " " + e.getFirstName() + " " + e.getLastName() + " " + e.getId();
+                    searchStrings.add(combined.toLowerCase()); // pour recherche insensible à la casse
+                }
+
+                for (int i = 0; i < employees.size(); i++) {
+                    if (searchStrings.get(i).contains(q)) {
+                        results.add(employees.get(i));
                     }
                 }
-                
-                req.setAttribute("employees", results);
+
                 req.setAttribute("searchQuery", query);
-            } else {
-                req.setAttribute("employees", employees);
             }
+            else {
+                results.addAll(employees);
+            }
+
+            req.setAttribute("employees", results);
             
             req.getRequestDispatcher("employeesList.jsp").forward(req, resp);
         }
