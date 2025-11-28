@@ -9,15 +9,89 @@
         body { font-family: Arial, sans-serif; background:linear-gradient(135deg,#1e3c72,#2a5298); margin:0; padding:0; min-height:100vh; }
         header { background:#2c3e50; color:#fff; padding:15px; text-align:center; }
         h2 { text-align:center; color:#fff; margin:20px 0; }
-        form { background:#fff; padding:1rem; border-radius:8px; max-width:800px; margin:20px auto; box-shadow:0 8px 20px rgba(0,0,0,0.25); display:flex; justify-content:center; gap:15px; flex-wrap:wrap; }
-        label { font-weight:bold; }
-        input, select { padding:5px; }
-        button { background:#27ae60; color:#fff; border:none; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer; }
+        .search-container {
+            margin: 30px auto;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 950px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);
+            border: 1px solid #e8ebed;
+        }
+        .search-container h2 {
+            margin: 0 0 25px 0;
+            font-size: 22px;
+            color: #2c3e50;
+            text-align: center;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .search-bar input, .search-bar select {
+            padding: 0.75rem 0.9rem;
+            border: 2px solid #e1e5e8;
+            border-radius: 6px;
+            font-size: 14px;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+        .search-bar input:focus, .search-bar select:focus {
+            outline: none;
+            border-color: #27ae60;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+        }
+        .search-bar input[type="text"] {
+            min-width: 200px;
+            flex: 1;
+            min-width: 150px;
+        }
+        .search-bar input[type="number"] {
+            width: 110px;
+        }
+        .search-bar select {
+            width: 90px;
+        }
+        .search-bar button {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+        }
+        .search-bar button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(39, 174, 96, 0.4);
+            background: linear-gradient(135deg, #229954 0%, #1e8449 100%);
+        }
+        .search-bar button.reset {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+            box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3);
+        }
+        .search-bar button.reset:hover {
+            background: linear-gradient(135deg, #7f8c8d 0%, #697174 100%);
+            box-shadow: 0 6px 16px rgba(149, 165, 166, 0.4);
+        }
+        .search-label {
+            font-weight: 600;
+            color: #2c3e50;
+            white-space: nowrap;
+            font-size: 14px;
+        }
         table { border-collapse:collapse; width:90%; margin:20px auto; background:#fff; box-shadow:0 8px 20px rgba(0,0,0,0.25); border-radius:8px; overflow:hidden; }
         th, td { border:1px solid #ddd; padding:10px 15px; text-align:left; }
         th { background:#34495e; color:#fff; }
         tr:nth-child(even) { background:#f2f2f2; }
-        a { background:#27ae60; color:#fff; border:none; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer; text-decoration: none; }
+        a { background:#27ae60; color:#fff; border:none; padding:8px 16px; border-radius:4px; font-weight:bold; cursor:pointer; text-decoration: none; display:inline-block; }
+        a:hover { background:#229954; }
+        .actions { text-align:center; margin-top:1rem; }
     </style>
 </head>
 <body>
@@ -25,24 +99,26 @@
     <h1>Fiches de paie</h1>
 </header>
 
-<h2>Filtrer les fiches de paie</h2>
-<form action="PayslipListServlet" method="get">
-    <label>Employé :</label>
-    <input type="number" name="employee_id" placeholder="ID employé">
+<div class="search-container">
+    <h2>Rechercher une fiche de paie</h2>
+    <form action="PayslipListServlet" method="get" class="search-bar">
+        <input type="text" name="query" placeholder="Nom, prénom ou ID employé">
+        
+        <span class="search-label">Mois :</span>
+        <select name="month">
+            <option value="">--</option>
+            <c:forEach var="m" begin="1" end="12">
+                <option value="${m}" <c:if test="${month == m}">selected</c:if>>${m}</option>
+            </c:forEach>
+        </select>
 
-    <label>Mois :</label>
-    <select name="month">
-        <option value="">--</option>
-        <c:forEach var="m" begin="1" end="12">
-            <option value="${m}">${m}</option>
-        </c:forEach>
-    </select>
+        <span class="search-label">Année :</span>
+        <input type="number" name="year" placeholder="2025" value="${year != null ? year : ''}">
 
-    <label>Année :</label>
-    <input type="number" name="year" placeholder="2025">
-
-    <button type="submit">Filtrer</button>
-</form>
+        <button type="submit">🔍 Rechercher</button>
+        <a href="PayslipListServlet" style="background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%); color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; text-decoration: none; box-shadow: 0 4px 12px rgba(149, 165, 166, 0.3); transition: all 0.3s ease; display: inline-block; margin-left: 8px;">↺ Réinitialiser</a>
+    </form>
+</div>
 
 <h2>Liste des fiches de paie</h2>
 <table>
