@@ -144,7 +144,6 @@
     </c:forEach>
 </table>
 <div style="text-align:center;margin-top:1rem;">
-    <a class="btn" href="generatePayslip.jsp"> Générer une fiche de paie</a>
     <a class="btn" href="dashboard.jsp"> Retour au tableau de bord</a>
 </div>
 </body>
