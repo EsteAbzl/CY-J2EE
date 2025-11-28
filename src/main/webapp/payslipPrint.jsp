@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>Impression fiche de paie</title>
@@ -48,9 +49,13 @@
             border: 1px solid #ddd;
             text-align: left;
         }
+        td .price {
+            text-align: right;
+        }
         .payslip th {
             background-color: #34495e;
             color: #fff;
+            text-align: center;
         }
         .summary {
             text-align: right;
@@ -91,47 +96,89 @@
         }
     </style>
 </head>
-<body onload="window.print()">
 <header>
     <h1>Entreprise</h1>
     <p>Fiche de paie officielle</p>
 </header>
 
 <div class="payslip">
-    <h2>Fiche de paie - ${payslip.periodMonth}/${payslip.periodYear}</h2>
+    <h2>Fiche de paie - ${employee.firstName} ${employee.lastName}<br>${payslip.periodMonth}/${payslip.periodYear}</h2>
+    <p style="text-align:right; color:#2c3e50;"><strong>Généré le: ${payslip.generatedAt}</strong></p>
     <table>
         <tr>
-            <th>ID Fiche</th>
-            <td>${payslip.id}</td>
+            <th>Nom et Prénom</th>
+            <td>${employee.firstName} ${employee.lastName}</td>
         </tr>
         <tr>
-            <th>ID Employé</th>
-            <td>${payslip.employeeId}</td>
+            <th>Commentaires</th>
+            <td>
+                <table style="margin: 0px; padding: 0px">
+                    <c:forEach var="extra" items="${extras}">
+                        <c:if test="${extra.montant == 0}">
+                            <tr>
+                                <td>${extra.date}</td><td colspan="8">${extra.motif}</td>
+                            </tr>
+                        </c:if>
+                    </c:forEach>
+                </table>
+            </td>
         </tr>
         <tr>
             <th>Salaire de base</th>
-            <td>${payslip.baseSalary} €</td>
+            <td style="text-align: right">${payslip.baseSalary} €</td>
         </tr>
         <tr>
             <th>Bonus</th>
-            <td>${payslip.bonuses} €</td>
+            <td>
+                <c:choose>
+                    <c:when test="${payslip.bonuses > 0}">
+                        <table style="margin: 0px; padding: 0px">
+                            <c:forEach var="extra" items="${extras}">
+                                <c:if test="${extra.montant > 0}">
+                                    <tr>
+                                        <td>${extra.date}</td><td colspan="8">${extra.motif}</td><td class="price">${extra.montant} €</td>
+                                    </tr>
+                                </c:if>
+                            </c:forEach>
+
+                            <tr>
+                                <td colspan="9"><strong>Total Bonus</strong></td><td class="price"><strong>${payslip.bonuses} €</strong></td>
+                            </tr>
+                        </table>
+                    </c:when>
+                </c:choose>
+            </td>
         </tr>
         <tr>
-            <th>Déductions</th>
-            <td>${payslip.deductions} €</td>
+            <th>Malus / Déductions</th>
+            <td>
+                <c:choose>
+                    <c:when test="${payslip.deductions > 0}">
+                        <table style="margin: 0px; padding: 0px">
+                            <c:forEach var="extra" items="${extras}">
+                                <c:if test="${extra.montant < 0}">
+                                    <tr>
+                                        <td>${extra.date}</td><td colspan="8">${extra.motif}</td><td class="price">${extra.montant} €</td>
+                                    </tr>
+                                </c:if>
+                            </c:forEach>
+
+                            <tr>
+                                <td colspan="9"><strong>Total Déduction</strong></td><td class="price"><strong>${payslip.deductions} €</strong></td>
+                            </tr>
+                        </table>
+                    </c:when>
+                </c:choose>
+            </td>
         </tr>
         <tr>
             <th>Net à payer</th>
-            <td><strong>${payslip.netPay} €</strong></td>
-        </tr>
-        <tr>
-            <th>Date de génération</th>
-            <td>${payslip.generatedAt}</td>
+            <td style="text-align: right"><strong>${payslip.netPay} €</strong></td>
         </tr>
     </table>
 
     <div class="summary">
-        <p><strong>Total Net : ${payslip.netPay} €</strong></p>
+        <p><strong>ID Fiche: ${payslip.id}</strong></p>
     </div>
 </div>
 

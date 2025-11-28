@@ -24,14 +24,12 @@ public class SearchServlet extends HttpServlet {
             EmployeeDAO dao = new EmployeeDAO(conn);
             List<Employee> employees = dao.findAll();
 
-            // Construire une liste de chaînes concaténées
             List<String> searchStrings = new ArrayList<>();
             for (Employee e : employees) {
                 String combined = e.getLastName() + " " + e.getFirstName() + " " + e.getId();
                 searchStrings.add(combined.toLowerCase()); // pour recherche insensible à la casse
             }
 
-            // Filtrer selon la recherche
             List<Employee> results = new ArrayList<>();
             if (query != null && !query.isBlank()) {
                 String q = query.toLowerCase();

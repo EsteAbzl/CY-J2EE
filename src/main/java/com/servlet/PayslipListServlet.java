@@ -1,7 +1,9 @@
 package com.servlet;
 
 import com.dao.PayslipDAO;
+import com.dao.EmployeeDAO;
 import com.model.Payslip;
+import com.model.Employee;
 import com.util.DBConnection;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -11,6 +13,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 
 @WebServlet("/PayslipListServlet")
@@ -26,10 +30,24 @@ public class PayslipListServlet extends HttpServlet {
         Integer year = (yearStr != null && !yearStr.isBlank()) ? Integer.parseInt(yearStr) : null;
 
         try (Connection conn = DBConnection.getConnection()) {
-            PayslipDAO dao = new PayslipDAO(conn);
-            List<Payslip> payslips = dao.findFiltered(employeeId, month, year);
+            PayslipDAO payslipDao = new PayslipDAO(conn);
+            EmployeeDAO employeeDao = new EmployeeDAO(conn);
+            
+            List<Payslip> payslips = payslipDao.findFiltered(employeeId, month, year);
+            
+            // Crée un map des noms d'employés par ID
+            Map<Integer, String> employeeNames = new HashMap<>();
+            for (Payslip p : payslips) {
+                if (!employeeNames.containsKey(p.getEmployeeId())) {
+                    Employee emp = employeeDao.findById(p.getEmployeeId());
+                    if (emp != null) {
+                        employeeNames.put(p.getEmployeeId(), emp.getFirstName() + " " + emp.getLastName());
+                    }
+                }
+            }
 
             req.setAttribute("payslips", payslips);
+            req.setAttribute("employeeNames", employeeNames);
             req.getRequestDispatcher("payslipList.jsp").forward(req, resp);
         } catch (SQLException e) {
             throw new ServletException("Erreur lors du chargement des fiches de paie", e);

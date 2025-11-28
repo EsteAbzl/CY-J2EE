@@ -47,14 +47,11 @@
 <h2>Liste des fiches de paie</h2>
 <table>
     <tr>
-        <th>ID</th>
+        <th>ID Fiche</th>
         <th>ID Employé</th>
-        <th>Mois</th>
+        <th>Nom</th>
         <th>Année</th>
-        <th>Salaire de base</th>
-        <th>Bonus</th>
-        <th>Déductions</th>
-        <th>Net</th>
+        <th>Mois</th>
         <th>Généré le</th>
         <th>Actions</th>
     </tr>
@@ -62,14 +59,11 @@
         <tr>
             <td>${p.id}</td>
             <td>${p.employeeId}</td>
-            <td>${p.periodMonth}</td>
+            <td>${employeeNames[p.employeeId]}</td>
             <td>${p.periodYear}</td>
-            <td>${p.baseSalary}</td>
-            <td>${p.bonuses}</td>
-            <td>${p.deductions}</td>
-            <td>${p.netPay}</td>
+            <td>${p.periodMonth}</td>
             <td>${p.generatedAt}</td>
-            <td><a href="PayslipPrintServlet?id=${p.id}">Imprimer</a></td>
+            <td><a href="PayslipPrintServlet?id=${p.id}">Visualiser</a></td>
         </tr>
     </c:forEach>
 </table>

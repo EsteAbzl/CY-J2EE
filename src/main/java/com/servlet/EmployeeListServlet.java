@@ -1,6 +1,8 @@
 package com.servlet;
 
 import com.dao.EmployeeDAO;
+import com.dao.DepartmentDAO;
+import com.model.Department;
 import com.model.Employee;
 import com.util.DBConnection;
 import jakarta.servlet.*;
@@ -17,13 +19,28 @@ public class EmployeeListServlet extends HttpServlet {
         String grade = req.getParameter("grade");
         String position = req.getParameter("position");
         Integer dep = null;
-        try { dep = req.getParameter("departmentId") != null ? Integer.parseInt(req.getParameter("departmentId")) : null; }
+        try {
+            String depParam = req.getParameter("department");
+            if (depParam != null && !depParam.isBlank()) {
+                dep = Integer.parseInt(depParam);
+            }
+        }
         catch (NumberFormatException ignored) {}
 
         try (Connection conn = DBConnection.getConnection()) {
             EmployeeDAO dao = new EmployeeDAO(conn);
-            List<Employee> employees = dao.findAll();
+            DepartmentDAO departmentDao = new DepartmentDAO(conn);
+
+            List<Employee> employees = dao.search(q, grade, position, dep);
+
+            List<String> grades = dao.findDistinctGrades();
+            List<String> positions = dao.findDistinctPositions();
+            List<Department> departments = departmentDao.findAll();
+
             req.setAttribute("employees", employees);
+            req.setAttribute("grades", grades);
+            req.setAttribute("positions", positions);
+            req.setAttribute("departments", departments);
             req.getRequestDispatcher("employeesList.jsp").forward(req, resp);
         }
         catch (Exception e) {
