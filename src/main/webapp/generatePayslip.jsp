@@ -20,14 +20,10 @@
 <body>
 <h2>Générer une fiche de paie</h2>
 <form action="PayslipCreateServlet" method="post" id="payslipForm">
-    <label>ID Employé</label>
-    <input type="number" name="employee_id" id="employee_id" required>
+    <input type="hidden" name="employee_id" id="employee_id" value="<%= request.getAttribute("employee_id") %>">
 
-    <label>Année</label>
-    <input type="number" name="period_year" id="period_year" required min="1900" max="2100">
-
-    <label>Mois</label>
-    <input type="number" name="period_month" id="period_month" min="1" max="12" required>
+    <label>Date</label>
+    <input type="month" name="period_date" min="${dateArriveEmployee}" max="2100-00" required>
 
     <div class="note">Le salaire sera récupéré de la table salaire (plus récent antérieur à la date). Les primes et déductions seront calculées à partir de la table salaire_extra pour ce mois et cette année.</div>
 

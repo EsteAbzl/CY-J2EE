@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.model.Employee;
+import com.model.Salaire;
 import com.util.*;
 
 import jakarta.persistence.EntityManager;
@@ -19,7 +20,7 @@ public class EmployeeDAO {
 
     public List<Employee> findAll() throws SQLException {
         List<Employee> employees = new ArrayList<>();
-        String sql = "SELECT * FROM employees";
+        String sql = "SELECT * FROM employees WHERE active = true";
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -38,7 +39,7 @@ public class EmployeeDAO {
     }
 
     public List<Employee> search(String query, String grade, String position, Integer departmentId) throws SQLException {
-        StringBuilder sb = new StringBuilder("SELECT * FROM employees WHERE 1=1 ");
+        StringBuilder sb = new StringBuilder("SELECT * FROM employees WHERE active = true ");
         List<Object> params = new ArrayList<>();
         if (query != null && !query.isEmpty()) {
             sb.append("AND (first_name LIKE ? OR last_name LIKE ? OR email LIKE ?) ");
@@ -84,7 +85,7 @@ public class EmployeeDAO {
 
     public List<String> findDistinctGrades() throws SQLException {
         List<String> grades = new ArrayList<>();
-        String sql = "SELECT DISTINCT grade FROM employees WHERE grade IS NOT NULL";
+        String sql = "SELECT DISTINCT grade FROM employees WHERE grade IS NOT NULL AND active = true";
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -96,7 +97,7 @@ public class EmployeeDAO {
 
     public List<String> findDistinctPositions() throws SQLException {
         List<String> positions = new ArrayList<>();
-        String sql = "SELECT DISTINCT position_title FROM employees WHERE position_title IS NOT NULL";
+        String sql = "SELECT DISTINCT position_title FROM employees WHERE position_title IS NOT NULL AND active = true";
         try (PreparedStatement ps = conn.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
@@ -150,7 +151,7 @@ public class EmployeeDAO {
 
 
     public void delete(int id) throws SQLException {
-        String sql = "DELETE FROM employees WHERE id = ?";
+        String sql = "UPDATE employees SET active=false WHERE id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, id);
             ps.executeUpdate();
@@ -174,7 +175,7 @@ public class EmployeeDAO {
 
     public List<Employee> searchByDepartment(int departmentId) throws SQLException {
         List<Employee> employees = new ArrayList<>();
-        String sql = "SELECT * FROM employees WHERE department_id = ?";
+        String sql = "SELECT * FROM employees WHERE department_id = ? AND active = true";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, departmentId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -194,6 +195,11 @@ public class EmployeeDAO {
             }
         }
         return employees;
+    }
+
+    public Date arrivingDate(int employeeId) throws SQLException{
+        SalaireDAO salaireDAO = new SalaireDAO(conn);
+        return salaireDAO.findFirstSalaryDate(employeeId);
     }
 
     public Employee findByEmail(String email) {

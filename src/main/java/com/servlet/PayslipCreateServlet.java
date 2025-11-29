@@ -9,7 +9,9 @@ import jakarta.servlet.http.*;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.List;
 
 @WebServlet("/PayslipCreateServlet")
@@ -18,8 +20,9 @@ public class PayslipCreateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int employeeId = Integer.parseInt(req.getParameter("employee_id"));
-        int month = Integer.parseInt(req.getParameter("period_month"));
-        int year = Integer.parseInt(req.getParameter("period_year"));
+        Date monthDate = Date.valueOf(req.getParameter("period_date")+"-27");
+        int year = monthDate.getYear()+1900;
+        int month = monthDate.getMonth()+1;
 
         try (Connection conn = DBConnection.getConnection()) {
             EmployeeDAO employeeDAO = new EmployeeDAO(conn);
@@ -33,7 +36,7 @@ public class PayslipCreateServlet extends HttpServlet {
             // Récupérer le salaire le plus proche dans le passé
             SalaireDAO salaireDAO = new SalaireDAO(conn);
             // Créer une date de référence pour le dernier jour du mois
-            java.sql.Date referenceDate = java.sql.Date.valueOf(year + "-" + String.format("%02d", month) + "-28");
+            java.sql.Date referenceDate = java.sql.Date.valueOf(year + "-" + String.format("%02d", month) + "-27");
             Salaire salaire = salaireDAO.findMostRecentSalaire(employeeId, referenceDate);
 
             if (salaire == null) {

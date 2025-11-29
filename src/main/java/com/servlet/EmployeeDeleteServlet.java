@@ -8,26 +8,31 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.sql.*;
-import java.util.List;
 
 @WebServlet("/EmployeeDeleteServlet")
 public class EmployeeDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String idStr = req.getParameter("id");
+        if (idStr == null || idStr.isBlank()) {
+            resp.sendRedirect("EmployeeListServlet?error=missingId");
+            return;
+        }
+
+        int id = Integer.parseInt(idStr);
 
         try (Connection conn = DBConnection.getConnection()) {
             EmployeeDAO dao = new EmployeeDAO(conn);
-            if (idStr == null || idStr.isBlank()) {
-                List<Employee> employees = dao.findAll();
-                req.setAttribute("employees", employees);
-                req.getRequestDispatcher("deleteEmployee.jsp").forward(req, resp);
-                return;
-            }
+            Employee employee = dao.findById(id);
 
-            int id = Integer.parseInt(idStr);
-            dao.delete(id);
-            resp.sendRedirect("dashboard.jsp?success=delete");
+            if (employee != null) {
+                // Suppression logique: marquer comme inactif
+                employee.setActive(false);
+                dao.update(employee);
+                resp.sendRedirect("EmployeeListServlet");
+            } else {
+                resp.sendRedirect("EmployeeListServlet?error=notFound");
+            }
         } catch (SQLException e) {
             throw new ServletException("Erreur SQL lors de la suppression de l'employé", e);
         }

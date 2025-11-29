@@ -79,6 +79,20 @@ public class SalaireDAO {
         return null;
     }
 
+    public java.sql.Date findFirstSalaryDate(int employeeId) throws SQLException {
+        String sql = "SELECT s.date FROM salaire s WHERE employee_id = ? AND s.date <= all(SELECT s2.date FROM salaire s2 WHERE employee_id = ?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, employeeId);
+            ps.setInt(2, employeeId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getDate("s.date");
+                }
+            }
+        }
+        return null;
+    }
+
     public void update(Salaire s) throws SQLException {
         String sql = "UPDATE salaire SET salaire=?, date=?, employee_id=? WHERE id=?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
