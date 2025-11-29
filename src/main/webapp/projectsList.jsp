@@ -107,12 +107,12 @@
                 <td>${p.description}</td>
                 <td>${p.startDate}</td>
                 <td>${p.endDate}</td>
-                <td>${p.departmentId}</td>
+                <td>${departmentNames[p.departmentId]}</td>
                 <td>${p.status}</td>
                 <td class="actions">
                     <a href="ProjectMembersServlet?id=${p.id}" class="view-btn">Membres</a>
                     <a href="ProjectEditServlet?id=${p.id}" class="edit-btn">Modifier</a>
-                    <a href="projectAssignment.jsp?project_id=${p.id}" class="affect-btn">Affecter un employé</a>
+                    <a href="ProjectAssignmentServlet?project_id=${p.id}" class="affect-btn">Affecter un employé</a>
                     <a href="ProjectDeleteServlet?id=${p.id}" class="delete-btn"
                        onclick="return confirm('Supprimer ce projet ?');">Supprimer</a>
                 </td>
@@ -123,7 +123,7 @@
 </c:if>
 
 <div class="add-link">
-    <a href="addProject.jsp">+ Ajouter un projet</a>
+    <a href="ProjectCreateServlet">+ Ajouter un projet</a>
     <a href="dashboard.jsp">Retour au tableau de bord</a>
 </div>
 </body>

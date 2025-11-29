@@ -23,9 +23,9 @@ public class ProjectDeleteServlet extends HttpServlet {
         int id = Integer.parseInt(idStr);
 
         try (Connection conn = DBConnection.getConnection()) {
-            ProjectDAO dao = new ProjectDAO(conn); // passe la connexion
+            ProjectDAO dao = new ProjectDAO(conn);
             dao.delete(id);
-            resp.sendRedirect("dashboard.jsp?success=delete");
+            resp.sendRedirect("ProjectsListServlet");
         } catch (SQLException e) {
             throw new ServletException("Erreur lors de la suppression du projet", e);
         }

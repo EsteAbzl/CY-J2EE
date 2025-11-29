@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="java.util.*, com.model.Department" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -80,8 +82,13 @@
     <label>Date de fin</label>
     <input type="date" name="end_date" required>
 
-    <label>Département associé</label>
-    <input type="number" name="department_id" required>
+    <label>Département</label>
+    <select name="department_id" required>
+        <option value="">-- Choisir un département --</option>
+        <c:forEach var="d" items="${departments}">
+            <option value="${d.id}">${d.name}</option>
+        </c:forEach>
+    </select>
 
     <label>Status :</label>
     <select name="status" required>

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -10,7 +11,7 @@
         h2 { text-align:center; color:#fff; margin:20px 0; }
         form { background:#fff; border-radius:12px; padding:2rem; max-width:500px; margin:30px auto; box-shadow:0 8px 20px rgba(0,0,0,0.25); }
         label { display:block; margin-top:1rem; font-weight:bold; color:#2a5298; }
-        input { width:100%; padding:.5rem; border:1px solid #ccc; border-radius:8px; margin-top:.25rem; }
+        input, select { width:100%; padding:.5rem; border:1px solid #ccc; border-radius:8px; margin-top:.25rem; box-sizing:border-box; }
         .btn { background:#2a5298; color:#fff; border:none; padding:.75rem; border-radius:8px; font-weight:bold; margin-top:1.5rem; cursor:pointer; width:100%; }
         .btn:hover { background:#1e3c72; }
         .back { text-align:center; margin:20px; }
@@ -24,11 +25,15 @@
 
 <h2>Nouvelle affectation</h2>
 <form action="ProjectAssignmentServlet" method="post">
-    <label>ID Projet</label>
-    <input type="number" name="project_id" value="${param.project_id}">
+    <input type="hidden" name="project_id" value="${project_id}">
 
-    <label>ID Employé</label>
-    <input type="number" name="employee_id" required>
+    <label>Employé</label>
+    <select name="employee_id" required>
+        <option value="">-- Choisir un employé --</option>
+        <c:forEach var="e" items="${employees}">
+            <option value="${e.id}">${e.lastName} ${e.firstName}</option>
+        </c:forEach>
+    </select>
 
     <label>Rôle dans le projet</label>
     <input type="text" name="role_in_project" required>
@@ -37,7 +42,7 @@
 </form>
 
 <div class="back">
-    <a href="dashboard.jsp">Retour au tableau de bord</a>
+    <a href="ProjectsListServlet">Retour à la liste des projets</a>
 </div>
 </body>
 </html>
