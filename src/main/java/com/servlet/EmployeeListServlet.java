@@ -10,7 +10,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @WebServlet("/EmployeeListServlet")
@@ -73,8 +76,19 @@ public class EmployeeListServlet extends HttpServlet {
             List<String> grades = dao.findDistinctGrades();
             List<String> positions = dao.findDistinctPositions();
             List<Department> departments = departmentDao.findAll();
+            HashMap<Integer, Date> map_arrivees = new HashMap<>();
+            if(filtered.size() > 0){
+                filtered.forEach((e) -> {
+                    try {
+                        map_arrivees.put(e.getId(), dao.arrivingDate(e.getId()));
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
+            }
 
             req.setAttribute("employees", filtered);
+            req.setAttribute("arrivees", map_arrivees);
             req.setAttribute("grades", grades);
             req.setAttribute("positions", positions);
             req.setAttribute("departments", departments);

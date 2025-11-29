@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="java.util.*, com.model.Employee" %>
 <%@ page import="com.model.Department" %>
+<%@ page import="com.dao.EmployeeDAO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -99,6 +100,9 @@
         .btn-extra { background:#16a085; }
         .btn-extra:hover { background:#138d75; }
         .actions { text-align:center; margin-top:1rem; }
+        td, th {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -140,25 +144,33 @@
 
 <table>
     <tr>
-        <th>ID</th>
+        <th style="max-width: 3rem">ID</th>
+        <th>Arrivée</th>
         <th>Nom</th>
         <th>Email</th>
+        <th>Département</th>
         <th>Grade</th>
         <th>Poste</th>
-        <th>Département</th>
         <th>Actions</th>
     </tr>
     <c:forEach var="e" items="${employees}">
     <tr>
-        <td>${e.id}</td>
+        <td style="max-width: 3rem">${e.id}</td>
+        <td>${arrivees.get(e.id)}</td>
         <td>${e.lastName} ${e.firstName}</td>
         <td>${e.email}</td>
+        <td>
+            <c:forEach var="d" items="${departments}">
+                <c:if test="${e.departmentId == d.id}">${d.name}</c:if>
+            </c:forEach>
+        </td>
         <td>${e.grade}</td>
         <td>${e.positionTitle}</td>
-        <td>${e.departmentId}</td>
         <td>
+
             <a class="btn" href="EmployeeEditServlet?id=${e.id}">✏️ Modifier</a>
             <a class="btn" href="GeneratePayslipServlet?id=${e.id}" style="background:#8e44ad;">📄 Générer fiche</a>
+            <a class="btn" href="PayslipListServlet?query=${e.id}" style="background:#8e44ad;">👓 Fiches de paie</a>
             <a class="btn" href="updateSalary.jsp?id=${e.id}" style="background:#16a085;">💰 Ajout extra</a>
             <a class="btn btn-danger" href="EmployeeDeleteServlet?id=${e.id}" onclick="return confirm('Supprimer cet employé ?');">🗑️ Supprimer</a>
         </td>

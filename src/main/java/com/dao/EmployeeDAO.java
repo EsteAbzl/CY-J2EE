@@ -1,6 +1,7 @@
 package com.dao;
 
 import com.model.Employee;
+import com.model.Salaire;
 import com.util.*;
 
 import jakarta.persistence.EntityManager;
@@ -194,6 +195,11 @@ public class EmployeeDAO {
             }
         }
         return employees;
+    }
+
+    public Date arrivingDate(int employeeId) throws SQLException{
+        SalaireDAO salaireDAO = new SalaireDAO(conn);
+        return salaireDAO.findFirstSalaryDate(employeeId);
     }
 
     public Employee findByEmail(String email) {
