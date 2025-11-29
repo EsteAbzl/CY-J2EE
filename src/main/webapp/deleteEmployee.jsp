@@ -1,3 +1,5 @@
+<%@ page import="com.model.Employee" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -23,8 +25,20 @@
 <body>
 <h2>Supprimer un employé</h2>
 <form action="EmployeeDeleteServlet" method="get">
-    <label>ID Employé</label>
-    <input type="number" name="id" required>
+    <label>Choisir un employé</label>
+    <select name="id" required>
+        <option value="">-- Sélectionner --</option>
+        <%
+            List<Employee> employees = (List<Employee>) request.getAttribute("employees");
+            if (employees != null) {
+                for (Employee e : employees) {
+        %>
+        <option value="<%= e.getId() %>"><%= e.getId() %> <%= e.getLastName() %> <%= e.getFirstName() %></option>
+        <%
+                }
+            }
+        %>
+    </select>
     <button class="btn" type="submit">Supprimer</button>
 </form>
 <div class="actions">

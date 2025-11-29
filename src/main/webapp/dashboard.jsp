@@ -23,7 +23,7 @@
     <div class="card">
         <h2>Employés</h2>
         <a href="addEmployeeServlet" class="btn">Ajouter</a>
-        <a href="deleteEmployee.jsp" class="btn">Supprimer</a>
+        <a href="EmployeeDeleteServlet" class="btn">Supprimer</a>
         <a href="EmployeeListServlet" class="btn">Voir la liste</a>
         <a href="PayslipListServlet" class="btn">Fiches de paie</a>
         <a href="AbsenceListServlet" class="btn">Liste d'absences</a>
