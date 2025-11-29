@@ -20,8 +20,7 @@
 <body>
 <h2>Générer une fiche de paie</h2>
 <form action="PayslipCreateServlet" method="post" id="payslipForm">
-    <label>ID Employé</label>
-    <input type="number" name="employee_id" id="employee_id" required>
+    <input type="hidden" name="employee_id" id="employee_id" value="<%= request.getAttribute("employee_id") %>">
 
     <label>Année</label>
     <input type="number" name="period_year" id="period_year" required min="1900" max="2100">

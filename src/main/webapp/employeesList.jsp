@@ -158,7 +158,8 @@
         <td>${e.departmentId}</td>
         <td>
             <a class="btn" href="EmployeeEditServlet?id=${e.id}">✏️ Modifier</a>
-            <a class="btn btn-extra" href="updateSalary.jsp?id=${e.id}">💰 Ajout extra</a>
+            <a class="btn" href="GeneratePayslipServlet?id=${e.id}" style="background:#8e44ad;">📄 Générer fiche</a>
+            <a class="btn" href="updateSalary.jsp?id=${e.id}" style="background:#16a085;">💰 Ajout extra</a>
             <a class="btn btn-danger" href="EmployeeDeleteServlet?id=${e.id}" onclick="return confirm('Supprimer cet employé ?');">🗑️ Supprimer</a>
         </td>
     </tr>
