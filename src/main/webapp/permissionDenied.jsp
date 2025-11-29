@@ -3,7 +3,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Erreur</title>
+    <title>Accès refusé</title>
     <style>
         body {
             background:linear-gradient(135deg,#1e3c72,#2a5298);
@@ -50,14 +50,8 @@
 </head>
 <body>
 <div class="container">
-    <h1>⚠️ Une erreur est survenue</h1>
-    <p>Désolé, une erreur s’est produite lors du traitement de votre demande.</p>
+    <h1>🛑 Vous n'avez pas les permissions pour accéder à cette page</h1>
 
-    <% if (exception != null) { %>
-    <pre><%= exception.getMessage() %></pre>
-    <% } %>
-
-    <a class="btn" href="Login.jsp">🔑 Revenir à la connexion</a>
 </div>
 </body>
 </html>
