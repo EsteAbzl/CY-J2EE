@@ -53,7 +53,7 @@
                 for (com.model.Department d : departments) {
                     String selected = (emp.getDepartmentId() != null && emp.getDepartmentId() == d.getId()) ? "selected" : "";
         %>
-        %>
+
         <option value="<%= d.getId() %>" <%= selected %>><%= d.getName() %></option>
         <%
                 }
