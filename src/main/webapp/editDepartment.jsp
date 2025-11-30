@@ -24,7 +24,11 @@
     <input type="hidden" name="id" value="<%= dep.getId() %>">
     <label>Nom</label><input type="text" name="name" value="<%= dep.getName() %>" required>
     <label>Description</label><input type="text" name="description" value="<%= dep.getDescription() %>">
-    <button class="btn" type="submit">Mettre à jour</button>
+
+    <div style="display:flex; gap:1rem; margin-top:1.5rem;">
+        <a class="btn" href="DepartmentsListServlet" style="background:#888; text-align:center; text-decoration:none; flex:1;">Retour</a>
+        <button class="btn" type="submit">Mettre à jour</button>
+    </div>
 </form>
 </body>
 </html>

@@ -40,31 +40,32 @@
     </form>
 </div>
 
-<div class="card">
-    <h2>Historique des absences</h2>
-    <c:if test="${not empty absences}">
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Type</th>
-                <th>Heures</th>
-            </tr>
-            <c:forEach var="a" items="${absences}">
+<div style="text-align: center">
+    <div class="card">
+        <h2>Historique des absences</h2>
+        <c:if test="${not empty absences}">
+            <table>
                 <tr>
-                    <td>${a.date}</td>
-                    <td>${a.type}</td>
-                    <td>${a.hours}</td>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Heures</th>
                 </tr>
-            </c:forEach>
-        </table>
-    </c:if>
-    <c:if test="${empty absences}">
-        <p>Aucune absence enregistrée pour cet employé.</p>
-    </c:if>
-</div>
+                <c:forEach var="a" items="${absences}">
+                    <tr>
+                        <td>${a.date}</td>
+                        <td>${a.type}</td>
+                        <td>${a.hours}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </c:if>
+        <c:if test="${empty absences}">
+            <p>Aucune absence enregistrée pour cet employé.</p>
+        </c:if>
+    </div>
 
-<div class="card">
     <a class="btn" href="dashboard.jsp">Retour au tableau de bord</a>
 </div>
+
 </body>
 </html>

@@ -97,12 +97,12 @@
         <option value="TERMINE">Terminé</option>
     </select>
 
-    <button class="btn" type="submit">Créer le projet</button>
+    <div style="display:flex; gap:1rem; margin-top:1.5rem;">
+        <a class="btn" href="ProjectsListServlet" style="background:#888; text-align:center; text-decoration:none; flex:1;">Retour</a>
+        <button class="btn" type="submit" style="flex:1;">Créer le projet</button>
+    </div>
+
 </form>
 
-<div class="actions">
-    <a class="link" href="ProjectsListServlet">Voir les projets</a>
-    <a class="link" href="dashboard.jsp">Retour au tableau de bord</a>
-</div>
 </body>
 </html>

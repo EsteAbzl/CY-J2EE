@@ -30,54 +30,55 @@
 </div>
 <h1>Mes absences</h1>
 
-<div class="card">
-    <h2>Historique des absences</h2>
+<div style="text-align: center">
 
-    <c:if test="${not empty absences}">
-        <table border="1" cellpadding="5" cellspacing="0">
-            <tr>
-                <th>Date</th>
-                <th>Type</th>
-                <th>Heures</th>
-            </tr>
-            <c:forEach var="a" items="${absences}">
+    <div class="card">
+        <h2>Historique des absences</h2>
+
+        <c:if test="${not empty absences}">
+            <table border="1" cellpadding="5" cellspacing="0">
                 <tr>
-                    <td>${a.date}</td>
-                    <td>${a.type}</td>
-                    <td>${a.hours}</td>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Heures</th>
                 </tr>
-            </c:forEach>
-        </table>
-    </c:if>
+                <c:forEach var="a" items="${absences}">
+                    <tr>
+                        <td>${a.date}</td>
+                        <td>${a.type}</td>
+                        <td>${a.hours}</td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </c:if>
 
-    <c:if test="${empty absences}">
-        <p>Aucune absence enregistrée.</p>
-    </c:if>
-</div>
+        <c:if test="${empty absences}">
+            <p>Aucune absence enregistrée.</p>
+        </c:if>
+    </div>
 
 
-<div class="card">
-    <h2>Déclarer une absence</h2>
-    <form action="AbsenceServlet" method="post">
-        <label>Date</label>
-        <input type="date" name="date" required>
+    <div class="card">
+        <h2>Déclarer une absence</h2>
+        <form action="AbsenceServlet" method="post">
+            <label>Date</label>
+            <input type="date" name="date" required>
 
-        <label>Type</label>
-        <select name="type" required>
-            <option value="CONGE">Congé</option>
-            <option value="MALADIE">Maladie</option>
-            <option value="NON_PAYE">Non payé</option>
-        </select>
+            <label>Type</label>
+            <select name="type" required>
+                <option value="CONGE">Congé</option>
+                <option value="MALADIE">Maladie</option>
+                <option value="NON_PAYE">Non payé</option>
+            </select>
 
-        <label>Nombre d’heures</label>
-        <input type="number" name="hours" value="8" min="1" max="24">
+            <label>Nombre d’heures</label>
+            <input type="number" name="hours" value="8" min="1" max="24">
 
-        <button class="btn" type="submit">➕ Ajouter</button>
-    </form>
-</div>
+            <button class="btn" type="submit">➕ Ajouter</button>
+        </form>
+    </div>
 
-<div class="card">
-    <a class="btn" href="EmployeeDashboardServlet"> Retour au tableau de bord</a>
+    <a class="btn" href="EmployeeDashboardServlet"> Retour a votre Dashboard</a>
 </div>
 </body>
 </html>
