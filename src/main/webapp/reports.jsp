@@ -28,7 +28,10 @@
 <!-- Employés par département -->
 <h3>Employés par département</h3>
 <table>
-    <a class="link" href="dashboard.jsp">Retour au Tableau de bord</a>
+    <div class="back">
+        <a href="dashboard.jsp">Retour au Tableau de bord</a>
+    </div>
+
     <tr><th>Département</th><th>Nombre d’employés</th></tr>
     <%
         Map<String,Integer> byDept = (Map<String,Integer>) request.getAttribute("employeesByDepartment");
