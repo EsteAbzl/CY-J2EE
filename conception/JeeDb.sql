@@ -136,18 +136,19 @@ VALUES (1, 'Ressources Humaines', 'Département responsable de la gestion des re
 INSERT INTO employees (id, first_name, last_name, email, grade, position_title, base_salary, department_id, active)
 VALUES
     (1, 'admin', '', '', 'admin', 'Responsable RH', 3500.00, 1, 0),
-    (2, 'Jean', 'Dupont', 'jean.dupont@company.com', 'Senior', 'Responsable RH', 3500.00, 1, 1);
+    (2, 'Jean', 'Dupont', 'jean.dupont2@entreprise.com', 'Senior', 'Responsable RH', 3500.00, 1, 1);
 
 -- Example admin user (password: admin123 hashed with BCrypt placeholder; replace in real)
 -- admin user (first_connexion = 0)
 INSERT INTO users (id, username, password_hash, full_name, first_connexion, role_id, employee_id)
 VALUES (1, 'admin', 'admin', 'Administrateur', 0, 1, 1),
-       (2, 'jean.dupont1@company.com', 'test', 'jean dupont', 1, 1, 2);
+       (2, 'jean.dupont2@entreprise.com', 'test', 'jean dupont', 1, 1, 2);
 
 -- Example salaire (salary history for employee 1)
 INSERT INTO salaire (salaire, date, employee_id) VALUES
                                                      (3500.00, '2025-01-15', 1),
                                                      (3500.00, '2025-06-15', 1),
+                                                     (3500.00, '2025-06-15', 2),
                                                      (3750.00, '2025-11-01', 1);
 
 -- Example salaire_extra (bonuses and deductions for employee 1 in November 2025)
