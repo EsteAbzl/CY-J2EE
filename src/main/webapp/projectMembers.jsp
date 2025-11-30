@@ -13,6 +13,9 @@
         tr:nth-child(even) { background:#f2f2f2; }
         .actions { text-align:center; margin:20px; }
         .link { text-decoration:none; background:#27ae60; color:#fff; padding:8px 16px; border-radius:4px; font-weight:bold; }
+        .remove-btn { background:#e74c3c; color:#fff; border:none; padding:6px 12px; border-radius:4px; cursor:pointer; font-weight:bold; }
+        .remove-btn:hover { background:#c0392b; }
+        .success-msg { background:#27ae60; color:#fff; padding:10px; text-align:center; margin:10px auto; width:90%; border-radius:4px; }
     </style>
 </head>
 <body>
@@ -21,6 +24,10 @@
 </header>
 
 <h2>Liste des membres</h2>
+
+<c:if test="${param.success == 'removed'}">
+    <div class="success-msg">L'employé a été retiré du projet avec succès.</div>
+</c:if>
 
 <c:if test="${empty members}">
     <p style="text-align:center; color:#fff;">Aucun membre trouvé pour ce projet.</p>
@@ -34,6 +41,7 @@
             <th>Nom</th>
             <th>Email</th>
             <th>Role</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -43,6 +51,14 @@
                 <td>${m.firstName} ${m.lastName}</td>
                 <td>${m.email}</td>
                 <td>${m.roleInProject}</td>
+                <td>
+                    <form action="ProjectMembersServlet" method="post" style="display:inline;" onsubmit="return confirm('Êtes-vous sûr de vouloir retirer cet employé du projet ?');">
+                        <input type="hidden" name="action" value="remove">
+                        <input type="hidden" name="project_id" value="${project.id}">
+                        <input type="hidden" name="employee_id" value="${m.id}">
+                        <button type="submit" class="remove-btn">Retirer</button>
+                    </form>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
