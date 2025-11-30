@@ -18,6 +18,9 @@
 <div class="logout">
     <jsp:include page="LogoutButton.jsp" />
 </div>
+<div class="emp_dashboard">
+    <a href="EmployeeDashboardServlet" class="btn" style="max-width: fit-content">Vers votre dashboard</a>
+</div>
 <h1>Tableau de bord</h1>
 <div class="dashboard">
     <div class="card">

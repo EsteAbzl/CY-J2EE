@@ -26,6 +26,9 @@
 <div class="logout">
     <jsp:include page="LogoutButton.jsp" />
 </div>
+<div class="emp_dashboard">
+    <a href="dashboard.jsp" class="btn" style="max-width: fit-content">Vers le Tableau de bord</a>
+</div>
 <h1>Dashboard Employé</h1>
 
 <c:if test="${not empty emp}">
