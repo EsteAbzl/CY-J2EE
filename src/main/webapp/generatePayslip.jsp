@@ -31,7 +31,7 @@
 </form>
 
 <div class="actions">
-    <a class="link" href="PayslipListServlet">Voir les fiches de paie</a>
+    <a class="link" href="EmployeeListServlet">Retour à la liste d'employés</a>
     <a class="link" href="dashboard.jsp">Retour au tableau de bord</a>
 </div>
 </body>

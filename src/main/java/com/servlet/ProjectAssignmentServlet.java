@@ -4,6 +4,7 @@ import com.dao.ProjectAssignmentDAO;
 import com.dao.EmployeeDAO;
 import com.model.Employee;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -19,6 +20,9 @@ public class ProjectAssignmentServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req, new Integer[] {1}));
+
         String projectIdStr = req.getParameter("project_id");
         if (projectIdStr == null || projectIdStr.isBlank()) {
             resp.sendRedirect("ProjectsListServlet?error=missingProjectId");

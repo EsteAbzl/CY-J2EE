@@ -3,6 +3,7 @@ package com.servlet;
 import com.dao.EmployeeDAO;
 import com.model.Employee;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -16,6 +17,8 @@ import java.util.List;
 public class DepartmentMembersServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req));
+
         String deptIdStr = req.getParameter("id");
 
         if (deptIdStr == null || deptIdStr.isBlank()) {

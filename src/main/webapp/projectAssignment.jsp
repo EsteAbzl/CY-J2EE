@@ -38,11 +38,12 @@
     <label>Rôle dans le projet</label>
     <input type="text" name="role_in_project" required>
 
-    <button class="btn" type="submit">Affecter</button>
+    <div style="display:flex; gap:1rem; margin-top:1.5rem;">
+        <a class="btn" href="ProjectsListServlet" style="background:#888; text-align:center; text-decoration:none; flex:1;">Retour</a>
+        <button class="btn" type="submit" style="flex:1;">Affecter</button>
+    </div>
+
 </form>
 
-<div class="back">
-    <a href="ProjectsListServlet">Retour à la liste des projets</a>
-</div>
 </body>
 </html>

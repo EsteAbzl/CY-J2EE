@@ -5,6 +5,7 @@ import java.sql.*;
 
 import com.dao.ProjectDAO;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -14,6 +15,9 @@ import java.sql.Connection;
 public class ProjectDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req, new Integer[] {1}));
+
         String idStr = req.getParameter("id");
         if (idStr == null || idStr.isBlank()) {
             resp.sendRedirect("projectsList.jsp?error=missingId");

@@ -2,6 +2,7 @@ package com.servlet;
 
 import com.dao.ProjectAssignmentDAO;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -15,6 +16,9 @@ public class ProjectUnassignServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req, new Integer[] {1}));
+
         String projectIdStr = req.getParameter("project_id");
         String employeeIdStr = req.getParameter("employee_id");
 

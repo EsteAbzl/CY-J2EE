@@ -5,6 +5,7 @@
         response.sendRedirect("EmployeeListServlet?error=missingId");
         return;
     }
+    String arrivingDate = (String) request.getAttribute("dateArriveEmployee");
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -22,12 +23,12 @@
     </style>
 </head>
 <body>
-<h2>Ajout d'extraa</h2>
+<h2>Ajout de prime ou déduction</h2>
 <form action="UpdateSalaryServlet" method="post">
     <input type="hidden" name="employee_id" value="<%= employeeId %>">
 
     <label for="date">Date *</label>
-    <input type="date" name="date" id="date" value="00/00/2025" min="00-00-2000" max="00-00-2100" required/>
+    <input type="date" name="date" id="date" value="2025-01-01" min="<%= arrivingDate%>" max="2100-01-01" required/>
 
     <label for="extra">Montant extra (prime ou déduction) *</label>
     <input type="number" step="0.01" name="extra" id="extra" max="99999999" min="-99999999" value="0" required>

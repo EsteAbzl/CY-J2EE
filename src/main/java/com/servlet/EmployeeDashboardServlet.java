@@ -4,6 +4,7 @@ import com.dao.PayslipDAO;
 import com.model.Employee;
 import com.model.Payslip;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -18,13 +19,11 @@ public class EmployeeDashboardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req));
+
         HttpSession session = req.getSession(false);
         Employee emp = (Employee) (session != null ? session.getAttribute("emp") : null);
 
-        if (emp == null) {
-            resp.sendRedirect("login.jsp?error=sessionExpired");
-            return;
-        }
 
         try (Connection conn = DBConnection.getConnection()) {
             PayslipDAO payslipDao = new PayslipDAO(conn);

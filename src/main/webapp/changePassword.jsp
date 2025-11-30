@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page import="com.model.Employee" %>
 <%
-    Employee e = (Employee) session.getAttribute("employe");
+    Employee e = (Employee) session.getAttribute("SESSION_employee");
     if (e == null) {
         response.sendRedirect(request.getContextPath() + "/Login.jsp");
         return;
@@ -22,6 +22,7 @@
             display:flex;
             justify-content:center;
             align-items:center;
+
         }
         .card {
             background:#fff;
@@ -59,10 +60,17 @@
         .btn-submit:hover {
             background:#219150;
         }
+        .error { background:#e74c3c; color:#fff; padding:.75rem; border-radius:8px; margin-bottom:1rem; text-align:center; }
     </style>
 </head>
 <body>
 <div class="card">
+    <% String error = (String) request.getAttribute("errorMessage");
+        if (error != null) { %>
+    <div class="error"><%= error %></div>
+    <br>
+    <% } %>
+
     <h3>Bonjour <%= e.getLastName() != null ? e.getFirstName() : e.getEmail() %>, veuillez changer votre mot de passe</h3>
     <form action="${pageContext.request.contextPath}/changePassword" method="post">
         <div class="mb-3">

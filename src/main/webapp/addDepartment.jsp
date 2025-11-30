@@ -21,10 +21,12 @@
 <form action="DepartmentCreateServlet" method="post">
     <label>Nom</label><input type="text" name="name" required>
     <label>Description</label><input type="text" name="description">
-    <button class="btn" type="submit">Enregistrer</button>
+
+    <div style="display:flex; gap:1rem; margin-top:1.5rem;">
+        <a class="btn" href="DepartmentsListServlet" style="background:#888; text-align:center; text-decoration:none; flex:1;">Retour</a>
+        <button class="btn" type="submit" style="flex:1;">Enregistrer</button>
+    </div>
 </form>
-<div class="actions">
-    <a class="link" href="dashboard.jsp">Retour au tableau de bord</a>
-</div>
+
 </body>
 </html>

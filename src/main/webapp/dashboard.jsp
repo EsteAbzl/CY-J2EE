@@ -18,28 +18,24 @@
 <div class="logout">
     <jsp:include page="LogoutButton.jsp" />
 </div>
+<div class="emp_dashboard">
+    <a href="EmployeeDashboardServlet" class="btn" style="max-width: fit-content">Vers votre dashboard</a>
+</div>
 <h1>Tableau de bord</h1>
 <div class="dashboard">
     <div class="card">
         <h2>Employés</h2>
-        <a href="addEmployeeServlet" class="btn">Ajouter</a>
-        <a href="EmployeeDeleteServlet" class="btn">Supprimer</a>
         <a href="EmployeeListServlet" class="btn">Voir la liste</a>
         <a href="PayslipListServlet" class="btn">Fiches de paie</a>
         <a href="AbsenceListServlet" class="btn">Liste d'absences</a>
     </div>
     <div class="card">
         <h2>Départements</h2>
-        <a href="DepartmentCreateServlet" class="btn">Ajouter</a>
-        <a href="deleteDepartment.jsp" class="btn">Supprimer</a>
         <a href="DepartmentsListServlet" class="btn">Voir la liste</a>
     </div>
     <div class="card">
         <h2>Projets</h2>
-        <a href="ProjectCreateServlet" class="btn">Ajouter</a>
-        <a href="deleteProject.jsp" class="btn">Supprimer</a>
         <a href="ProjectsListServlet" class="btn">Voir la liste</a>
-        <a href="projectAssignment.jsp" class="btn">Affecter employés</a>
     </div>
     <div class="card">
         <h2>Rapports</h2>

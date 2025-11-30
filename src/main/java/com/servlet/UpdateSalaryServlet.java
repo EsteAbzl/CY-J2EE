@@ -5,6 +5,7 @@ import com.dao.SalaireExtraDAO;
 import com.model.Employee;
 import com.model.SalaireExtra;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -17,6 +18,9 @@ import java.sql.SQLException;
 public class UpdateSalaryServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req, new Integer[] {1}));
+
         String employeeIdStr = req.getParameter("employee_id");
         String dateStr = req.getParameter("date");
         String extraStr = req.getParameter("extra");

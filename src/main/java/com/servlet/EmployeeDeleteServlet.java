@@ -13,6 +13,8 @@ import java.sql.*;
 public class EmployeeDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req, new Integer[] {1}));
+
         String idStr = req.getParameter("id");
         if (idStr == null || idStr.isBlank()) {
             resp.sendRedirect("EmployeeListServlet?error=missingId");

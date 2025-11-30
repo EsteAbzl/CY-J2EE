@@ -4,6 +4,7 @@ import com.dao.AbsenceDAO;
 import com.model.Absence;
 import com.model.Employee;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -20,15 +21,13 @@ public class AbsenceServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
+
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req,new Integer[] {1}));
+
         HttpSession session = req.getSession(false);
-        Employee emp = (Employee) (session != null ? session.getAttribute("emp") : null);
+        int employeeId = (int)session.getAttribute("SESSION_employeeId");
 
-        if (emp == null) {
-            resp.sendRedirect("login.jsp?error=sessionExpired");
-            return;
-        }
-
-        int employeeId = emp.getId();
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req,new Integer[] {1}, new Integer[] {employeeId}));
 
         try (Connection conn = DBConnection.getConnection()) {
             AbsenceDAO dao = new AbsenceDAO(conn);
@@ -45,7 +44,7 @@ public class AbsenceServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        Employee emp = (Employee) (session != null ? session.getAttribute("emp") : null);
+        Employee emp = (Employee) (session != null ? session.getAttribute("SESSION_employee") : null);
 
         if (emp == null) {
             resp.sendRedirect("login.jsp?error=sessionExpired");

@@ -33,10 +33,11 @@ public class LoginServlet extends HttpServlet {
                 // Charger l'employé lié
                 EmployeeDAO empDao = new EmployeeDAO(conn);
                 Employee emp = empDao.findById(user.getEmployeeId());
-                session.setAttribute("emp", emp);
                 // some JSPs expect attribute name 'employe'
-                session.setAttribute("employe", emp);
-                session.setAttribute("employeeId", user.getEmployeeId());
+                session.setAttribute("SESSION_employee", emp);
+                session.setAttribute("emp", emp);
+                session.setAttribute("SESSION_departementId", emp.getDepartmentId());
+                session.setAttribute("SESSION_employeeId", user.getEmployeeId());
                 // Si le flag firstConnexion est présent et vrai, ou si le mot de passe est "test",
                 // forcer l'utilisateur à changer son mot de passe.
                 boolean mustChange = false;
@@ -47,22 +48,16 @@ public class LoginServlet extends HttpServlet {
                     return;
                 }
 
-                // Redirection selon rôle
-                switch (user.getRoleId()) {
-                    case 1: // ADMIN
+                // Redirection Dashboard selon département
+                switch (emp.getDepartmentId()) {
+                    case 1: // Departement RH
                         resp.sendRedirect("dashboard.jsp");
                         break;
-                    case 2: // DEPT_HEAD
-                        resp.sendRedirect("managerDashboard.jsp");
-                        break;
-                    case 3: // PROJECT_HEAD
-                        resp.sendRedirect("projectDashboard.jsp");
-                        break;
-                    case 4: // EMPLOYEE
-                        resp.sendRedirect("EmployeeDashboardServlet");
-                        break;
+//                    case 2: // DEPT_HEAD
+//                        resp.sendRedirect("managerDashboard.jsp");
+//                        break;
                     default:
-                        resp.sendRedirect("error.jsp");
+                        resp.sendRedirect("EmployeeDashboardServlet");
                         break;
                 }
             } else {
