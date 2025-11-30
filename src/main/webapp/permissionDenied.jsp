@@ -51,7 +51,7 @@
 <body>
 <div class="container">
     <h1>🛑 Vous n'avez pas les permissions pour accéder à cette page</h1>
-
+    <a class="btn" href="dashboard.jsp">Revenir au Tableau de bord</a>
 </div>
 </body>
 </html>

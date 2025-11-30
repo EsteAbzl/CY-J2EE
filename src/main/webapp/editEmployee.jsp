@@ -2,8 +2,10 @@
 <%@ page import="com.model.Employee" %>
 <%@ page import="com.model.Department" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%
     Employee emp = (Employee) request.getAttribute("employee");
+    String arrivingDate = (String) request.getAttribute("arriving_date");
 %>
 <!DOCTYPE html>
 <html lang="fr">
@@ -41,8 +43,11 @@
     <label>Poste</label>
     <input type="text" name="position_title" value="<%= emp.getPositionTitle() %>">
 
-    <label>Salaire de base</label>
-    <input type="number" step="0.01" name="base_salary" value="<%= emp.getBaseSalary() %>" required>
+    <label>Salaire</label>
+    <input type="number" step="0.01" name="salary" value="<%= emp.getBaseSalary() %>" required>
+
+    <label>Date de mise en vigeur</label>
+    <input type="date" name="edit_date" min="<%= arrivingDate %>" required>
 
     <label>Département</label>
     <select name="department_id" required>
@@ -61,7 +66,10 @@
         %>
     </select>
 
-    <button class="btn" type="submit">Mettre à jour</button>
+    <div style="display:flex; gap:1rem; margin-top:1.5rem;">
+        <a class="btn" href="EmployeeListServlet" style="background:#888; text-align:center; text-decoration:none; flex:1;">Retour</a>
+        <button class="btn" type="submit" style="flex:1;">Mettre à jour</button>
+    </div>
 </form>
 
 <script>

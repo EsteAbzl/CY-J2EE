@@ -123,7 +123,7 @@ public class EmployeeCreateServlet extends HttpServlet {
                 ex.printStackTrace();
             }
 
-            resp.sendRedirect("dashboard.jsp");
+            resp.sendRedirect("EmployeeListServlet");
         } catch (SQLException e) {
             throw new ServletException("Erreur SQL lors de l'ajout d'un employé", e);
         }

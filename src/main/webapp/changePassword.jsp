@@ -64,12 +64,13 @@
     </style>
 </head>
 <body>
-<% String error = (String) request.getAttribute("errorMessage");
-    if (error != null) { %>
-<div class="error"><%= error %></div>
-<br>
-<% } %>
 <div class="card">
+    <% String error = (String) request.getAttribute("errorMessage");
+        if (error != null) { %>
+    <div class="error"><%= error %></div>
+    <br>
+    <% } %>
+
     <h3>Bonjour <%= e.getLastName() != null ? e.getFirstName() : e.getEmail() %>, veuillez changer votre mot de passe</h3>
     <form action="${pageContext.request.contextPath}/changePassword" method="post">
         <div class="mb-3">

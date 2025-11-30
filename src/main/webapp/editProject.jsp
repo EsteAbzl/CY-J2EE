@@ -51,8 +51,12 @@
             <option value="${d.id}" <c:if test="${d.id == proj.departmentId}">selected</c:if>>${d.name}</option>
         </c:forEach>
     </select>
-    
-    <button class="btn" type="submit">Mettre à jour</button>
+
+    <div style="display:flex; gap:1rem; margin-top:1.5rem;">
+        <a class="btn" href="ProjectsListServlet" style="background:#888; text-align:center; text-decoration:none; flex:1;">Retour</a>
+        <button class="btn" type="submit" style="flex:1;">Mettre à jour</button>
+    </div>
+
 </form>
 </body>
 </html>

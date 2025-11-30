@@ -180,10 +180,13 @@
     <div class="summary">
         <p><strong>ID Fiche: ${payslip.id}</strong></p>
     </div>
+    <button class="print-btn" onclick="window.print()">🖨️ Imprimer</button>
 </div>
 
-<button class="print-btn" onclick="window.print()">🖨️ Imprimer</button>
-<%--<a href="dashboard.jsp">Retour au tableau de bord</a>--%>
-<%--Il faut empecher les simples employé à accéder au dashboard rh--%>
+<div style="display:flex; gap:1rem; margin-top:1.5rem;">
+    <a class="link" href="EmployeeListServlet">Retour à la liste d'employés</a>
+    <a href="dashboard.jsp">Retour au tableau de bord</a>
+</div>
+
 </body>
 </html>
