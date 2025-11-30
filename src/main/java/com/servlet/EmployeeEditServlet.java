@@ -50,21 +50,24 @@ public class EmployeeEditServlet extends HttpServlet {
         String positionTitle = req.getParameter("position_title");
         double baseSalary = Double.parseDouble(req.getParameter("base_salary"));
         int departmentId = Integer.parseInt(req.getParameter("department_id"));
-        boolean active = req.getParameter("active") != null;
-
-        Employee emp = new Employee();
-        emp.setId(id);
-        emp.setFirstName(firstName);
-        emp.setLastName(lastName);
-        emp.setEmail(email);
-        emp.setGrade(grade);
-        emp.setPositionTitle(positionTitle);
-        emp.setBaseSalary(baseSalary);
-        emp.setDepartmentId(departmentId);
-        emp.setActive(active);
 
         try (Connection conn = DBConnection.getConnection()) {
             EmployeeDAO dao = new EmployeeDAO(conn);
+            
+            // Récupérer l'employé existant pour préserver son statut actif
+            Employee existingEmp = dao.findById(id);
+            
+            Employee emp = new Employee();
+            emp.setId(id);
+            emp.setFirstName(firstName);
+            emp.setLastName(lastName);
+            emp.setEmail(email);
+            emp.setGrade(grade);
+            emp.setPositionTitle(positionTitle);
+            emp.setBaseSalary(baseSalary);
+            emp.setDepartmentId(departmentId);
+            emp.setActive(existingEmp != null ? existingEmp.isActive() : true);
+
             dao.update(emp);
             resp.sendRedirect("dashboard.jsp?success=update");
         } catch (SQLException e) {
