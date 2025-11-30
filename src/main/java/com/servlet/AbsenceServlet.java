@@ -44,7 +44,7 @@ public class AbsenceServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        Employee emp = (Employee) (session != null ? session.getAttribute("emp") : null);
+        Employee emp = (Employee) (session != null ? session.getAttribute("SESSION_employee") : null);
 
         if (emp == null) {
             resp.sendRedirect("login.jsp?error=sessionExpired");

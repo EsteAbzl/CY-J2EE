@@ -35,6 +35,7 @@ public class LoginServlet extends HttpServlet {
                 Employee emp = empDao.findById(user.getEmployeeId());
                 // some JSPs expect attribute name 'employe'
                 session.setAttribute("SESSION_employee", emp);
+                session.setAttribute("emp", emp);
                 session.setAttribute("SESSION_departementId", emp.getDepartmentId());
                 session.setAttribute("SESSION_employeeId", user.getEmployeeId());
                 // Si le flag firstConnexion est présent et vrai, ou si le mot de passe est "test",

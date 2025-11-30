@@ -33,7 +33,7 @@ public class ChangePasswordServlet extends HttpServlet {
 
         HttpSession session = req.getSession(false);
         User user = (User) session.getAttribute("user");
-        Employee emp = (Employee) session.getAttribute("emp");
+        Employee emp = (Employee) session.getAttribute("SESSION_employee");
 
         try (Connection conn = DBConnection.getConnection()) {
             UserDAO userDao = new UserDAO(conn);
