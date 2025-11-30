@@ -3,6 +3,7 @@ package com.servlet;
 import com.dao.EmployeeDAO;
 import com.util.DBConnection;
 import com.util.HibernateUtil;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -15,6 +16,8 @@ import java.util.Date;
 public class GeneratePayslipServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req, new Integer[] {1}));
+
         String employeeId = req.getParameter("id");
         if (employeeId == null || employeeId.isBlank()) {
             resp.sendRedirect("EmployeeListServlet?error=missingId");

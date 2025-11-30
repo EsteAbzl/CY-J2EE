@@ -5,6 +5,7 @@ import com.dao.DepartmentDAO;
 import com.model.Department;
 import com.model.Employee;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -19,6 +20,9 @@ import java.util.List;
 @WebServlet("/EmployeeListServlet")
 public class EmployeeListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req));
+
         String query = req.getParameter("query");
         String grade = req.getParameter("grade");
         String position = req.getParameter("position");

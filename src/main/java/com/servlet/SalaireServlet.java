@@ -3,6 +3,7 @@ package com.servlet;
 import com.dao.SalaireDAO;
 import com.model.Salaire;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,6 +20,9 @@ public class SalaireServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req));
+
         try (Connection conn = DBConnection.getConnection()) {
             SalaireDAO salaireDAO = new SalaireDAO(conn);
             List<Salaire> salaires = salaireDAO.findAll();

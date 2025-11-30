@@ -5,6 +5,7 @@ import com.dao.EmployeeDAO;
 import com.model.Absence;
 import com.model.Employee;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -19,7 +20,10 @@ public class AbsenceListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req, new Integer[] {1}));
+
         try (Connection conn = DBConnection.getConnection()) {
+
             EmployeeDAO employeeDao = new EmployeeDAO(conn);
             AbsenceDAO absenceDao = new AbsenceDAO(conn);
 

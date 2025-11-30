@@ -11,6 +11,7 @@ import com.dao.DepartmentDAO;
 import com.model.Project;
 import com.model.Department;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -20,6 +21,9 @@ import java.sql.Connection;
 public class ProjectsListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req));
+
         try (Connection conn = DBConnection.getConnection()) {
             ProjectDAO dao = new ProjectDAO(conn);
             DepartmentDAO deptDao = new DepartmentDAO(conn);

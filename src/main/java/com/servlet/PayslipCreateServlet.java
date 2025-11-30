@@ -3,6 +3,7 @@ package com.servlet;
 import com.dao.*;
 import com.model.*;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -19,6 +20,8 @@ public class PayslipCreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req, new Integer[] {1}));
+
         int employeeId = Integer.parseInt(req.getParameter("employee_id"));
         Date monthDate = Date.valueOf(req.getParameter("period_date")+"-27");
         int year = monthDate.getYear()+1900;

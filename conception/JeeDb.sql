@@ -128,20 +128,21 @@ CREATE TABLE salaire_extra (
 INSERT INTO roles (name) VALUES ('ADMIN'), ('DEPT_HEAD'), ('PROJECT_HEAD'), ('EMPLOYEE');
 
 -- Example department
-INSERT INTO departments (name, description)
-VALUES ('Ressources Humaines', 'Département responsable de la gestion des ressources humaines');
+INSERT INTO departments (id, name, description)
+VALUES (1, 'Ressources Humaines', 'Département responsable de la gestion des ressources humaines');
 
 -- Example employee
-INSERT INTO employees (first_name, last_name, email, grade, position_title, base_salary, department_id, active)
-VALUES ('Jean', 'Dupont', 'jean.dupont@company.com', 'Senior', 'Responsable RH', 3500.00, 1, 1);
+
+INSERT INTO employees (id, first_name, last_name, email, grade, position_title, base_salary, department_id, active)
+VALUES
+    (1, 'admin', '', '', 'admin', 'Responsable RH', 3500.00, 1, 0),
+    (2, 'Jean', 'Dupont', 'jean.dupont@company.com', 'Senior', 'Responsable RH', 3500.00, 1, 1);
 
 -- Example admin user (password: admin123 hashed with BCrypt placeholder; replace in real)
 -- admin user (first_connexion = 0)
-INSERT INTO users (username, password_hash, full_name, first_connexion, role_id)
-VALUES ('admin', 'admin', 'Administrateur', 0, 1);
-
-INSERT INTO users (username, password_hash, full_name, first_connexion, role_id, employee_id)
-VALUES ('jean.dupont1@company.com', 'test', 'jean dupont', 1, 1, 1);
+INSERT INTO users (id, username, password_hash, full_name, first_connexion, role_id, employee_id)
+VALUES (1, 'admin', 'admin', 'Administrateur', 0, 1, 1),
+       (2, 'jean.dupont1@company.com', 'test', 'jean dupont', 1, 1, 2);
 
 -- Example salaire (salary history for employee 1)
 INSERT INTO salaire (salaire, date, employee_id) VALUES

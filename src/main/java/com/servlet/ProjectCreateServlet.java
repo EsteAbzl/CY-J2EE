@@ -5,6 +5,7 @@ import com.dao.DepartmentDAO;
 import com.model.Project;
 import com.model.Department;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -19,6 +20,8 @@ import java.util.List;
 public class ProjectCreateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req));
+
         try (Connection conn = DBConnection.getConnection()) {
             DepartmentDAO departmentDao = new DepartmentDAO(conn);
             List<Department> departments = departmentDao.findAll();
@@ -31,6 +34,9 @@ public class ProjectCreateServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req, new Integer[] {1}));
+
         String name = req.getParameter("name");
         String description = req.getParameter("description");
         String status = req.getParameter("status");

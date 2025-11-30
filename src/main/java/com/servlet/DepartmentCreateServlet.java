@@ -3,6 +3,7 @@ package com.servlet;
 import com.dao.DepartmentDAO;
 import com.model.Department;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -16,6 +17,8 @@ import java.sql.SQLException;
 public class DepartmentCreateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req, new Integer[] {1}));
+
         String name = req.getParameter("name");
         String description = req.getParameter("description");
 
