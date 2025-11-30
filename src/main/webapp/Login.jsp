@@ -3,7 +3,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Connexion RH</title>
+    <title>Connexion</title>
     <style>
         body { background:linear-gradient(135deg,#1e3c72,#2a5298); font-family:Arial; padding:2rem; min-height:100vh; margin:0; }
         h2 { text-align:center; color:#fff; }
@@ -30,3 +30,4 @@
 </form>
 </body>
 </html>
+
