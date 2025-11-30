@@ -17,7 +17,7 @@
 </head>
 <body>
 <h2>Connexion</h2>
-<% String error = (String) request.getAttribute("error");
+<% String error = (String) request.getAttribute("errorMessage");
     if (error != null) { %>
 <div class="error"><%= error %></div>
 <% } %>

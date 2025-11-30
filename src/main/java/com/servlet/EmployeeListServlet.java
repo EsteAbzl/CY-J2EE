@@ -21,8 +21,7 @@ import java.util.List;
 public class EmployeeListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        PermissionUtil.isConnexionAllowed(req, new Integer[] {1,2,3}, new Integer[] {1,2,3});
-        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req,new Integer[] {2}));
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req));
 
         String query = req.getParameter("query");
         String grade = req.getParameter("grade");

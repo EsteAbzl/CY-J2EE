@@ -1,9 +1,11 @@
 package com.servlet;
 
 import com.dao.UserDAO;
+import com.model.Employee;
 import com.model.User;
 import com.util.DBConnection;
 
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -17,6 +19,9 @@ public class ChangePasswordServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req));
+
         String newMdp = req.getParameter("newMdp");
         String confirmMdp = req.getParameter("confirmMdp");
 
@@ -27,35 +32,22 @@ public class ChangePasswordServlet extends HttpServlet {
         }
 
         HttpSession session = req.getSession(false);
-        if (session == null) {
-            resp.sendRedirect("Login.jsp");
-            return;
-        }
         User user = (User) session.getAttribute("user");
-        if (user == null) {
-            resp.sendRedirect("Login.jsp");
-            return;
-        }
+        Employee emp = (Employee) session.getAttribute("emp");
 
         try (Connection conn = DBConnection.getConnection()) {
             UserDAO userDao = new UserDAO(conn);
             userDao.updatePassword(user.getId(), newMdp);
-            // Après changement, rediriger selon rôle
-            switch (user.getRoleId()) {
-                case 1:
+            // Redirection Dashboard selon département
+            switch (emp.getDepartmentId()) {
+                case 1: // Departement RH
                     resp.sendRedirect("dashboard.jsp");
                     break;
-                case 2:
-                    resp.sendRedirect("managerDashboard.jsp");
-                    break;
-                case 3:
-                    resp.sendRedirect("projectDashboard.jsp");
-                    break;
-                case 4:
-                    resp.sendRedirect("employeeDashboard.jsp");
-                    break;
+//                    case 2: // DEPT_HEAD
+//                        resp.sendRedirect("managerDashboard.jsp");
+//                        break;
                 default:
-                    resp.sendRedirect("error.jsp");
+                    resp.sendRedirect("EmployeeDashboardServlet");
                     break;
             }
         } catch (SQLException e) {

@@ -5,6 +5,7 @@ import com.dao.EmployeeDAO;
 import com.model.Payslip;
 import com.model.Employee;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
@@ -22,6 +23,8 @@ import java.util.HashMap;
 public class PayslipListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req, new Integer[] {1}));
+
         String query = req.getParameter("query");
         String monthStr = req.getParameter("month");
         String yearStr = req.getParameter("year");

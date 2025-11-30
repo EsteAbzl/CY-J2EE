@@ -10,7 +10,19 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session != null) session.invalidate();
+        if (session != null) {
+            session.setAttribute("user", null);
+            session.setAttribute("SESSION_employee", null);
+            session.setAttribute("SESSION_departementId", null);
+            session.setAttribute("SESSION_employeeId", null);
+
+            session.removeAttribute("user");
+            session.removeAttribute("SESSION_employee");
+            session.removeAttribute("SESSION_departementId");
+            session.removeAttribute("SESSION_employeeId");
+
+            session.invalidate();
+        }
         resp.sendRedirect(req.getContextPath() + "/Logout.jsp");
     }
 }

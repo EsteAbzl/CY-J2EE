@@ -3,6 +3,7 @@ package com.servlet;
 import com.dao.SalaireExtraDAO;
 import com.model.SalaireExtra;
 import com.util.DBConnection;
+import com.util.PermissionUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -19,6 +20,8 @@ public class SalaireExtraServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req));
+
         try (Connection conn = DBConnection.getConnection()) {
             SalaireExtraDAO salaireExtraDAO = new SalaireExtraDAO(conn);
             List<SalaireExtra> salairesExtra = salaireExtraDAO.findAll();
@@ -31,6 +34,9 @@ public class SalaireExtraServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        PermissionUtil.manageConnexionPermission(req, resp, PermissionUtil.isConnexionAllowed(req, new Integer[] {1}));
+
         int employeeId = Integer.parseInt(req.getParameter("employee_id"));
         double montant = Double.parseDouble(req.getParameter("montant"));
         String motif = req.getParameter("motif");

@@ -15,6 +15,9 @@ public class PermissionUtil {
         ALLOWED, NOT_LOGGED, DENIED
     }
 
+    public static ValidationEnum isConnexionAllowed (HttpServletRequest req){
+        return isConnexionAllowed(req, new Integer[]{});
+    }
     public static ValidationEnum isConnexionAllowed (HttpServletRequest req, Integer[] allowedDepartmentIds){
         return isConnexionAllowed(req, allowedDepartmentIds, new Integer[]{});
     }
@@ -29,7 +32,7 @@ public class PermissionUtil {
         Employee employee = (Employee) session.getAttribute("SESSION_employee");
 
         if(employee != null){
-            if(DepartmentIds.contains(employee.getDepartmentId())){
+            if(DepartmentIds.size() == 0 || DepartmentIds.contains(employee.getDepartmentId())){
                 res = ValidationEnum.ALLOWED;
             }
 
