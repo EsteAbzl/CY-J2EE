@@ -46,10 +46,19 @@
     
     <label>Département</label>
     <select name="department_id" required>
-        <option value="">-- Choisir un département --</option>
-        <c:forEach var="d" items="${departments}">
-            <option value="${d.id}" <c:if test="${d.id == proj.departmentId}">selected</c:if>>${d.name}</option>
-        </c:forEach>
+        <option value="">-- Sélectionnez un département --</option>
+        <%
+            List<Department> departments = (List<Department>) request.getAttribute("departments");
+            if (departments != null) {
+                for (com.model.Department d : departments) {
+                    String selected = (proj.getDepartmentId() != null && proj.getDepartmentId() == d.getId()) ? "selected" : "";
+        %>
+
+        <option value="<%= d.getId() %>" <%= selected %>><%= d.getName() %></option>
+        <%
+                }
+            }
+        %>
     </select>
 
     <div style="display:flex; gap:1rem; margin-top:1.5rem;">
